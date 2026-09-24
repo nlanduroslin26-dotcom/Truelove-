@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🌹 True❤️Love 🌹</title>
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;font-family:Arial,sans-serif;
+  min-height:100vh;color:#fff;
+  background:linear-gradient(135deg,#3b071b,#8e1746,#e91e63);
+  display:flex;justify-content:center;align-items:center;padding:18px;
+}
+.card{
+  width:100%;max-width:520px;background:rgba(255,255,255,.12);
+  backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.25);
+  border-radius:28px;padding:25px;box-shadow:0 15px 45px rgba(0,0,0,.35);
+  text-align:center;
+}
+h1{font-size:34px;margin:5px 0 8px}
+.subtitle{opacity:.9;margin-bottom:22px}
+input{
+  width:100%;padding:14px;margin:7px 0;border:0;border-radius:14px;
+  font-size:16px;outline:none;
+}
+button{
+  border:0;border-radius:16px;padding:14px 18px;margin:7px;
+  font-size:16px;font-weight:bold;cursor:pointer;
+}
+.start{background:#fff;color:#c2185b;width:90%}
+.action{background:#ff7a9d;color:#fff}
+.truth{background:#7b61ff;color:#fff}
+.next{background:#ffd166;color:#5b3b00}
+.back{background:rgba(255,255,255,.2);color:#fff}
+#game{display:none}
+.question{
+  min-height:170px;display:flex;align-items:center;justify-content:center;
+  font-size:24px;font-weight:bold;line-height:1.35;padding:20px;
+}
+.player{font-size:18px;margin-top:8px}
+.mode{font-size:14px;opacity:.85}
+.small{font-size:12px;opacity:.75;margin-top:18px}
+</style>
+</head>
+<body>
+<div class="card">
+  <div id="home">
+    <h1>🌹 True❤️Love 🌹</h1>
+    <div class="subtitle">Action ou Vérité — le jeu pour deux 💕</div>
+    <input id="p1" placeholder="Nom du joueur 1">
+    <input id="p2" placeholder="Nom du joueur 2">
+    <button class="start" onclick="startGame()">❤️ Commencer le jeu</button>
+    <div class="small">Créé par <b>Roslin Baketukila</b></div>
+  </div>
+
+  <div id="game">
+    <h1>🌹 True❤️Love 🌹</h1>
+    <div class="player" id="turn"></div>
+    <div class="mode" id="mode">Choisis Action ou Vérité</div>
+    <div class="question" id="question">À toi de choisir 😍</div>
+    <div>
+      <button class="truth" onclick="showQuestion('truth')">💜 Vérité</button>
+      <button class="action" onclick="showQuestion('action')">🔥 Action</button>
+    </div>
+    <button class="next" onclick="nextTurn()">➡️ Tour suivant</button>
+    <button class="back" onclick="resetGame()">🏠 Accueil</button>
+  </div>
+</div>
+
+<script>
+const truths=[
+"Quel est ton plus beau souvenir amoureux ?",
+"Quelle est la première chose que tu as remarquée chez ton partenaire ?",
+"Quel est ton plus grand rêve pour votre couple ?",
+"Quelle qualité préfères-tu chez ton partenaire ?",
+"Quelle petite chose te fait immédiatement sourire ?",
+"Quel est ton plus grand secret que tu peux partager aujourd'hui ?",
+"Quelle chanson te fait penser à l'amour ?",
+"Quel serait ton rendez-vous idéal ?",
+"Quelle est ta plus grande peur dans une relation ?",
+"Qu'est-ce qui te rend jaloux(se) ?",
+"Quel surnom romantique aimerais-tu recevoir ?",
+"Quel moment passé ensemble voudrais-tu revivre ?",
+"Qu'est-ce que tu apprécies le plus chez l'autre ?",
+"Si tu pouvais voyager avec ton partenaire, où irais-tu ?",
+"Quelle promesse aimerais-tu faire à ton partenaire ?",
+"Quel est ton langage de l'amour préféré : paroles, cadeaux, temps, services ou affection ?",
+"Quelle est la chose la plus drôle que ton partenaire ait faite ?",
+"Qu'aimerais-tu améliorer dans votre relation ?",
+"Quelle est ta définition du véritable amour ?",
+"Quelle personne te connaît le mieux ?",
+"Quelle est ta plus grande réussite ?",
+"Quelle chose n'as-tu jamais osé dire à ton partenaire ?",
+"Quel film romantique aimerais-tu regarder ensemble ?",
+"Quel souvenir d'enfance te fait sourire ?",
+"Si tu pouvais changer une chose dans le passé, laquelle ?",
+"Qu'est-ce qui te donne confiance en ton couple ?",
+"Quelle activité aimerais-tu faire plus souvent à deux ?",
+"Quelle est ta plus belle qualité selon toi ?",
+"Quelle est ta faiblesse ?",
+"Quelle surprise romantique aimerais-tu recevoir ?"
+];
+
+const actions=[
+"Fais un compliment sincère à ton partenaire.",
+"Regarde ton partenaire dans les yeux pendant 15 secondes sans rire.",
+"Dis « Je t'aime » de trois façons différentes.",
+"Fais une petite danse romantique pendant 20 secondes.",
+"Imite ton partenaire pendant 15 secondes.",
+"Chante le refrain d'une chanson d'amour.",
+"Donne un surnom romantique à ton partenaire.",
+"Fais rire ton partenaire en moins de 30 secondes.",
+"Dis trois qualités de ton partenaire.",
+"Fais une déclaration d'amour improvisée.",
+"Envoie un emoji qui décrit ton humeur actuelle.",
+"Raconte une blague à ton partenaire.",
+"Fais semblant de demander ton partenaire en mariage.",
+"Donne cinq raisons pour lesquelles tu apprécies ton partenaire.",
+"Fais une pose romantique pour une photo.",
+"Dis une phrase romantique avec les mots « cœur », « sourire » et « avenir ».",
+"Fais un petit discours de 20 secondes sur votre relation.",
+"Choisis une chanson qui représente votre couple et explique pourquoi.",
+"Fais une imitation de ton partenaire qui le/la fait rire.",
+"Donne un message motivant à ton partenaire."
+];
+
+let names=[],turn=0,usedTruth=[],usedAction=[];
+
+function startGame(){
+  const a=document.getElementById('p1').value.trim()||"Joueur 1";
+  const b=document.getElementById('p2').value.trim()||"Joueur 2";
+  names=[a,b];turn=0;
+  document.getElementById('home').style.display='none';
+  document.getElementById('game').style.display='block';
+  updateTurn();
+}
+function updateTurn(){
+  document.getElementById('turn').textContent="💗 Tour de "+names[turn];
+  document.getElementById('mode').textContent="Choisis Action ou Vérité";
+  document.getElementById('question').textContent="À toi de choisir 😍";
+}
+function randomUnused(arr,used){
+  if(used.length>=arr.length) used.length=0;
+  let i;
+  do{i=Math.floor(Math.random()*arr.length)}while(used.includes(i)&&used.length<arr.length);
+  used.push(i);return arr[i];
+}
+function showQuestion(type){
+  const q=type==="truth"?randomUnused(truths,usedTruth):randomUnused(actions,usedAction);
+  document.getElementById('mode').textContent=type==="truth"?"💜 VÉRITÉ":"🔥 ACTION";
+  document.getElementById('question').textContent=q;
+}
+function nextTurn(){
+  turn=(turn+1)%2;updateTurn();
+}
+function resetGame(){
+  document.getElementById('game').style.display='none';
+  document.getElementById('home').style.display='block';
+  usedTruth=[];usedAction=[];
+}
+</script>
+</body>
+</html>
