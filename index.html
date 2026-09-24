@@ -33,6 +33,7 @@ button{
 .truth{background:#7b61ff;color:#fff}
 .next{background:#ffd166;color:#5b3b00}
 .back{background:rgba(255,255,255,.2);color:#fff}
+#home{display:none}
 #game{display:none}
 .question{
   min-height:170px;display:flex;align-items:center;justify-content:center;
@@ -45,6 +46,20 @@ button{
 </head>
 <body>
 <div class="card">
+<div id="auth">
+  <h1>❤️ TrueLove ❤️</h1>
+  <div class="subtitle">Connecte-toi pour jouer</div>
+
+  <input id="email" type="email" placeholder="Ton adresse e-mail">
+
+  <input id="password" type="password" placeholder="Mot de passe">
+
+  <button class="start" onclick="inscription()">📝 Créer un compte</button>
+
+  <button class="action" onclick="connexion()">🔐 Se connecter</button>
+
+  <div id="authMessage" class="small"></div>
+</div>
   <div id="home">
     <h1>🌹 True❤️Love 🌹</h1>
     <div class="subtitle">Action ou Vérité — le jeu pour deux 💕</div>
@@ -64,13 +79,81 @@ button{
       <button class="action" onclick="showQuestion('action')">🔥 Action</button>
     </div>
     <button class="next" onclick="nextTurn()">➡️ Tour suivant</button>
-    <button class="back" onclick="resetGame()">🏠 Accueil</button>
-  </div>
-</div>
+    <button class="back" onclick="resetGame()">🏠 Acc
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
+const supabaseUrl = "https://jmtndvfpvsgbntouqhkp.supabase.co";
+const supabaseKey = "sb_publishable_wGcvqH1z0yXa7-GrSC7R2A_oHgtQxc-";
 
-const truths=[
+const supabaseClient = window.supabase.createClient(
+  supabaseUrl,
+  supabaseKey
+);async function inscription() {
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value;
+  const message = document.getElementById("authMessage");
+
+ 
+  
+
+  
+    message.textContent = "⚠️ Entre ton e-mail et ton mot de passe.";
+    return;
+  }
+
+  if (password.length < 6) {
+    message.textContent = "⚠️ Le mot de passe doit avoir au moins 6 caractères.";
+    return;
+  }
+
+  message.textContent = "Création du compte...";
+
+  const { data, error } = await supabaseClient.auth.signUp({
+    email: email,
+    password: password
+  });
+
+  if (error) {
+    message.textContent = "❌ " + error.message;
+    return;
+  }
+
+  if (data.session) {
+    document.getElementById("auth").style.display = "none";
+    document.getElementById("home").style.display = "block";
+  } else {
+    message.textContent =
+      "✅ Compte créé ! Vérifie ton e-mail pour confirmer ton compte.";
+  }
+}
+
+async function connexion() {
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value;
+  const message = document.getElementById("authMessage");
+
+  if (!email || !password) {
+    message.textContent = "⚠️ Entre ton e-mail et ton mot de passe.";
+    return;
+  }
+
+  message.textContent = "Connexion...";
+
+  const { data, error } = await supabaseClient.auth.signInWithPassword({
+    email: email,
+    password: password
+  });
+
+  if (error) {
+    message.textContent = "❌ " + error.message;
+    return;
+  }
+
+  document.getElementById("auth").style.display = "none";
+  document.getElementById("home").style.display = "block";
+}
+</script>
 "Quel est ton plus beau souvenir amoureux ?",
 "Quelle est la première chose que tu as remarquée chez ton partenaire ?",
 "Quel est ton plus grand rêve pour votre couple ?",
