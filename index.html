@@ -290,7 +290,7 @@ function randomUnused(arr,used){
 function showQuestion(type){
   const q=type==="truth"?randomUnused(truths,usedTruth):randomUnused(actions,usedAction);
   document.getElementById('mode').textContent=type==="truth"?"💜 VÉRITÉ":"🔥 ACTION";
-  document.getElementById('question').textContent=q;
+  documentlementById('question').textContent=q;
 }
 function nextTurn(){
   turn=(turn+1)%2;updateTurn();
@@ -301,98 +301,8 @@ function resetGame(){
   usedTruth=[];usedAction=[];
 }
 
-async function showProfile(){
+</script>
 
-    document.getElementById("home").style.display="none";
-    document.getElementById("game").style.display="none";
-    document.getElementById("profile").style.display="block";
-
-    const message = document.getElementById("profileMessage");
-
-    message.textContent = "Chargement...";
-
-    const { data: { user }, error: userError } =
-        await supabaseClient.auth.getUser();
-
-    if (userError || !user) {
-        message.textContent = "❌ Tu n'es pas connecté.";
-        return;
-    }
-
-    document.getElementById("profileEmail").value =
-        user.email || "";
-
-    const { data, error } = await supabaseClient
-        .from("PROFILS")
-        .select("username, full_name")
-        .eq("id", user.id)
-        .maybeSingle();
-
-    if (error) {
-        message.textContent = "❌ " + error.message;
-        return;
-    }
-
-    if (data) {
-        document.getElementById("profileUsername").value =
-            data.username || "";
-
-        document.getElementById("profileFullName").value =
-            data.full_name || "";
-    }
-
-    message.textContent = "";
-}
-
-
-async function saveProfile(){
-
-    const username =
-        document.getElementById("profileUsername").value.trim();
-
-    const fullName =
-        document.getElementById("profileFullName").value.trim();
-
-    const message =
-        document.getElementById("profileMessage");
-
-    if (!username) {
-        message.textContent = "⚠️ Entre un pseudo.";
-        return;
-    }
-
-    const { data: { user }, error: userError } =
-        await supabaseClient.auth.getUser();
-
-    if (userError || !user) {
-        message.textContent = "❌ Tu n'es pas connecté.";
-        return;
-    }
-
-    message.textContent = "💾 Enregistrement...";
-
-    const { error } = await supabaseClient
-        .from("PROFILS")
-        .upsert({
-            id: user.id,
-            username: username,
-            full_name: fullName
-        });
-
-    if (error) {
-        message.textContent = "❌ " + error.message;
-        return;
-    }
-
-    message.textContent = "✅ Profil enregistré !";
-}
-
-
-function showHome(){
-
-    document.getElementById("profile").style.display="none";
-    document.getElementById("game").style.display="none";
-    document.getElementById("home").style.display="block";
-}
+    
 </body>
 </html>
