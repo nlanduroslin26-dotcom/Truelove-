@@ -78,7 +78,7 @@ Bienvenue sur TrueLove 💕
 🎮 Jouer à Action ou Vérité
 </button>
 
-<button class="action" onclick="showProfile()">
+<button class="action" onclick="alert('ÇA MARCHE')">
 👤 Mon profil
 </button>
 
@@ -346,7 +346,31 @@ function showHome(){
     document.getElementById('profile').style.display='none';
     document.getElementById('home').style.display='block';
   }
+function showProfile(){
+    document.getElementById('home').style.display='none';
+    document.getElementById('profile').style.display='block';
+}
 
+function showFriends(){
+    alert("👥 La page Mes amis sera bientôt disponible.");
+}
+
+function showMessages(){
+    alert("💬 La page Messages sera bientôt disponible.");
+}
+
+function showNotifications(){
+    alert("🔔 La page Notifications sera bientôt disponible.");
+}
+
+async function deconnexion(){
+    await supabaseClient.auth.signOut();
+
+    document.getElementById('home').style.display='none';
+    document.getElementById('profile').style.display='none';
+    document.getElementById('game').style.display='none';
+    document.getElementById('auth').style.display='block';
+  }
 </script>
 
     
