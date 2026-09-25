@@ -62,16 +62,70 @@ button{
 <div id="authMessage" class="small"></div>
 
   
-</div>
-  <div id="home">
-    <h1>🌹 True❤️Love 🌹</h1>
-    <div class="subtitle">Action ou Vérité — le jeu pour deux 💕</div>
-    <input id="p1" placeholder="Nom du joueur 1">
-    <input id="p2" placeholder="Nom du joueur 2">
-    <button class="start" onclick="startGame()">❤️ Commencer le jeu</button>
-    <div class="small">Créé par <b>Roslin Baketukila</b></div>
-  </div>
+<div id="home">
 
+<h1>❤️ TrueLove ❤️</h1>
+
+<div class="subtitle">
+Bienvenue sur TrueLove 💕
+</div>
+
+<button class="start" onclick="openGame()">
+🎮 Jouer à Action ou Vérité
+</button>
+
+<button class="action" onclick="showProfile()">
+👤 Mon profil
+</button>
+
+<button class="action" onclick="showFriends()">
+👥 Mes amis
+</button>
+
+<button class="action" onclick="showMessages()">
+💬 Messages
+</button>
+
+<button class="action" onclick="showNotifications()">
+🔔 Notifications
+</button>
+
+<button class="back" onclick="deconnexion()">
+🚪 Se déconnecter
+</button>
+
+<div id="homeMessage" class="small"></div>
+
+<div class="small">
+Créé par <b>Roslin Baketukila</b>
+</div>
+
+</div>
+<div id="profile" style="display:none">
+
+<h1>👤 Mon profil</h1>
+
+<div class="subtitle">
+Modifie tes informations
+</div>
+
+<input id="profileUsername" type="text" placeholder="Ton pseudo">
+
+<input id="profileFullName" type="text" placeholder="Ton nom complet">
+
+<input id="profileEmail" type="email" disabled>
+
+<button class="start" onclick="saveProfile()">
+💾 Enregistrer
+</button>
+
+<button class="back" onclick="showHome()">
+🏠 Retour
+</button>
+
+<div id="profileMessage" class="small"></div>
+
+</div>
   <div id="game">
     <h1>🌹 True❤️Love 🌹</h1>
     <div class="player" id="turn"></div>
@@ -246,6 +300,99 @@ function resetGame(){
   document.getElementById('home').style.display='block';
   usedTruth=[];usedAction=[];
 }
-</script>
+<script>
+async function showProfile(){
+
+    document.getElementById("home").style.display="none";
+    document.getElementById("game").style.display="none";
+    document.getElementById("profile").style.display="block";
+
+    const message = document.getElementById("profileMessage");
+
+    message.textContent = "Chargement...";
+
+    const { data: { user }, error: userError } =
+        await supabaseClient.auth.getUser();
+
+    if (userError || !user) {
+        message.textContent = "❌ Tu n'es pas connecté.";
+        return;
+    }
+
+    document.getElementById("profileEmail").value =
+        user.email || "";
+
+    const { data, error } = await supabaseClient
+        .from("PROFILS")
+        .select("username, full_name")
+        .eq("id", user.id)
+        .maybeSingle();
+
+    if (error) {
+        message.textContent = "❌ " + error.message;
+        return;
+    }
+
+    if (data) {
+        document.getElementById("profileUsername").value =
+            data.username || "";
+
+        document.getElementById("profileFullName").value =
+            data.full_name || "";
+    }
+
+    message.textContent = "";
+}
+
+
+async function saveProfile(){
+
+    const username =
+        document.getElementById("profileUsername").value.trim();
+
+    const fullName =
+        document.getElementById("profileFullName").value.trim();
+
+    const message =
+        document.getElementById("profileMessage");
+
+    if (!username) {
+        message.textContent = "⚠️ Entre un pseudo.";
+        return;
+    }
+
+    const { data: { user }, error: userError } =
+        await supabaseClient.auth.getUser();
+
+    if (userError || !user) {
+        message.textContent = "❌ Tu n'es pas connecté.";
+        return;
+    }
+
+    message.textContent = "💾 Enregistrement...";
+
+    const { error } = await supabaseClient
+        .from("PROFILS")
+        .upsert({
+            id: user.id,
+            username: username,
+            full_name: fullName
+        });
+
+    if (error) {
+        message.textContent = "❌ " + error.message;
+        return;
+    }
+
+    message.textContent = "✅ Profil enregistré !";
+}
+
+
+function showHome(){
+
+    document.getElementById("profile").style.display="none";
+    document.getElementById("game").style.display="none";
+    document.getElementById("home").style.display="block";
+}
 </body>
 </html>
