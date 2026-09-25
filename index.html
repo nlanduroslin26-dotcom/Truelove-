@@ -304,6 +304,48 @@ function resetGame(){
   document.getElementById('home').style.display='block';
   usedTruth=[];usedAction=[];
 }
+  async function saveProfile(){
+
+    const username = document.getElementById('profileUsername').value.trim();
+    const fullName = document.getElementById('profileFullName').value.trim();
+    const email = document.getElementById('profileEmail').value;
+
+    if(!username || !fullName){
+        document.getElementById('profileMessage').textContent =
+        "⚠️ Remplis ton pseudo et ton nom complet.";
+        return;
+    }
+
+    const { data: userData } = await supabaseClient.auth.getUser();
+
+    if(!userData.user){
+        document.getElementById('profileMessage').textContent =
+        "❌ Tu dois être connecté.";
+        return;
+    }
+
+    const { error } = await supabaseClient
+        .from('PROFILS')
+        .upsert({
+            id: userData.user.id,
+            username: username,
+            nom_complet: fullName
+        });
+
+    if(error){
+        document.getElementById('profileMessage').textContent =
+        "❌ " + error.message;
+        return;
+    }
+
+    document.getElementById('profileMessage').textContent =
+    "✅ Profil enregistré !";
+}
+
+function showHome(){
+    document.getElementById('profile').style.display='none';
+    document.getElementById('home').style.display='block';
+  }
 
 </script>
 
