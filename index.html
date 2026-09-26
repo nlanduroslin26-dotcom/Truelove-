@@ -480,7 +480,46 @@ friends.style.width='100%';
 friends.style.minHeight='100vh';
 friends.style.overflowY='auto';
 friends.style.boxSizing='border-box';
-}
+}async function searchFriends() {
+
+    const search = document.getElementById("friendSearch").value.trim();
+    const results = document.getElementById("friendsResults");
+
+    if (search === "") {
+        results.innerHTML = "⚠️ Entre un pseudo à rechercher.";
+        return;
+    }
+
+    results.innerHTML = "🔎 Recherche en cours...";
+
+    const { data, error } = await supabaseClient
+        .from("PROFILS")
+        .select("id, Username, Full_name")
+        .ilike("Username", `%${search}%`);
+
+    if (error) {
+        console.error(error);
+        results.innerHTML = "❌ Une erreur est survenue.";
+        return;
+    }
+
+    if (!data || data.length === 0) {
+        results.innerHTML = "😔 Aucun utilisateur trouvé.";
+        return;
+    }
+
+    results.innerHTML = data.map(user => `
+        <div style="
+            background:rgba(255,255,255,0.15);
+            padding:15px;
+            margin-top:10px;
+            border-radius:15px;
+        ">
+            <strong>👤 ${user.Username || "Sans pseudo"}</strong><br>
+            <span>${user.Full_name || ""}</span>
+        </div>
+    `).join("");
+  }
     
 
 
