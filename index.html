@@ -351,7 +351,15 @@ function resetGame(){
 function showHome(){
     document.getElementById('profile').style.display='none';
     document.getElementById('home').style.display='block';
+
+    const friends = document.getElementById('friends');
+    if(friends){
+        friends.style.display='none';
+    }
   }
+    
+    
+  
 async function showProfile(){
     document.getElementById('home').style.display='none';
     document.getElementById('profile').style.display='block';
@@ -386,8 +394,55 @@ async function showProfile(){
 
 
 function showFriends(){
-    alert("👥 La page Mes amis sera bientôt disponible.");
+
+    document.getElementById('home').style.display='none';
+    document.getElementById('profile').style.display='none';
+
+    let friends = document.getElementById('friends');
+
+    if(!friends){
+        friends = document.createElement('div');
+        friends.id = 'friends';
+
+        friends.innerHTML = `
+            <div style="
+                max-width:600px;
+                margin:40px auto;
+                padding:30px;
+                text-align:center;
+                background:rgba(255,255,255,0.15);
+                border-radius:25px;
+                color:white;
+            ">
+                <h1>👥 Mes amis</h1>
+
+                <p style="font-size:18px;">
+                    Retrouve tes amis sur TrueLove ❤️
+                </p>
+
+                <p>
+                    🔍 La recherche d'amis sera disponible bientôt.
+                </p>
+
+                <button onclick="showHome()" style="
+                    padding:15px 25px;
+                    border:none;
+                    border-radius:20px;
+                    font-size:17px;
+                    cursor:pointer;
+                ">
+                    🏠 Retour
+                </button>
+            </div>
+        `;
+
+        document.body.appendChild(friends);
+    }
+
+    friends.style.display='block';
 }
+    
+
 
 function showMessages(){
     alert("💬 La page Messages sera bientôt disponible.");
