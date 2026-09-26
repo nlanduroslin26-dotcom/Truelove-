@@ -532,7 +532,6 @@ friends.style.boxSizing='border-box';
         
 
 async function openUserProfile(userId) {
-alert("ID reçu : " + userId);
     const { data, error } = await supabaseClient
         .from('PROFILS')
         .select('Username, Full_name')
@@ -544,12 +543,55 @@ alert("ID reçu : " + userId);
         return;
     }
 
-    alert(
-        "👤 " + (data.Username || "Sans pseudo") +
-        "\n\n" +
-        "Nom : " + (data.Full_name || "Non renseigné")
-    );
-}
+    const profileView = document.createElement("div");
+
+    profileView.id = "userProfileView";
+
+    profileView.style.position = "fixed";
+    profileView.style.top = "0";
+    profileView.style.left = "0";
+    profileView.style.width = "100%";
+    profileView.style.height = "100%";
+    profileView.style.background = "#111";
+    profileView.style.color = "white";
+    profileView.style.zIndex = "9999";
+    profileView.style.padding = "30px";
+    profileView.style.boxSizing = "border-box";
+    profileView.style.textAlign = "center";
+
+    profileView.innerHTML = `
+        <h2>👤 Profil</h2>
+
+        <div style="
+            background:rgba(255,255,255,0.1);
+            padding:25px;
+            border-radius:15px;
+            margin-top:30px;
+        ">
+            <h2>${data.Username || "Sans pseudo"}</h2>
+
+            <p>
+                👤 Nom complet :
+                <strong>${data.Full_name || "Non renseigné"}</strong>
+            </p>
+        </div>
+
+        <button
+            onclick="document.getElementById('userProfileView').remove()"
+            style="
+                margin-top:30px;
+                padding:12px 25px;
+                border:none;
+                border-radius:10px;
+                cursor:pointer;
+            "
+        >
+            ⬅️ Retour
+        </button>
+    `;
+
+    document.body.appendChild(profileView);
+  }
             
             
             
