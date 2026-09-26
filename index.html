@@ -421,7 +421,40 @@ function showFriends(){
                 </p>
 
                 <p>
-                    🔍 La recherche d'amis sera disponible bientôt.
+                    <div style="margin-top:25px;">
+
+  <input
+    id="friendSearch"
+    type="text"
+    placeholder="🔎 Rechercher un pseudo..."
+    style="
+      width:90%;
+      padding:15px;
+      border-radius:15px;
+      border:none;
+      font-size:16px;
+      box-sizing:border-box;
+    "
+  >
+
+  <button
+    onclick="searchFriends()"
+    style="
+      margin-top:15px;
+      padding:14px 25px;
+      border:none;
+      border-radius:15px;
+      font-size:16px;
+      font-weight:bold;
+      cursor:pointer;
+    "
+  >
+    🔎 Rechercher
+  </button>
+
+  <div id="friendsResults" style="margin-top:20px;"></div>
+
+</div>
                 </p>
 
                 <button onclick="showHome()" style="
