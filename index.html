@@ -508,17 +508,51 @@ friends.style.boxSizing='border-box';
         return;
     }
 
-    results.innerHTML = data.map(user => `
-        <div style="
+    
+        results.innerHTML = data.map(user => `
+    <div
+        onclick="openUserProfile('${user.id}')"
+        style="
             background:rgba(255,255,255,0.15);
             padding:15px;
             margin-top:10px;
             border-radius:15px;
-        ">
-            <strong>👤 ${user.Username || "Sans pseudo"}</strong><br>
-            <span>${user.Full_name || ""}</span>
-        </div>
-    `).join("");
+            cursor:pointer;
+        "
+    >
+        <strong>👤 ${user.Username || "Sans pseudo"}</strong><br>
+        <span>${user.Full_name || ""}</span>
+    </div>
+`).join("");
+
+async function openUserProfile(userId) {
+
+    const { data, error } = await supabaseClient
+        .from('PROFILS')
+        .select('Username, Full_name')
+        .eq('id', userId)
+        .single();
+
+    if (error || !data) {
+        alert("❌ Profil introuvable.");
+        return;
+    }
+
+    alert(
+        "👤 " + (data.Username || "Sans pseudo") +
+        "\n\n" +
+        "Nom : " + (data.Full_name || "Non renseigné")
+    );
+}
+            
+            
+            
+            
+        
+         
+            
+        
+    
   }
     
 
