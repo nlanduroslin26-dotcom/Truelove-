@@ -325,12 +325,18 @@ function resetGame(){
     }
 
     const { error } = await supabaseClient
-        .from('PROFILS')
-        .upsert({
-            id: userData.user.id,
-            username: username,
-            nom_complet: fullName
-        });
+  .from('PROFILS')
+  .upsert({
+    id: userData.user.id,
+    Username: username,
+    Full_name: fullName
+  });
+    
+   
+            
+            
+           
+    
 
     if(error){
         document.getElementById('profileMessage').textContent =
