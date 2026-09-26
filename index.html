@@ -532,18 +532,7 @@ friends.style.boxSizing='border-box';
         
 
 async function openUserProfile(userId) {
-  alert("PROFIL CLIQUÉ");
-    const { data, error } = await supabaseClient
-        .from('PROFILS')
-        .select('Username, Full_name')
-        .eq('id', userId)
-        .single();
 
-    if (error || !data) {
-        alert("❌ Profil introuvable.");
-        return;
-    }
-alert("PROFIL TROUVÉ : " + data.Username);
     const profileView = document.createElement("div");
 
     profileView.id = "userProfileView";
@@ -555,10 +544,44 @@ alert("PROFIL TROUVÉ : " + data.Username);
     profileView.style.height = "100%";
     profileView.style.background = "#111";
     profileView.style.color = "white";
-    profileView.style.zIndex = "9999";
+    profileView.style.zIndex = "99999";
     profileView.style.padding = "30px";
     profileView.style.boxSizing = "border-box";
     profileView.style.textAlign = "center";
+
+    profileView.innerHTML = `
+        <h2>👤 Profil</h2>
+        <p>Chargement du profil...</p>
+    `;
+
+    document.body.appendChild(profileView);
+
+    const { data, error } = await supabaseClient
+        .from("PROFILS")
+        .select("Username, Full_name")
+        .eq("id", userId)
+        .single();
+
+    if (error || !data) {
+        profileView.innerHTML = `
+            <h2>❌ Profil introuvable</h2>
+            <p>Impossible de charger ce profil.</p>
+
+            <button
+                onclick="document.getElementById('userProfileView').remove()"
+                style="
+                    margin-top:30px;
+                    padding:12px 25px;
+                    border:none;
+                    border-radius:10px;
+                "
+            >
+                ⬅️ Retour
+            </button>
+        `;
+
+        return;
+    }
 
     profileView.innerHTML = `
         <h2>👤 Profil</h2>
@@ -569,12 +592,14 @@ alert("PROFIL TROUVÉ : " + data.Username);
             border-radius:15px;
             margin-top:30px;
         ">
-            <h2>${data.Username || "Sans pseudo"}</h2>
+
+            <h2>👤 ${data.Username || "Sans pseudo"}</h2>
 
             <p>
-                👤 Nom complet :
+                Nom complet :
                 <strong>${data.Full_name || "Non renseigné"}</strong>
             </p>
+
         </div>
 
         <button
@@ -590,8 +615,8 @@ alert("PROFIL TROUVÉ : " + data.Username);
             ⬅️ Retour
         </button>
     `;
-
-    document.body.appendChild(profileView);
+}
+    
   }
             
             
@@ -602,7 +627,7 @@ alert("PROFIL TROUVÉ : " + data.Username);
             
         
     
-  }
+  
     
 
 
