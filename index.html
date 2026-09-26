@@ -532,7 +532,7 @@ friends.style.boxSizing='border-box';
         
 
 async function openUserProfile(userId) {
-alert("CLIC REÇU");
+alert("ID reçu : " + userId);
     const { data, error } = await supabaseClient
         .from('PROFILS')
         .select('Username, Full_name')
