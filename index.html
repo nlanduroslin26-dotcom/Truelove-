@@ -510,23 +510,29 @@ friends.style.boxSizing='border-box';
 
     
         results.innerHTML = data.map(user => `
-    <div
-        onclick="openUserProfile('${user.id}')"
-        style="
-            background:rgba(255,255,255,0.15);
-            padding:15px;
-            margin-top:10px;
-            border-radius:15px;
-            cursor:pointer;
-        "
-    >
-        <strong>👤 ${user.Username || "Sans pseudo"}</strong><br>
-        <span>${user.Full_name || ""}</span>
-    </div>
+<button
+    type="button"
+    onclick="openUserProfile('${user.id}')"
+    style="
+        width:100%;
+        background:rgba(255,255,255,0.15);
+        padding:15px;
+        margin-top:10px;
+        border-radius:15px;
+        border:1px solid rgba(255,255,255,0.25);
+        color:white;
+        cursor:pointer;
+        font-size:16px;
+    "
+>
+    👤 <strong>${user.Username || "Sans pseudo"}</strong><br>
+    <span>${user.Full_name || ""}</span>
+</button>
 `).join("");
+        
 
 async function openUserProfile(userId) {
-
+alert("CLIC REÇU");
     const { data, error } = await supabaseClient
         .from('PROFILS')
         .select('Username, Full_name')
