@@ -532,6 +532,7 @@ friends.style.boxSizing='border-box';
         
 
 async function openUserProfile(userId) {
+  alert("PROFIL CLIQUÉ");
     const { data, error } = await supabaseClient
         .from('PROFILS')
         .select('Username, Full_name')
@@ -542,7 +543,7 @@ async function openUserProfile(userId) {
         alert("❌ Profil introuvable.");
         return;
     }
-
+alert("PROFIL TROUVÉ : " + data.Username);
     const profileView = document.createElement("div");
 
     profileView.id = "userProfileView";
