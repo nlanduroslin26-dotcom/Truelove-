@@ -512,7 +512,7 @@ friends.style.boxSizing='border-box';
         results.innerHTML = data.map(user => `
 <button
     type="button"
-    onclick="openUserProfile('${user.id}')"
+    onclick="openUserProfile('${user.id}'); return false;"
     style="
         width:100%;
         background:rgba(255,255,255,0.15);
