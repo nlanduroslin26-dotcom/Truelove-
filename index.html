@@ -352,10 +352,38 @@ function showHome(){
     document.getElementById('profile').style.display='none';
     document.getElementById('home').style.display='block';
   }
-function showProfile(){
+async function showProfile(){
     document.getElementById('home').style.display='none';
     document.getElementById('profile').style.display='block';
+
+    const { data: userData } = await supabaseClient.auth.getUser();
+
+    if(!userData.user){
+        return;
+    }
+
+    document.getElementById('profileEmail').value = userData.user.email || '';
+
+    const { data, error } = await supabaseClient
+        .from('PROFILS')
+        .select('Username, Full_name')
+        .eq('id', userData.user.id)
+        .maybeSingle();
+
+    if(error){
+        document.getElementById('profileMessage').textContent =
+            "❌ " + error.message;
+        return;
+    }
+
+    if(data){
+        document.getElementById('profileUsername').value = data.Username || '';
+        document.getElementById('profileFullName').value = data.Full_name || '';
+    }
 }
+    
+    
+
 
 function showFriends(){
     alert("👥 La page Mes amis sera bientôt disponible.");
