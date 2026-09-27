@@ -1142,11 +1142,45 @@ input.value.trim();
 
 if(!text) return;
 
-alert("Message prêt à être enregistré : " + text);
+if(!currentUser){
+
+alert("Tu dois être connecté.");
+
+return;
+}
+
+const { data, error } =
+await supabaseClient
+.from("MESSAGES")
+.insert({
+sender_id: currentUser.id,
+receiver_id: selectedConversationUserId,
+content: text
+})
+.select()
+.single();
+
+if(error){
+
+alert("Erreur : " + error.message);
+
+return;
+}
 
 input.value = "";
 
+await loadMessages();
+
 }
+
+
+
+
+
+
+
+
+
 
 
 /* =====================================================
