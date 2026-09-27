@@ -4,1724 +4,567 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TrueLove ❤️</title>
-
 <style>
-*{
-  box-sizing:border-box;
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f0f2f5;color:#050505}
+button,input,textarea{font:inherit}
+button{cursor:pointer;border:0}
+.hidden{display:none!important}
+.page{width:100%}
+
+/* AUTH */
+#auth{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;background:linear-gradient(135deg,#1877f2,#8b5cf6,#ff4d7d)}
+.auth-card{width:100%;max-width:420px;background:#fff;border-radius:16px;padding:25px;box-shadow:0 8px 30px #0003}
+.auth-logo{text-align:center;color:#1877f2;font-size:42px;font-weight:800;margin:0 0 8px}
+.auth-sub{text-align:center;color:#65676b;margin-bottom:20px}
+.field{width:100%;padding:14px;border:1px solid #ccd0d5;border-radius:9px;margin:6px 0;background:#fff}
+.field:focus{outline:2px solid #1877f2;border-color:#1877f2}
+.primary{background:#1877f2;color:#fff;border-radius:9px;padding:13px;width:100%;font-weight:700;margin:5px 0}
+.success{background:#42b72a;color:#fff;border-radius:9px;padding:13px;width:100%;font-weight:700;margin:5px 0}
+.secondary{background:#e4e6eb;color:#050505;border-radius:9px;padding:12px;width:100%;font-weight:700;margin:5px 0}
+.message{min-height:20px;text-align:center;color:#65676b;font-size:14px;margin:8px}
+
+/* APP */
+#app{min-height:100vh}
+.topbar{position:sticky;top:0;z-index:1000;height:58px;background:#fff;border-bottom:1px solid #dddfe2;display:flex;align-items:center;gap:10px;padding:7px 12px}
+.logo{font-size:27px;font-weight:800;color:#1877f2;white-space:nowrap}
+.search{flex:1;max-width:330px;background:#f0f2f5;border:0;border-radius:22px;padding:11px 15px;outline:0}
+.top-actions{margin-left:auto;display:flex;gap:7px}
+.icon-btn{width:42px;height:42px;border-radius:50%;background:#e4e6eb;color:#050505;font-size:19px}
+.icon-btn:hover{background:#d8dadf}
+.layout{max-width:1050px;margin:auto;display:grid;grid-template-columns:220px minmax(0,600px) 220px;gap:14px;padding:14px}
+.sidebar,.rightbar{position:sticky;top:72px;height:max-content}
+.side-item{width:100%;display:flex;align-items:center;gap:10px;padding:12px;border-radius:9px;background:transparent;text-align:left;font-weight:700}
+.side-item:hover{background:#e4e6eb}
+.profile-mini{display:flex;align-items:center;gap:10px;padding:10px;margin-bottom:5px}
+.avatar{width:42px;height:42px;border-radius:50%;background:#1877f2;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;flex:none}
+.avatar.big{width:90px;height:90px;font-size:35px;margin:auto}
+.card{background:#fff;border-radius:10px;margin-bottom:12px;box-shadow:0 1px 2px #0002;padding:14px}
+.home-title{font-size:24px;margin:5px 0}
+.muted{color:#65676b;font-size:14px}
+.composer{display:flex;gap:10px;align-items:center}
+.composer-input{flex:1;background:#f0f2f5;border:0;border-radius:22px;padding:12px 16px;color:#65676b}
+.quick-actions{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid #dddfe2;margin-top:12px;padding-top:6px;gap:4px}
+.quick-actions button{background:#fff;padding:10px;border-radius:8px;color:#65676b;font-weight:700}
+.quick-actions button:hover{background:#f0f2f5}
+.post-header{display:flex;gap:10px;align-items:center}
+.post-name{font-weight:700}
+.post-time{font-size:12px;color:#65676b}
+.post-text{margin:14px 0;line-height:1.45;white-space:pre-wrap}
+.post-actions{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid #dddfe2;border-bottom:1px solid #dddfe2;padding:4px 0}
+.post-actions button{background:#fff;padding:10px;border-radius:7px;color:#65676b;font-weight:700}
+.post-actions button:hover{background:#f0f2f5}
+.story-row{display:flex;gap:8px;overflow-x:auto}
+.story{min-width:115px;height:175px;border-radius:10px;background:linear-gradient(160deg,#1877f2,#8b5cf6);color:#fff;padding:10px;display:flex;align-items:end;font-weight:700}
+.section-title{font-size:20px;margin:5px 0 12px}
+.page-card{background:#fff;border-radius:10px;padding:18px;box-shadow:0 1px 2px #0002}
+.page-card h2{margin-top:0}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.result-user,.friend-card,.conversation{background:#fff;border:1px solid #dddfe2;border-radius:10px;padding:12px;margin:8px 0;display:flex;align-items:center;gap:10px;cursor:pointer}
+.result-user:hover,.friend-card:hover,.conversation:hover{background:#f0f2f5}
+.result-info{flex:1}
+.profile-cover{height:120px;background:linear-gradient(135deg,#1877f2,#8b5cf6,#ff4d7d);border-radius:10px 10px 0 0;margin:-18px -18px 55px}
+.profile-head{text-align:center;margin-top:-90px}
+textarea.field{min-height:100px;resize:vertical}
+#chatArea{margin-top:12px}
+.chat-header{display:flex;align-items:center;gap:10px;border-bottom:1px solid #dddfe2;padding-bottom:10px}
+.chat-header button{background:#e4e6eb;border-radius:50%;width:40px;height:40px}
+.chat-messages{height:330px;overflow-y:auto;padding:10px 0}
+.bubble{max-width:75%;padding:9px 12px;border-radius:18px;margin:6px 0;line-height:1.35}
+.mine{margin-left:auto;background:#1877f2;color:#fff;border-bottom-right-radius:4px}
+.theirs{margin-right:auto;background:#e4e6eb;color:#050505;border-bottom-left-radius:4px}
+.chat-input{display:flex;gap:7px;border-top:1px solid #dddfe2;padding-top:8px}
+.chat-input input{flex:1}
+.chat-input button{width:50px;border-radius:50%;background:#1877f2;color:#fff}
+.notice{background:#fff;border-radius:10px;padding:14px;margin:8px 0;box-shadow:0 1px 2px #0002}
+.game-question{min-height:180px;display:flex;align-items:center;justify-content:center;text-align:center;font-size:22px;font-weight:700;background:#f0f2f5;border-radius:12px;padding:20px;margin:15px 0}
+.game-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.truth{background:#8b5cf6;color:#fff;padding:13px;border-radius:9px;font-weight:700}
+.action{background:#42b72a;color:#fff;padding:13px;border-radius:9px;font-weight:700}
+@media(max-width:850px){
+ .layout{grid-template-columns:1fr;max-width:650px}
+ .sidebar,.rightbar{display:none}
+ .topbar .search{max-width:none}
 }
-
-body{
-  margin:0;
-  font-family:Arial,Helvetica,sans-serif;
-  min-height:100vh;
-  background:#f0f2f5;
-  color:#050505;
-  padding:0;
+@media(max-width:520px){
+ .topbar{padding:7px}.logo{font-size:22px}.top-actions{gap:3px}.icon-btn{width:38px;height:38px}
+ .layout{padding:8px}.grid2{grid-template-columns:1fr}.quick-actions{grid-template-columns:1fr 1fr 1fr}
 }
-
-/* CONTENEUR PRINCIPAL */
-.card{
-  width:100%;
-  max-width:600px;
-  min-height:100vh;
-  margin:auto;
-  background:#f0f2f5;
-  padding:0;
-  box-shadow:none;
-}
-
-/* TITRES */
-h1,h2{
-  text-align:center;
-  margin:0;
-}
-
-h1{
-  font-size:25px;
-}
-
-h2{
-  font-size:21px;
-}
-
-/* SOUS-TITRE */
-.subtitle{
-  text-align:center;
-  color:#65676b;
-  margin-bottom:15px;
-}
-
-/* CHAMPS */
-input,textarea{
-  width:100%;
-  padding:13px;
-  margin:7px 0;
-  border:1px solid #ccd0d5;
-  border-radius:8px;
-  font-size:16px;
-  outline:none;
-  background:white;
-  color:#050505;
-}
-
-input:focus,
-textarea:focus{
-  border-color:#1877f2;
-}
-
-textarea{
-  min-height:100px;
-  resize:vertical;
-}
-
-/* BOUTONS */
-button{
-  width:100%;
-  padding:12px;
-  margin:5px 0;
-  border:0;
-  border-radius:8px;
-  font-size:16px;
-  font-weight:bold;
-  cursor:pointer;
-}
-
-.start{
-  background:#1877f2;
-  color:white;
-}
-
-.action{
-  background:#42b72a;
-  color:white;
-}
-
-.truth{
-  background:#f02849;
-  color:white;
-}
-
-.next{
-  background:#f7b928;
-  color:#050505;
-}
-
-.back{
-  background:#e4e6eb;
-  color:#050505;
-}
-
-/* BOUTONS SOCIAUX */
-.social-button{
-  background:white;
-  color:#050505;
-  border:1px solid #dddfe2;
-  border-radius:8px;
-  padding:12px;
-}
-
-/* MENU */
-.nav-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:8px;
-}
-
-/* ÉLÉMENTS CACHÉS */
-.hidden{
-  display:none !important;
-}
-
-/* PAGES */
-.page{
-  width:100%;
-}
-
-/* QUESTION DE JEU */
-.question{
-  min-height:170px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  font-size:23px;
-  font-weight:bold;
-  border-radius:12px;
-  background:white;
-  padding:20px;
-  margin:15px 0;
-  box-shadow:0 1px 2px rgba(0,0,0,.15);
-}
-
-.player{
-  text-align:center;
-  font-size:18px;
-  margin-top:8px;
-}
-
-.mode{
-  text-align:center;
-  opacity:.7;
-  margin-top:10px;
-}
-
-.small{
-  text-align:center;
-  font-size:14px;
-  color:#65676b;
-  margin-top:10px;
-}
-
-/* RECHERCHE UTILISATEUR */
-.result-user{
-  background:white;
-  padding:15px;
-  margin:10px 0;
-  border-radius:10px;
-  cursor:pointer;
-  border:1px solid #dddfe2;
-  box-shadow:0 1px 2px rgba(0,0,0,.08);
-  transition:.2s;
-}
-
-.result-user:hover{
-  background:#f5f6f7;
-}
-
-/* PROFIL */
-.profile-box{
-  text-align:center;
-  background:white;
-  border-radius:12px;
-  padding:20px;
-  margin:10px 0;
-  box-shadow:0 1px 2px rgba(0,0,0,.12);
-}
-
-/* MESSAGES */
-.message-box{
-  background:white;
-  padding:12px;
-  border-radius:12px;
-  margin:10px 0;
-}
-
-/* MESSAGE ENVOYÉ */
-.message-me{
-  text-align:right;
-  background:#0084ff;
-  color:white;
-  padding:10px 14px;
-  border-radius:18px 18px 4px 18px;
-  margin:8px 0 8px 25%;
-}
-
-/* MESSAGE REÇU */
-.message-other{
-  text-align:left;
-  background:#e4e6eb;
-  color:#050505;
-  padding:10px 14px;
-  border-radius:18px 18px 18px 4px;
-  margin:8px 25% 8px 0;
-}
-
-/* NOTIFICATIONS */
-.notification-box{
-  background:white;
-  padding:15px;
-  border-radius:12px;
-  margin:8px 0;
-  box-shadow:0 1px 2px rgba(0,0,0,.08);
-}
-
-/* LIGNE DE SÉPARATION */
-hr{
-  border:0;
-  border-top:1px solid #dddfe2;
-  margin:15px 0;
-}
-
-/* PAGE CONNEXION */
-#auth{
-  padding:20px;
-  background:#f0f2f5;
-  min-height:100vh;
-}
-
-#auth h1{
-  color:#1877f2;
-  font-size:40px;
-  margin-top:35px;
-  margin-bottom:10px;
-}
-
-#auth .subtitle{
-  font-size:17px;
-  color:#65676b;
-}
-
-/* APPLICATION */
-#app{
-  width:100%;
-  background:#f0f2f5;
-  min-height:100vh;
-}
-
-/* ACCUEIL STYLE FACEBOOK */
-#homePage{
-  background:#f0f2f5;
-}
-
-/* EN-TÊTE */
-.facebook-header{
-  position:sticky;
-  top:0;
-  z-index:1000;
-  background:white;
-  border-bottom:1px solid #dddfe2;
-  padding:10px 12px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-}
-
-/* NOM TRUELOVE */
-.facebook-logo{
-  color:#1877f2;
-  font-size:24px;
-  font-weight:bold;
-}
-
-/* BARRE DE RECHERCHE */
-.search-box{
-  background:#f0f2f5;
-  border-radius:20px;
-  padding:9px 15px;
-  border:0;
-}
-
-/* MENU SOCIAL */
-.social-menu{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  background:white;
-  border-bottom:1px solid #dddfe2;
-  margin-bottom:8px;
-}
-
-.social-menu button{
-  background:white;
-  color:#65676b;
-  border-radius:0;
-  margin:0;
-  padding:12px 5px;
-  font-size:14px;
-}
-
-/* CARTE PUBLICATION */
-.post{
-  background:white;
-  margin:8px 0;
-  padding:12px;
-  border-top:1px solid #dddfe2;
-  border-bottom:1px solid #dddfe2;
-}
-
-.post-header{
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
-
-.avatar{
-  width:42px;
-  height:42px;
-  border-radius:50%;
-  background:#1877f2;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  color:white;
-  font-weight:bold;
-}
-
-.post-name{
-  font-weight:bold;
-}
-
-.post-time{
-  color:#65676b;
-  font-size:12px;
-}
-
-.post-content{
-  margin-top:12px;
-  line-height:1.4;
-}
-
-/* ACTIONS PUBLICATION */
-.post-actions{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  border-top:1px solid #dddfe2;
-  margin-top:10px;
-  padding-top:5px;
-}
-
-.post-actions button{
-  background:white;
-  color:#65676b;
-  margin:0;
-  font-size:14px;
-}
-
-/* PROFIL UTILISATEUR */
-.user-profile{
-  background:white;
-  padding:20px;
-  text-align:center;
-  border-radius:0 0 12px 12px;
-}
-
-.profile-avatar{
-  width:90px;
-  height:90px;
-  border-radius:50%;
-  margin:auto;
-  background:#1877f2;
-  color:white;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:35px;
-  font-weight:bold;
-}
-
-/* AMIS */
-.friend-card{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  background:white;
-  padding:12px;
-  margin:6px 0;
-  border-radius:8px;
-  cursor:pointer;
-}
-
-/* BARRE DE RECHERCHE AMIS */
-#friendSearch{
-  background:white;
-  border-radius:20px;
-}
-
-/* MESSAGES */
-.messages-list{
-  background:white;
-  border-radius:10px;
-  overflow:hidden;
-}
-
-.conversation{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  padding:12px;
-  border-bottom:1px solid #dddfe2;
-  cursor:pointer;
-}
-
-.conversation:hover{
-  background:#f0f2f5;
-}
-
-/* NOTIFICATIONS */
-.notification{
-  background:white;
-  padding:14px;
-  margin:6px 0;
-  border-radius:8px;
-}
-
-/* PARAMÈTRES */
-.settings-box{
-  background:white;
-  border-radius:10px;
-  padding:15px;
-  margin:10px 0;
-}
-
-.settings-item{
-  padding:14px 5px;
-  border-bottom:1px solid #dddfe2;
-}
-
-/* MOBILE */
-@media(max-width:600px){
-
-  .card{
-    max-width:100%;
-  }
-
-  body{
-    font-size:15px;
-  }
-
-  h1{
-    font-size:23px;
-  }
-
-  .question{
-    font-size:20px;
-    min-height:150px;
-  }
-
-  button{
-    padding:13px 10px;
-  }
-
-  .nav-grid{
-    grid-template-columns:1fr 1fr;
-  }
-
-}
-  
-
-
-
+</style>
 </head>
-
 <body>
 
-<div class="card">
-
-<!-- =====================================================
-     CONNEXION / INSCRIPTION
-===================================================== -->
-
-<div id="auth">
-
-<h1>❤️ TrueLove ❤️</h1>
-
-<div class="subtitle">
-Connecte-toi pour entrer dans TrueLove
-</div>
-
-<input
-  id="email"
-  type="email"
-  placeholder="Ton adresse e-mail"
->
-
-<input
-  id="password"
-  type="password"
-  placeholder="Mot de passe"
->
-
-<button class="start" onclick="inscription()">
-💗 Créer un compte
-</button>
-
-<button class="action" onclick="connexion()">
-🔐 Se connecter
-</button>
-
-<div id="authMessage" class="small"></div>
-
-</div>
-
-
-<!-- =====================================================
-     APPLICATION
-===================================================== -->
-
-<div id="app" class="hidden">
-
-
-<!-- =====================================================
-     ACCUEIL
-===================================================== -->
-
-<div id="homePage" class="page">
-
-<h1>❤️ TrueLove ❤️</h1>
-
-<div class="subtitle">
-Bienvenue sur ton espace TrueLove
-</div>
-
-<button class="start" onclick="openGame()">
-🎮 Jouer à Action ou Vérité
-</button>
-
-<div class="nav-grid">
-
-<button
-class="social-button"
-onclick="showPage('profilePage'); loadProfile();">
-👤 Mon profil
-</button>
-
-<button
-class="social-button"
-onclick="showPage('friendsPage');">
-👥 Mes amis
-</button>
-
-<button
-class="social-button"
-onclick="showPage('messagesPage'); loadMessages();">
-💬 Messages
-</button>
-
-<button
-class="social-button"
-onclick="showPage('notificationsPage'); loadNotifications();">
-🔔 Notifications
-</button>
-
-<button
-class="social-button"
-onclick="showPage('settingsPage');">
-⚙️ Paramètres
-</button>
-
-</div>
-
-<button class="back" onclick="deconnexion()">
-🚪 Se déconnecter
-</button>
-
-<div id="homeMessage" class="small"></div>
-<div class="small" style="margin-top:20px; line-height:1.8;">
-  <strong>❤️ TrueLove</strong><br><br>
-
-  Une application créée par <strong>Roslin Baketukila</strong>
-  pour faciliter et renforcer vos relations :<br><br>
-
-  ❤️ Relations amoureuses<br>
-  🤝 Amitiés<br>
-  👥 Relations entre collègues<br>
-  👨‍👩‍👧‍👦 Relations familiales<br>
-  💬 Échanges et communication<br>
-  🎮 Jeux et activités à partager<br>
-  🌍 Faire de nouvelles rencontres
-</div>
-</div>
-
-
-<!-- =====================================================
-     PROFIL
-===================================================== -->
-
-<div id="profilePage" class="page hidden">
-
-<h2>👤 Mon profil</h2>
-
-<div class="subtitle">
-Modifie tes informations
-</div>
-
-<input
-id="profileUsername"
-type="text"
-placeholder="Ton pseudo"
->
-
-<input
-id="profileFullName"
-type="text"
-placeholder="Ton nom complet"
->
-
-<input
-id="profileEmail"
-type="email"
-disabled
-placeholder="Ton e-mail"
->
-
-<textarea
-id="profileBio"
-placeholder="Ta présentation..."
-></textarea>
-
-<button class="start" onclick="saveProfile()">
-💾 Enregistrer
-</button>
-
-<div id="profileMessage" class="small"></div>
-
-<button class="back" onclick="showPage('homePage')">
-🏠 Retour
-</button>
-
-</div>
-
-
-<!-- =====================================================
-     AMIS / RECHERCHE
-===================================================== -->
-
-<div id="friendsPage" class="page hidden">
-
-<h2>👥 Mes amis</h2>
-
-<div class="subtitle">
-Recherche des utilisateurs sur TrueLove ❤️
-</div>
-
-<input
-id="friendSearch"
-type="text"
-placeholder="🔎 Rechercher un pseudo..."
->
-
-<button class="action" onclick="searchFriends()">
-🔎 Rechercher
-</button>
-
-<div id="friendsResults"></div>
-
-<hr>
-
-<h3>🤝 Mes amis</h3>
-
-<div id="myFriends">
-Chargement...
-</div>
-
-<button class="back" onclick="showPage('homePage')">
-🏠 Retour
-</button>
-
-</div>
-
-
-<!-- =====================================================
-     PROFIL UTILISATEUR
-===================================================== -->
-
-<div id="userProfilePage" class="page hidden">
-
-<h2>👤 Profil</h2>
-
-<div id="userProfileContent" class="profile-box">
-Chargement...
-</div>
-
-<button class="action" onclick="startConversationFromProfile()">
-💬 Envoyer un message
-</button>
-
-<button class="back" onclick="showPage('friendsPage')">
-👥 Retour aux amis
-</button>
-
-</div>
-
-
-<!-- =========================================
-     MESSAGES — STYLE MESSENGER
-========================================= -->
-
-<div id="messagesPage" class="page hidden">
-
-    <div class="messenger-header">
-        <button onclick="showPage('homePage')" class="messenger-back">
-            ←
-        </button>
-
-        <div class="messenger-title">
-            <strong>💬 Messages</strong>
-            <span>TrueLove</span>
+<!-- CONNEXION -->
+<section id="auth">
+  <div class="auth-card">
+    <div class="auth-logo">TrueLove ❤️</div>
+    <div class="auth-sub">Connecte-toi pour entrer dans ton réseau social.</div>
+    <input id="email" class="field" type="email" placeholder="Ton adresse e-mail">
+    <input id="password" class="field" type="password" placeholder="Mot de passe">
+    <button class="primary" onclick="inscription()">Créer un compte</button>
+    <button class="success" onclick="connexion()">Se connecter</button>
+    <div id="authMessage" class="message"></div>
+  </div>
+</section>
+
+<!-- APPLICATION -->
+<section id="app" class="hidden">
+  <header class="topbar">
+    <div class="logo">TrueLove</div>
+    <input id="globalSearch" class="search" placeholder="🔎 Rechercher sur TrueLove..." onkeydown="if(event.key==='Enter') globalSearch()">
+    <div class="top-actions">
+      <button class="icon-btn" onclick="showPage('homePage')" title="Accueil">⌂</button>
+      <button class="icon-btn" onclick="showPage('messagesPage');loadConversations()" title="Messages">💬</button>
+      <button class="icon-btn" onclick="showPage('notificationsPage');loadNotifications()" title="Notifications">🔔</button>
+      <button class="icon-btn" onclick="showPage('settingsPage')" title="Paramètres">☰</button>
+    </div>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="profile-mini">
+        <div id="miniAvatar" class="avatar">T</div>
+        <div><b id="miniName">Mon profil</b><div class="muted">Voir mon profil</div></div>
+      </div>
+      <button class="side-item" onclick="showPage('homePage')">🏠 Accueil</button>
+      <button class="side-item" onclick="showPage('profilePage');loadProfile()">👤 Mon profil</button>
+      <button class="side-item" onclick="showPage('friendsPage')">👥 Amis</button>
+      <button class="side-item" onclick="showPage('messagesPage');loadConversations()">💬 Messages</button>
+      <button class="side-item" onclick="showPage('notificationsPage');loadNotifications()">🔔 Notifications</button>
+      <button class="side-item" onclick="showPage('gamePage')">🎮 Action ou Vérité</button>
+      <button class="side-item" onclick="showPage('settingsPage')">⚙️ Paramètres</button>
+      <button class="side-item" onclick="deconnexion()">🚪 Déconnexion</button>
+    </aside>
+
+    <main>
+      <!-- ACCUEIL -->
+      <div id="homePage" class="page">
+        <div class="card">
+          <h1 class="home-title">Bienvenue sur TrueLove ❤️</h1>
+          <div class="muted">Un espace pour discuter, rencontrer des amis et jouer.</div>
         </div>
 
-        <button class="messenger-search" onclick="alert('Recherche bientôt disponible ❤️')">
-            🔍
-        </button>
-    </div>
+        <div class="card">
+          <div class="story-row">
+            <div class="story">➕<br>Créer une story</div>
+            <div class="story">❤️<br>Amour</div>
+            <div class="story">😂<br>Drôle</div>
+            <div class="story">🎮<br>Jeux</div>
+          </div>
+        </div>
 
-    <div class="messenger-search-box">
-        <input
-            type="text"
-            id="messageSearch"
-            placeholder="🔍 Rechercher une conversation..."
-            oninput="filterConversations()"
-        >
-    </div>
+        <div class="card">
+          <div class="composer">
+            <div id="composerAvatar" class="avatar">T</div>
+            <button class="composer-input" onclick="focusPost()">À quoi penses-tu ?</button>
+          </div>
+          <textarea id="postText" class="field hidden" placeholder="Écris une publication..."></textarea>
+          <div id="postButtons" class="quick-actions">
+            <button onclick="showPostBox()">📝 Publication</button>
+            <button onclick="showPostBox()">📷 Photo</button>
+            <button onclick="showPage('gamePage')">🎮 Jeu</button>
+          </div>
+          <button id="publishBtn" class="primary hidden" onclick="publishPost()">Publier</button>
+        </div>
 
-    <div id="conversations" class="conversation-list">
-        Chargement...
-    </div>
-
-    <div id="chatArea" class="chat-area hidden">
-
-        <div class="chat-header">
-            <button onclick="closeConversation()">←</button>
-
-            <div>
-                <strong id="chatTitle">Conversation</strong>
-                <small>● En ligne</small>
+        <div id="feed">
+          <article class="card">
+            <div class="post-header"><div class="avatar">T</div><div><div class="post-name">TrueLove ❤️</div><div class="post-time">À l'instant · 🌍</div></div></div>
+            <div class="post-text">Bienvenue sur le nouveau fil d'actualité de TrueLove. 👋❤️</div>
+            <div class="post-actions">
+              <button onclick="likePost(this)">👍 J'aime</button><button>💬 Commenter</button><button>↗️ Partager</button>
             </div>
+          </article>
+          <article class="card">
+            <div class="post-header"><div class="avatar">🎮</div><div><div class="post-name">TrueLove Games</div><div class="post-time">Aujourd'hui · 🌍</div></div></div>
+            <div class="post-text">Qui est prêt pour une partie d'Action ou Vérité ? 🔥</div>
+            <div class="post-actions">
+              <button onclick="likePost(this)">👍 J'aime</button><button>💬 Commenter</button><button onclick="showPage('gamePage')">🎮 Jouer</button>
+            </div>
+          </article>
         </div>
+      </div>
 
-        <div id="chatMessages" class="chat-messages">
+      <!-- PROFIL -->
+      <div id="profilePage" class="page hidden">
+        <div class="page-card">
+          <div class="profile-cover"></div>
+          <div class="profile-head">
+            <div id="profileAvatar" class="avatar big">T</div>
+            <h2 id="profileDisplayName">Mon profil</h2>
+            <div class="muted" id="profileDisplayUsername">@pseudo</div>
+          </div>
+          <hr>
+          <input id="profileUsername" class="field" placeholder="Ton pseudo">
+          <input id="profileFullName" class="field" placeholder="Ton nom complet">
+          <input id="profileEmail" class="field" type="email" disabled placeholder="Ton e-mail">
+          <textarea id="profileBio" class="field" placeholder="Ta présentation..."></textarea>
+          <button class="primary" onclick="saveProfile()">💾 Enregistrer</button>
+          <div id="profileMessage" class="message"></div>
         </div>
+      </div>
 
-        <div class="chat-input-area">
-
-            <input
-                type="text"
-                id="messageInput"
-                placeholder="Écris un message..."
-                onkeydown="if(event.key==='Enter') sendMessage()"
-            >
-
-            <button onclick="sendMessage()">
-                ➤
-            </button>
-
+      <!-- AMIS -->
+      <div id="friendsPage" class="page hidden">
+        <div class="page-card">
+          <h2>👥 Amis</h2>
+          <div class="muted">Recherche des personnes inscrites sur TrueLove.</div>
+          <input id="friendSearch" class="field" placeholder="🔎 Rechercher un pseudo..." onkeydown="if(event.key==='Enter')searchFriends()">
+          <button class="primary" onclick="searchFriends()">Rechercher</button>
+          <div id="friendsResults"></div>
+          <hr>
+          <h3>Mes amis</h3>
+          <div id="myFriends"><div class="muted">Les demandes d'amis pourront être ajoutées ensuite.</div></div>
         </div>
+      </div>
 
-    </div>
+      <!-- PROFIL UTILISATEUR -->
+      <div id="userProfilePage" class="page hidden">
+        <div class="page-card">
+          <div class="profile-cover"></div>
+          <div class="profile-head">
+            <div id="userProfileAvatar" class="avatar big">U</div>
+            <h2 id="userProfileName">Profil</h2>
+            <div class="muted" id="userProfileUsername"></div>
+          </div>
+          <p id="userProfileBio" style="text-align:center"></p>
+          <button class="primary" onclick="startConversationFromProfile()">💬 Envoyer un message</button>
+          <button class="secondary" onclick="showPage('friendsPage')">👥 Retour</button>
+        </div>
+      </div>
 
-</div>
-     
+      <!-- MESSAGES -->
+      <div id="messagesPage" class="page hidden">
+        <div class="page-card">
+          <h2>💬 Messages</h2>
+          <input id="messageSearch" class="field" placeholder="🔎 Rechercher une conversation..." oninput="filterConversations()">
+          <div id="conversations">Chargement...</div>
+          <div id="chatArea" class="hidden">
+            <div class="chat-header">
+              <button onclick="closeConversation()">←</button>
+              <div><b id="chatTitle">Conversation</b><div class="muted">TrueLove</div></div>
+            </div>
+            <div id="chatMessages" class="chat-messages"></div>
+            <div class="chat-input">
+              <input id="messageInput" class="field" placeholder="Écris un message..." onkeydown="if(event.key==='Enter')sendMessage()">
+              <button onclick="sendMessage()">➤</button>
+            </div>
+          </div>
+        </div>
+      </div>
 
+      <!-- NOTIFICATIONS -->
+      <div id="notificationsPage" class="page hidden">
+        <div class="page-card">
+          <h2>🔔 Notifications</h2>
+          <div id="notificationsList">
+            <div class="notice">Bienvenue sur TrueLove ❤️</div>
+            <div class="notice">Les notifications sociales pourront être reliées à Supabase ensuite.</div>
+          </div>
+        </div>
+      </div>
 
+      <!-- PARAMETRES -->
+      <div id="settingsPage" class="page hidden">
+        <div class="page-card">
+          <h2>⚙️ Paramètres</h2>
+          <button class="side-item" onclick="showPage('profilePage');loadProfile()">👤 Modifier mon profil</button>
+          <button class="side-item" onclick="alert('La confidentialité sera ajoutée progressivement.')">🔒 Confidentialité</button>
+          <button class="side-item" onclick="alert('Les paramètres de notifications seront ajoutés progressivement.')">🔔 Notifications</button>
+          <button class="side-item" onclick="deconnexion()">🚪 Déconnexion</button>
+        </div>
+      </div>
 
+      <!-- JEU -->
+      <div id="gamePage" class="page hidden">
+        <div class="page-card">
+          <h2>🎮 Action ou Vérité ❤️</h2>
+          <div id="turn" class="muted" style="text-align:center">À toi de jouer</div>
+          <div id="gameQuestion" class="game-question">Choisis Vérité ou Action.</div>
+          <div class="game-grid">
+            <button class="truth" onclick="showQuestion('truth')">💜 Vérité</button>
+            <button class="action" onclick="showQuestion('action')">🔥 Action</button>
+          </div>
+          <button class="secondary" onclick="nextTurn()">➡️ Tour suivant</button>
+          <button class="secondary" onclick="showPage('homePage')">🏠 Retour à l'accueil</button>
+        </div>
+      </div>
+    </main>
 
-</div>
-
-
-<!-- =====================================================
-     NOTIFICATIONS
-===================================================== -->
-
-<div id="notificationsPage" class="page hidden">
-
-<h2>🔔 Notifications</h2>
-
-<div class="subtitle">
-Tes notifications TrueLove
-</div>
-
-<div id="notificationsList">
-Chargement...
-</div>
-
-<button class="back" onclick="showPage('homePage')">
-🏠 Retour
-</button>
-
-</div>
-
-
-<!-- =====================================================
-     PARAMÈTRES
-===================================================== -->
-
-<div id="settingsPage" class="page hidden">
-
-<h2>⚙️ Paramètres</h2>
-
-<div class="subtitle">
-Gère ton compte TrueLove
-</div>
-
-<button class="action" onclick="showPage('profilePage'); loadProfile();">
-👤 Modifier mon profil
-</button>
-
-<button class="social-button" onclick="alert('Cette fonction sera ajoutée bientôt.')">
-🔒 Confidentialité
-</button>
-
-<button class="social-button" onclick="alert('Les paramètres de notifications seront ajoutés bientôt.')">
-🔔 Notifications
-</button>
-
-<button class="back" onclick="showPage('homePage')">
-🏠 Retour
-</button>
-
-</div>
-
-
-<!-- =====================================================
-     JEU
-===================================================== -->
-
-<div id="gamePage" class="page hidden">
-
-<h1>❤️ TrueLove ❤️</h1>
-
-<div class="player" id="turn">
-Tour de Joueur 1
-</div>
-
-<div class="mode" id="mode">
-Choisis Action ou Vérité
-</div>
-
-<div class="question" id="question">
-À toi de choisir 😍
-</div>
-
-<button class="truth" onclick="showQuestion('truth')">
-💜 Vérité
-</button>
-
-<button class="action" onclick="showQuestion('action')">
-🔥 Action
-</button>
-
-<button class="next" onclick="nextTurn()">
-➡️ Tour suivant
-</button>
-
-<button class="back" onclick="closeGame()">
-🏠 Quitter le jeu
-</button>
-
-</div>
-
-</div>
-</div>
-
-
-<!-- =====================================================
-     SUPABASE
-===================================================== -->
+    <aside class="rightbar">
+      <div class="card"><b>Suggestions</b><p class="muted">Recherche des utilisateurs pour commencer à créer ton réseau.</p><button class="primary" onclick="showPage('friendsPage')">👥 Trouver des amis</button></div>
+      <div class="card"><b>TrueLove ❤️</b><p class="muted">Discute, joue et partage avec tes proches.</p></div>
+    </aside>
+  </div>
+</section>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <script>
+const supabaseUrl="https://jmtndvfpvsgbntouqhkp.supabase.co";
+const supabaseKey="sb_publishable_wGcvqH1z0yXa7-GrSC7R2A_oHgtQxc-";
+const supabaseClient=window.supabase.createClient(supabaseUrl,supabaseKey);
 
-/* =====================================================
-   IMPORTANT :
-   REMPLACE SEULEMENT CES 2 VALEURS
-   PAR CELLES DE TON PROJET SUPABASE
-===================================================== */
+let currentUser=null;
+let selectedUserId=null;
+let selectedConversationUserId=null;
+let profilesCache=[];
+let turn=0;
 
-const supabaseUrl = "https://jmtndvfpvsgbntouqhkp.supabase.co";
-
-const supabaseKey = "sb_publishable_wGcvqH1z0yXa7-GrSC7R2A_oHgtQxc-";
-
-
-const supabaseClient =
-window.supabase.createClient(
-supabaseUrl,
-supabaseKey
-);
-
-
-/* =====================================================
-   VARIABLES
-===================================================== */
-
-let currentUser = null;
-let selectedUserId = null;
-let selectedConversationUserId = null;
-
-let names = [];
-let turn = 0;
-
-const truths = [
-
-"Quelle est ta plus belle histoire d’amour ?",
-
-"Quelle est la première chose que tu remarques chez quelqu’un ?",
-
-"Quelle qualité préfères-tu chez ton partenaire ?",
-
-"Quelle petite chose te fait vraiment sourire ?",
-
-"Quel est ton plus grand secret amoureux ?",
-
-"Quelle chanson te fait penser à l’amour ?",
-
-"Quel serait ton rendez-vous idéal ?",
-
-"Quelle est ta plus grande peur dans une relation ?",
-
-"Qui est la personne qui te connaît le mieux ?",
-
-"Quelle chose n’as-tu jamais osé dire à ton partenaire ?",
-
-"Quel souvenir d’enfance te fait sourire ?",
-
-"Si tu pouvais changer une chose dans le passé, laquelle ?",
-
-"Qu’est-ce qui te donne confiance en toi ?",
-
-"Quelle activité aimerais-tu faire souvent à deux ?",
-
-"Quelle surprise romantique aimerais-tu recevoir ?"
-
+const truths=[
+"Quelle est ta plus belle histoire d’amour ?","Quelle qualité apprécies-tu le plus chez quelqu’un ?",
+"Quel serait ton rendez-vous idéal ?","Quelle petite chose te fait vraiment sourire ?",
+"Quel rêve veux-tu absolument réaliser ?","Quelle personne te connaît le mieux ?",
+"Quel souvenir d’enfance te fait sourire ?","Quelle activité aimerais-tu faire à deux ?",
+"Quelle est une chose que tu aimerais améliorer chez toi ?","Qu’est-ce qui te rend heureux(se) ?",
+"Quel voyage rêves-tu de faire ?","Quelle chanson te rappelle un beau souvenir ?",
+"Quelle est ta plus grande qualité ?","Quelle est ta plus grande peur dans une relation ?",
+"Qu'aimerais-tu apprendre cette année ?"
 ];
-
-
-const actions = [
-
-"Fais un compliment sincère à ton partenaire.",
-
-"Regarde ton partenaire dans les yeux pendant 15 secondes sans rire.",
-
-"Dis « Je t’aime » de trois façons différentes.",
-
-"Fais une petite déclaration d’amour pendant 20 secondes.",
-
-"Imite ton partenaire pendant 15 secondes.",
-
-"Chante le refrain d’une chanson d’amour.",
-
-"Donne un surnom romantique à ton partenaire.",
-
-"Fais rire ton partenaire en moins de 30 secondes.",
-
-"Dis trois qualités de ton partenaire.",
-
-"Fais une déclaration d’amour improvisée.",
-
-"Envoie un emoji qui décrit ton humeur actuelle.",
-
-"Raconte une blague à ton partenaire.",
-
-"Donne cinq raisons pour lesquelles tu apprécies ton partenaire.",
-
-"Dis une phrase romantique avec les mots cœur et sourire.",
-
-"Fais un petit discours de 20 secondes sur votre relation."
-
+const actions=[
+"Fais un compliment sincère à quelqu’un.","Regarde ton partenaire dans les yeux pendant 15 secondes.",
+"Chante le refrain d’une chanson.","Fais rire l’autre en moins de 30 secondes.",
+"Dis trois qualités de ton partenaire.","Fais une petite déclaration d’amour.",
+"Imite quelqu’un pendant 15 secondes.","Danse pendant 15 secondes.",
+"Raconte une blague sans rire.","Donne un surnom amusant à l’autre.",
+"Dis trois choses pour lesquelles tu es reconnaissant(e).","Fais une pose de mannequin pendant 10 secondes.",
+"Mime un animal choisi par l’autre.","Décris ton futur idéal en 30 secondes.",
+"Fais un compliment sans utiliser le mot beau ou belle."
 ];
-
-
-/* =====================================================
-   INSCRIPTION
-===================================================== */
 
 async function inscription(){
-
-const email =
-document.getElementById("email").value.trim();
-
-const password =
-document.getElementById("password").value;
-
-const message =
-document.getElementById("authMessage");
-
-
-if(!email || !password){
-
-message.textContent =
-"⚠️ Entre ton e-mail et ton mot de passe.";
-
-return;
+  const email=document.getElementById("email").value.trim();
+  const password=document.getElementById("password").value;
+  const m=document.getElementById("authMessage");
+  if(!email||!password){m.textContent="⚠️ Entre ton e-mail et ton mot de passe.";return}
+  if(password.length<6){m.textContent="⚠️ Le mot de passe doit avoir au moins 6 caractères.";return}
+  m.textContent="Création du compte...";
+  const {data,error}=await supabaseClient.auth.signUp({email,password});
+  if(error){m.textContent="❌ "+error.message;return}
+  m.textContent=data.session?"Compte créé.":"✅ Compte créé. Vérifie ton e-mail si Supabase le demande.";
+  if(data.session){currentUser=data.user;await ensureProfile();enterApp()}
 }
-
-
-if(password.length < 6){
-
-message.textContent =
-"⚠️ Le mot de passe doit avoir au moins 6 caractères.";
-
-return;
-}
-
-
-message.textContent =
-"Création du compte...";
-
-
-const {data,error} =
-await supabaseClient.auth.signUp({
-email:email,
-password:password
-});
-
-
-if(error){
-
-message.textContent =
-"❌ " + error.message;
-
-return;
-}
-
-
-if(data.session){
-
-currentUser = data.user;
-
-await createProfile();
-
-openApp();
-
-}else{
-
-message.textContent =
-"✅ Compte créé ! Vérifie ton e-mail si nécessaire.";
-}
-
-}
-
-
-/* =====================================================
-   CONNEXION
-===================================================== */
 
 async function connexion(){
-
-const email =
-document.getElementById("email").value.trim();
-
-const password =
-document.getElementById("password").value;
-
-const message =
-document.getElementById("authMessage");
-
-
-if(!email || !password){
-
-message.textContent =
-"⚠️ Entre ton e-mail et ton mot de passe.";
-
-return;
+  const email=document.getElementById("email").value.trim();
+  const password=document.getElementById("password").value;
+  const m=document.getElementById("authMessage");
+  if(!email||!password){m.textContent="⚠️ Entre ton e-mail et ton mot de passe.";return}
+  m.textContent="Connexion...";
+  const {data,error}=await supabaseClient.auth.signInWithPassword({email,password});
+  if(error){m.textContent="❌ "+error.message;return}
+  currentUser=data.user;await ensureProfile();enterApp()
 }
-
-
-message.textContent =
-"Connexion...";
-
-
-const {data,error} =
-await supabaseClient.auth.signInWithPassword({
-email:email,
-password:password
-});
-
-
-if(error){
-
-message.textContent =
-"❌ " + error.message;
-
-return;
-}
-
-
-currentUser = data.user;
-
-await createProfile();
-
-openApp();
-
-}
-
-
-/* =====================================================
-   OUVRIR APPLICATION
-===================================================== */
-
-function openApp(){
-
-document.getElementById("auth")
-.classList.add("hidden");
-
-document.getElementById("app")
-.classList.remove("hidden");
-
-showPage("homePage");
-
-}
-
-
-/* =====================================================
-   CRÉER PROFIL AUTOMATIQUEMENT
-===================================================== */
-
-async function createProfile(){
-
-if(!currentUser) return;
-
-
-const {data} =
-await supabaseClient
-.from("PROFILS")
-.select("id")
-.eq("id",currentUser.id)
-.maybeSingle();
-
-
-if(!data){
-
-await supabaseClient
-.from("PROFILS")
-.insert({
-id:currentUser.id,
-Username:"",
-Full_name:"",
-Bio:""
-});
-
-}
-
-}
-
-
-/* =====================================================
-   NAVIGATION
-===================================================== */
-
-function showPage(pageId){
-
-const pages =
-document.querySelectorAll(".page");
-
-pages.forEach(page=>{
-page.classList.add("hidden");
-});
-
-
-document
-.getElementById(pageId)
-.classList.remove("hidden");
-
-}
-
-
-/* =====================================================
-   PROFIL PERSONNEL
-===================================================== */
-
-async function loadProfile(){
-
-if(!currentUser) return;
-
-document.getElementById("profileEmail").value =
-currentUser.email || "";
-
-const {data,error} =
-await supabaseClient
-.from("PROFILS")
-.select("Username,Full_name,Bio")
-.eq("id",currentUser.id)
-.maybeSingle();
-
-if(error){
-
-document.getElementById("profileMessage").textContent =
-"❌ " + error.message;
-
-return;
-}
-
-if(data){
-
-document.getElementById("profileUsername").value =
-data.Username || "";
-
-document.getElementById("profileFullName").value =
-data.Full_name || "";
-
-document.getElementById("profileBio").value =
-data.Bio || "";
-
-}
-
-}
-
-
-/* =====================================================
-   ENREGISTRER LE PROFIL
-===================================================== */
-
-async function saveProfile(){
-
-if(!currentUser) return;
-
-const username =
-document.getElementById("profileUsername").value.trim();
-
-const fullName =
-document.getElementById("profileFullName").value.trim();
-
-const bio =
-document.getElementById("profileBio").value.trim();
-
-const message =
-document.getElementById("profileMessage");
-
-message.textContent =
-"Enregistrement...";
-
-const {error} =
-await supabaseClient
-.from("PROFILS")
-.update({
-Username: username,
-Full_name: fullName,
-Bio: bio
-})
-.eq("id",currentUser.id);
-
-if(error){
-
-message.textContent =
-"❌ " + error.message;
-
-return;
-}
-
-message.textContent =
-"✅ Profil enregistré !";
-
-}
-
-
-/* =====================================================
-   RECHERCHE DES AMIS
-===================================================== */
-
-async function searchFriends(){
-
-const search =
-document.getElementById("friendSearch").value.trim();
-
-const results =
-document.getElementById("friendsResults");
-
-if(!search){
-
-results.innerHTML =
-"⚠️ Entre un pseudo à rechercher.";
-
-return;
-}
-
-results.innerHTML =
-"🔎 Recherche...";
-
-const {data,error} =
-await supabaseClient
-.from("PROFILS")
-.select("id,Username,Full_name")
-.ilike("Username","%" + search + "%");
-
-if(error){
-
-results.innerHTML =
-"❌ " + error.message;
-
-return;
-}
-
-if(!data || data.length === 0){
-
-results.innerHTML =
-"😔 Aucun utilisateur trouvé.";
-
-return;
-}
-
-results.innerHTML = "";
-
-data.forEach(user => {
-
-if(user.id === currentUser.id) return;
-
-const div =
-document.createElement("div");
-
-div.className = "result-user";
-
-div.innerHTML = `
-<strong>👤 ${user.Username || "Sans pseudo"}</strong>
-<br>
-<span>${user.Full_name || ""}</span>
-`;
-
-div.onclick = function(){
-
-openUserProfile(user.id);
-
-};
-
-results.appendChild(div);
-
-});
-
-}
-
-
-/* =====================================================
-   OUVRIR PROFIL UTILISATEUR
-===================================================== */
-
-async function openUserProfile(userId){
-
-selectedUserId = userId;
-
-showPage("userProfilePage");
-
-const content =
-document.getElementById("userProfileContent");
-
-content.innerHTML =
-"🔎 Chargement du profil...";
-
-const {data,error} =
-await supabaseClient
-.from("PROFILS")
-.select("Username,Full_name,Bio")
-.eq("id",userId)
-.maybeSingle();
-
-if(error){
-
-content.innerHTML =
-"❌ " + error.message;
-
-return;
-}
-
-if(!data){
-
-content.innerHTML =
-"❌ Profil introuvable.";
-
-return;
-}
-
-content.innerHTML = `
-<h2>👤 ${data.Username || "Utilisateur"}</h2>
-
-<p><strong>Nom :</strong><br>
-${data.Full_name || "Non renseigné"}</p>
-
-<p><strong>Présentation :</strong><br>
-${data.Bio || "Aucune présentation."}</p>
-`;
-
-}
-
-
-/* =====================================================
-   MESSAGE DEPUIS PROFIL
-===================================================== */
-
-function startConversationFromProfile(){
-
-    if(!selectedUserId){
-
-        alert("Utilisateur introuvable.");
-
-        return;
-    }
-
-    selectedConversationUserId =
-    selectedUserId;
-
-    showPage("messagesPage");
-
-    const chatArea =
-    document.getElementById("chatArea");
-
-    chatArea.classList.remove("hidden");
-
-    loadMessages();
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* =====================================================
-   MESSAGES
-===================================================== */
-
-async function loadMessages(){
-
-    const conversations =
-    document.getElementById("conversations");
-
-    if(!currentUser){
-        conversations.innerHTML =
-        "❌ Tu dois être connecté.";
-        return;
-    }
-
-    if(!selectedConversationUserId){
-        conversations.innerHTML =
-        "💬 Choisis une conversation.";
-        return;
-    }
-
-    const { data, error } = await supabaseClient
-    .from("MESSAGES")
-    .select("sender_id,receiver_id,content")
-    .or(
-        `and(sender_id.eq.${currentUser.id},receiver_id.eq.${selectedConversationUserId}),and(sender_id.eq.${selectedConversationUserId},receiver_id.eq.${currentUser.id})`
-    )
-    .order("created_at", { ascending: true });
-
-    if(error){
-        conversations.innerHTML =
-        "❌ Erreur : " + error.message;
-        return;
-    }
-
-    if(!data || data.length === 0){
-        conversations.innerHTML =
-        "💬 Aucun message pour le moment.";
-        return;
-    }
-
-    conversations.innerHTML = "";
-
-    data.forEach(message => {
-
-        const div = document.createElement("div");
-
-        div.className = "message-box";
-
-        if(message.sender_id === currentUser.id){
-            div.innerHTML =
-            "🧑 <strong>Moi :</strong> " +
-            message.content;
-        }else{
-            div.innerHTML =
-            "👤 <strong>Lui :</strong> " +
-            message.content;
-        }
-
-        conversations.appendChild(div);
-
-    });
-
-}
-
-
-
-
-
-
-
-
-
-
-/* =====================================================
-   ENVOYER MESSAGE
-===================================================== */
-
-async function sendMessage(){
-
-if(!selectedConversationUserId){
-
-alert("Choisis d'abord une conversation.");
-
-return;
-}
-
-const input =
-document.getElementById("messageInput");
-
-const text =
-input.value.trim();
-
-if(!text) return;
-
-if(!currentUser){
-
-alert("Tu dois être connecté.");
-
-return;
-}
-
-const { data, error } =
-await supabaseClient
-.from("MESSAGES")
-.insert({
-sender_id: currentUser.id,
-receiver_id: selectedConversationUserId,
-content: text
-})
-.select()
-.single();
-
-if(error){
-
-alert("Erreur : " + error.message);
-
-return;
-}
-
-input.value = "";
-
-await loadMessages();
-
-}
-
-
-
-
-
-
-
-
-
-
-
-/* =====================================================
-   NOTIFICATIONS
-===================================================== */
-
-async function loadNotifications(){
-
-document.getElementById("notificationsList").innerHTML =
-`
-<div class="notification-box">
-🔔 Aucune nouvelle notification.
-</div>
-`;
-
-}
-
-
-/* =====================================================
-   JEU
-===================================================== */
-
-function openGame(){
-
-showPage("gamePage");
-
-}
-
-function closeGame(){
-
-showPage("homePage");
-
-}
-
-function showQuestion(type){
-
-let list =
-type === "truth" ? truths : actions;
-
-const random =
-Math.floor(Math.random() * list.length);
-
-document.getElementById("question").textContent =
-list[random];
-
-document.getElementById("mode").textContent =
-type === "truth"
-? "💜 Vérité"
-: "🔥 Action";
-
-}
-
-function nextTurn(){
-
-turn++;
-
-document.getElementById("turn").textContent =
-"Tour de Joueur " + (turn + 1);
-
-document.getElementById("question").textContent =
-"À toi de choisir 😍";
-
-document.getElementById("mode").textContent =
-"Choisis Action ou Vérité";
-
-}
-
-
-/* =====================================================
-   DECONNEXION
-===================================================== */
 
 async function deconnexion(){
-
-await supabaseClient.auth.signOut();
-
-currentUser = null;
-
-document.getElementById("app")
-.classList.add("hidden");
-
-document.getElementById("auth")
-.classList.remove("hidden");
-
-document.getElementById("email").value = "";
-document.getElementById("password").value = "";
-
-document.getElementById("authMessage").textContent =
-"";
-
-showPage("homePage");
-
+  await supabaseClient.auth.signOut();
+  currentUser=null;
+  document.getElementById("app").classList.add("hidden");
+  document.getElementById("auth").classList.remove("hidden");
+  document.getElementById("authMessage").textContent="Tu es déconnecté(e).";
 }
 
-
-/* =====================================================
-   SESSION EXISTANTE
-===================================================== */
-
-async function checkSession(){
-
-const {data} =
-await supabaseClient.auth.getSession();
-
-if(data.session){
-
-currentUser =
-data.session.user;
-
-openApp();
-
+async function ensureProfile(){
+  if(!currentUser)return;
+  const {data}=await supabaseClient.from("PROFILS").select("*").eq("id",currentUser.id).maybeSingle();
+  if(!data){
+    await supabaseClient.from("PROFILS").insert({id:currentUser.id,Username:(currentUser.email||"user").split("@")[0],Full_name:"",Bio:""});
+  }
 }
 
+function enterApp(){
+  document.getElementById("auth").classList.add("hidden");
+  document.getElementById("app").classList.remove("hidden");
+  showPage("homePage");
+  loadProfile();
 }
 
+async function loadProfile(){
+  if(!currentUser)return;
+  const {data,error}=await supabaseClient.from("PROFILS").select("*").eq("id",currentUser.id).maybeSingle();
+  if(error){document.getElementById("profileMessage").textContent="❌ "+error.message;return}
+  const p=data||{};
+  document.getElementById("profileUsername").value=p.Username||"";
+  document.getElementById("profileFullName").value=p.Full_name||"";
+  document.getElementById("profileBio").value=p.Bio||"";
+  document.getElementById("profileEmail").value=currentUser.email||"";
+  const name=p.Full_name||p.Username||"Mon profil";
+  document.getElementById("profileDisplayName").textContent=name;
+  document.getElementById("profileDisplayUsername").textContent=p.Username?"@"+p.Username:"";
+  document.getElementById("miniName").textContent=name;
+  const letter=(name.trim()[0]||"T").toUpperCase();
+  ["miniAvatar","composerAvatar","profileAvatar"].forEach(id=>{const e=document.getElementById(id);if(e)e.textContent=letter});
+}
 
-/* =====================================================
-   LANCEMENT
-===================================================== */
+async function saveProfile(){
+  if(!currentUser)return;
+  const username=document.getElementById("profileUsername").value.trim();
+  const full=document.getElementById("profileFullName").value.trim();
+  const bio=document.getElementById("profileBio").value.trim();
+  const m=document.getElementById("profileMessage");
+  m.textContent="Enregistrement...";
+  const {error}=await supabaseClient.from("PROFILS").upsert({id:currentUser.id,Username:username,Full_name:full,Bio:bio},{onConflict:"id"});
+  if(error){m.textContent="❌ "+error.message;return}
+  m.textContent="✅ Profil enregistré.";
+  loadProfile();
+}
 
-checkSession();
+async function searchFriends(){
+  const q=document.getElementById("friendSearch").value.trim();
+  const box=document.getElementById("friendsResults");
+  if(!q){box.innerHTML='<div class="muted">Écris un pseudo à rechercher.</div>';return}
+  box.innerHTML="Recherche...";
+  const {data,error}=await supabaseClient.from("PROFILS").select("id,Username,Full_name,Bio,Avatar").ilike("Username","%"+q+"%").limit(20);
+  if(error){box.innerHTML='<div class="muted">❌ '+escapeHtml(error.message)+'</div>';return}
+  profilesCache=data||[];
+  if(!profilesCache.length){box.innerHTML='<div class="muted">Aucun utilisateur trouvé.</div>';return}
+  box.innerHTML="";
+  profilesCache.filter(p=>p.id!==currentUser?.id).forEach(p=>{
+    const div=document.createElement("div");div.className="result-user";
+    const letter=(p.Full_name||p.Username||"U").trim()[0].toUpperCase();
+    div.innerHTML='<div class="avatar">'+escapeHtml(letter)+'</div><div class="result-info"><b>'+escapeHtml(p.Full_name||p.Username||"Utilisateur")+'</b><div class="muted">@'+escapeHtml(p.Username||"")+'</div></div>';
+    div.onclick=()=>openUserProfile(p.id);box.appendChild(div);
+  })
+}
 
+async function openUserProfile(userId){
+  selectedUserId=userId;showPage("userProfilePage");
+  const box=document.getElementById("userProfilePage");
+  box.querySelector("#userProfileName").textContent="Chargement...";
+  const {data,error}=await supabaseClient.from("PROFILS").select("*").eq("id",userId).maybeSingle();
+  if(error){document.getElementById("userProfileName").textContent="Erreur";return}
+  if(!data){document.getElementById("userProfileName").textContent="Profil introuvable";return}
+  const name=data.Full_name||data.Username||"Utilisateur";
+  document.getElementById("userProfileName").textContent=name;
+  document.getElementById("userProfileUsername").textContent=data.Username?"@"+data.Username:"";
+  document.getElementById("userProfileBio").textContent=data.Bio||"";
+  document.getElementById("userProfileAvatar").textContent=name.trim()[0].toUpperCase();
+}
+
+function startConversationFromProfile(){
+  if(!selectedUserId)return;
+  selectedConversationUserId=selectedUserId;
+  showPage("messagesPage");
+  openConversation(selectedUserId);
+}
+
+async function loadConversations(){
+  const box=document.getElementById("conversations");
+  box.innerHTML='<div class="muted">Chargement...</div>';
+  if(!currentUser)return;
+  const {data,error}=await supabaseClient.from("MESSAGES").select("sender_id,receiver_id,content,created_at").or("sender_id.eq."+currentUser.id+",receiver_id.eq."+currentUser.id).order("created_at",{ascending:false}).limit(100);
+  if(error){box.innerHTML='<div class="muted">❌ '+escapeHtml(error.message)+'</div>';return}
+  const ids=[];
+  (data||[]).forEach(m=>{const id=m.sender_id===currentUser.id?m.receiver_id:m.sender_id;if(!ids.includes(id))ids.push(id)});
+  if(!ids.length){box.innerHTML='<div class="muted">Aucune conversation. Recherche un utilisateur dans Amis.</div>';return}
+  const {data:people}=await supabaseClient.from("PROFILS").select("id,Username,Full_name").in("id",ids);
+  box.innerHTML="";
+  (people||[]).forEach(p=>{
+    const d=document.createElement("div");d.className="conversation";
+    d.innerHTML='<div class="avatar">'+escapeHtml((p.Full_name||p.Username||"U").trim()[0].toUpperCase())+'</div><div class="result-info"><b>'+escapeHtml(p.Full_name||p.Username||"Utilisateur")+'</b><div class="muted">@'+escapeHtml(p.Username||"")+'</div></div>';
+    d.onclick=()=>openConversation(p.id);box.appendChild(d);
+  })
+}
+
+function filterConversations(){
+  const q=(document.getElementById("messageSearch").value||"").toLowerCase();
+  document.querySelectorAll("#conversations .conversation").forEach(x=>x.style.display=x.innerText.toLowerCase().includes(q)?"flex":"none")
+}
+
+async function openConversation(userId){
+  selectedConversationUserId=userId;
+  document.getElementById("chatArea").classList.remove("hidden");
+  const {data:p}=await supabaseClient.from("PROFILS").select("Username,Full_name").eq("id",userId).maybeSingle();
+  document.getElementById("chatTitle").textContent=p?.Full_name||p?.Username||"Conversation";
+  await loadMessages();
+}
+
+async function loadMessages(){
+  if(!currentUser||!selectedConversationUserId)return;
+  const {data,error}=await supabaseClient.from("MESSAGES").select("sender_id,receiver_id,content,created_at").or("and(sender_id.eq."+currentUser.id+",receiver_id.eq."+selectedConversationUserId+"),and(sender_id.eq."+selectedConversationUserId+",receiver_id.eq."+currentUser.id+")").order("created_at",{ascending:true});
+  const box=document.getElementById("chatMessages");
+  if(error){box.innerHTML='<div class="muted">❌ '+escapeHtml(error.message)+'</div>';return}
+  box.innerHTML="";
+  (data||[]).forEach(m=>{
+    const d=document.createElement("div");d.className="bubble "+(m.sender_id===currentUser.id?"mine":"theirs");d.textContent=m.content;box.appendChild(d)
+  });
+  box.scrollTop=box.scrollHeight;
+}
+
+async function sendMessage(){
+  const input=document.getElementById("messageInput");
+  const content=input.value.trim();
+  if(!content||!currentUser||!selectedConversationUserId)return;
+  const {error}=await supabaseClient.from("MESSAGES").insert({sender_id:currentUser.id,receiver_id:selectedConversationUserId,content});
+  if(error){alert("Erreur: "+error.message);return}
+  input.value="";await loadMessages();
+}
+
+function closeConversation(){
+  selectedConversationUserId=null;document.getElementById("chatArea").classList.add("hidden");loadConversations();
+}
+
+async function loadNotifications(){
+  document.getElementById("notificationsList").innerHTML='<div class="notice">🔔 Bienvenue sur TrueLove.</div><div class="notice">Les notifications sociales sont prêtes à être reliées à une table dédiée.</div>';
+}
+
+function showPage(id){
+  document.querySelectorAll(".page").forEach(p=>p.classList.add("hidden"));
+  const el=document.getElementById(id);if(el)el.classList.remove("hidden");
+  window.scrollTo(0,0);
+  if(id==="messagesPage")loadConversations();
+  if(id==="profilePage")loadProfile();
+}
+
+function globalSearch(){
+  const q=document.getElementById("globalSearch").value.trim();
+  if(!q)return;
+  document.getElementById("friendSearch").value=q;showPage("friendsPage");searchFriends();
+}
+
+function showPostBox(){
+  document.getElementById("postText").classList.remove("hidden");
+  document.getElementById("publishBtn").classList.remove("hidden");
+  document.getElementById("postText").focus();
+}
+function focusPost(){showPostBox()}
+function publishPost(){
+  const text=document.getElementById("postText").value.trim();
+  if(!text)return;
+  const feed=document.getElementById("feed");
+  const article=document.createElement("article");article.className="card";
+  const name=document.getElementById("miniName").textContent||"Moi";
+  const letter=name.trim()[0]?.toUpperCase()||"T";
+  article.innerHTML='<div class="post-header"><div class="avatar">'+escapeHtml(letter)+'</div><div><div class="post-name">'+escapeHtml(name)+'</div><div class="post-time">À l\'instant · 🌍</div></div></div><div class="post-text"></div><div class="post-actions"><button>👍 J\'aime</button><button>💬 Commenter</button><button>↗️ Partager</button></div>';
+  article.querySelector(".post-text").textContent=text;
+  feed.prepend(article);
+  document.getElementById("postText").value="";
+  document.getElementById("postText").classList.add("hidden");
+  document.getElementById("publishBtn").classList.add("hidden");
+}
+function likePost(btn){btn.textContent=btn.textContent.includes("👍")?"❤️ J’aime":"👍 J’aime"}
+
+function showQuestion(type){
+  const list=type==="truth"?truths:actions;
+  document.getElementById("gameQuestion").textContent=list[Math.floor(Math.random()*list.length)];
+  document.getElementById("turn").textContent=type==="truth"?"💜 VÉRITÉ":"🔥 ACTION";
+}
+function nextTurn(){
+  turn=1-turn;document.getElementById("turn").textContent="Tour "+(turn+1)+" — choisis ton défi";
+  document.getElementById("gameQuestion").textContent="À toi de choisir 😍";
+}
+
+function escapeHtml(s){
+  return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
+}
+
+(async function(){
+  const {data}=await supabaseClient.auth.getSession();
+  if(data.session){
+    currentUser=data.session.user;
+    await ensureProfile();
+    enterApp();
+  }
+})();
 </script>
-
 </body>
 </html>
-
-
-    
-    
-    
-
-
-    
-
-            
