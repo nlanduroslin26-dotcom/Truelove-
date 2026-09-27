@@ -425,45 +425,76 @@ Chargement...
 </div>
 
 
-<!-- =====================================================
-     MESSAGES
-===================================================== -->
+<!-- =========================================
+     MESSAGES — STYLE MESSENGER
+========================================= -->
 
 <div id="messagesPage" class="page hidden">
 
-<h2>💬 Messages</h2>
+    <div class="messenger-header">
+        <button onclick="showPage('homePage')" class="messenger-back">
+            ←
+        </button>
 
-<div class="subtitle">
-Discute avec tes amis ❤️
+        <div class="messenger-title">
+            <strong>💬 Messages</strong>
+            <span>TrueLove</span>
+        </div>
+
+        <button class="messenger-search" onclick="alert('Recherche bientôt disponible ❤️')">
+            🔍
+        </button>
+    </div>
+
+    <div class="messenger-search-box">
+        <input
+            type="text"
+            id="messageSearch"
+            placeholder="🔍 Rechercher une conversation..."
+            oninput="filterConversations()"
+        >
+    </div>
+
+    <div id="conversations" class="conversation-list">
+        Chargement...
+    </div>
+
+    <div id="chatArea" class="chat-area hidden">
+
+        <div class="chat-header">
+            <button onclick="closeConversation()">←</button>
+
+            <div>
+                <strong id="chatTitle">Conversation</strong>
+                <small>● En ligne</small>
+            </div>
+        </div>
+
+        <div id="chatMessages" class="chat-messages">
+        </div>
+
+        <div class="chat-input-area">
+
+            <input
+                type="text"
+                id="messageInput"
+                placeholder="Écris un message..."
+                onkeydown="if(event.key==='Enter') sendMessage()"
+            >
+
+            <button onclick="sendMessage()">
+                ➤
+            </button>
+
+        </div>
+
+    </div>
+
 </div>
+     
 
-<div id="conversations">
-Chargement...
-</div>
 
-<div id="chatArea" class="hidden">
 
-<hr>
-
-<h3 id="chatTitle">Conversation</h3>
-
-<div id="chatMessages"></div>
-
-<input
-id="messageInput"
-type="text"
-placeholder="Écris ton message..."
->
-
-<button class="start" onclick="sendMessage()">
-📨 Envoyer
-</button>
-
-</div>
-
-<button class="back" onclick="showPage('homePage')">
-🏠 Retour
-</button>
 
 </div>
 
