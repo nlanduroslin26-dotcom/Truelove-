@@ -186,22 +186,54 @@ textarea.field{min-height:100px;resize:vertical}
       </div>
 
       <!-- PROFIL -->
-      <div id="profilePage" class="page hidden">
-        <div class="page-card">
-          <div class="profile-cover"></div>
-          <div class="profile-head">
-            <div id="profileAvatar" class="avatar big">T</div>
-            <h2 id="profileDisplayName">Mon profil</h2>
-            <div class="muted" id="profileDisplayUsername">@pseudo</div>
-          </div>
-          <hr>
-          <input id="profileUsername" class="field" placeholder="Ton pseudo">
-          <input id="profileFullName" class="field" placeholder="Ton nom complet">
-          <input id="profileEmail" class="field" type="email" disabled placeholder="Ton e-mail">
-          <textarea id="profileBio" class="field" placeholder="Ta présentation..."></textarea>
-          <button class="primary" onclick="saveProfile()">💾 Enregistrer</button>
-          <div id="profileMessage" class="message"></div>
-        </div>
+<div id="profilePage" class="page hidden">
+  <div class="page-card">
+    <div class="profile-cover"></div>
+
+    <div id="profileAvatar" class="avatar big">T</div>
+
+    <h2 id="profileDisplayName">Mon profil</h2>
+
+    <div class="muted" id="profileDisplayUsername">@pseudo</div>
+
+    <hr>
+
+    <input id="profileUsername" class="field" placeholder="Ton pseudo">
+
+    <input id="profileFullName" class="field" placeholder="Ton nom complet">
+
+    <input id="profileEmail" class="field" type="email" disabled placeholder="Ton e-mail">
+
+    <textarea id="profileBio" class="field" placeholder="Ta présentation..."></textarea>
+
+    <!-- PHOTO DE PROFIL -->
+    <label class="field" style="display:block;cursor:pointer;text-align:center;">
+      📷 Choisir une photo
+      <input
+        id="profilePhoto"
+        type="file"
+        accept="image/*"
+        style="display:none"
+        onchange="uploadProfilePhoto()"
+      >
+    </label>
+
+    <div id="photoMessage" class="message"></div>
+
+    <button class="primary" onclick="saveProfile()">💾 Enregistrer</button>
+
+    <button class="secondary" onclick="showPage('homePage')">
+      🏠 Retour
+    </button>
+
+    <div id="profileMessage" class="message"></div>
+  
+</div>
+      
+      
+          
+      
+          
       </div>
 
       <!-- AMIS -->
