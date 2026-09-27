@@ -138,52 +138,198 @@ textarea.field{min-height:100px;resize:vertical}
 
     <main>
       <!-- ACCUEIL -->
-      <div id="homePage" class="page">
-        <div class="card">
-          <h1 class="home-title">Bienvenue sur TrueLove ❤️</h1>
-          <div class="muted">Un espace pour discuter, rencontrer des amis et jouer.</div>
-        </div>
+<div id="homePage" class="page">
 
-        <div class="card">
-          <div class="story-row">
-            <div class="story">➕<br>Créer une story</div>
-            <div class="story">❤️<br>Amour</div>
-            <div class="story">😂<br>Drôle</div>
-            <div class="story">🎮<br>Jeux</div>
-          </div>
+    <!-- BIENVENUE -->
+    <div class="card">
+        <h1 class="home-title">Bienvenue sur TrueLove ❤️</h1>
+        <div class="muted">
+            Partage, discute, rencontre tes amis et joue ensemble.
         </div>
+    </div>
 
-        <div class="card">
-          <div class="composer">
+    <!-- STORIES -->
+    <div class="card">
+        <h3>📖 Stories</h3>
+
+        <div id="tlStories" class="story-row">
+
+            <div class="story" onclick="tlCreateStory()">
+                <div class="story-plus">➕</div>
+                <span>Créer une story</span>
+            </div>
+
+            <div class="story" onclick="tlShowStory('Amour ❤️')">
+                <div class="story-icon">❤️</div>
+                <span>Amour</span>
+            </div>
+
+            <div class="story" onclick="tlShowStory('Drôle 😂')">
+                <div class="story-icon">😂</div>
+                <span>Drôle</span>
+            </div>
+
+            <div class="story" onclick="tlShowStory('Jeux 🎮')">
+                <div class="story-icon">🎮</div>
+                <span>Jeux</span>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- CREER UNE PUBLICATION -->
+    <div class="card">
+
+        <div class="composer">
             <div id="composerAvatar" class="avatar">T</div>
-            <button class="composer-input" onclick="focusPost()">À quoi penses-tu ?</button>
-          </div>
-          <textarea id="postText" class="field hidden" placeholder="Écris une publication..."></textarea>
-          <div id="postButtons" class="quick-actions">
-            <button onclick="showPostBox()">📝 Publication</button>
-            <button onclick="showPostBox()">📷 Photo</button>
-            <button onclick="showPage('gamePage')">🎮 Jeu</button>
-          </div>
-          <button id="publishBtn" class="primary hidden" onclick="publishPost()">Publier</button>
+
+            <button
+                class="composer-input"
+                onclick="tlFocusPost()">
+                À quoi penses-tu ?
+            </button>
         </div>
 
-        <div id="feed">
-          <article class="card">
-            <div class="post-header"><div class="avatar">T</div><div><div class="post-name">TrueLove ❤️</div><div class="post-time">À l'instant · 🌍</div></div></div>
-            <div class="post-text">Bienvenue sur le nouveau fil d'actualité de TrueLove. 👋❤️</div>
-            <div class="post-actions">
-              <button onclick="likePost(this)">👍 J'aime</button><button>💬 Commenter</button><button>↗️ Partager</button>
-            </div>
-          </article>
-          <article class="card">
-            <div class="post-header"><div class="avatar">🎮</div><div><div class="post-name">TrueLove Games</div><div class="post-time">Aujourd'hui · 🌍</div></div></div>
-            <div class="post-text">Qui est prêt pour une partie d'Action ou Vérité ? 🔥</div>
-            <div class="post-actions">
-              <button onclick="likePost(this)">👍 J'aime</button><button>💬 Commenter</button><button onclick="showPage('gamePage')">🎮 Jouer</button>
-            </div>
-          </article>
+        <textarea
+            id="tlPostText"
+            class="field hidden"
+            placeholder="Écris une publication..."
+        ></textarea>
+
+        <!-- PHOTO -->
+        <input
+            type="file"
+            id="tlPhotoInput"
+            accept="image/*"
+            style="display:none"
+            onchange="tlSelectPhoto(event)"
+        >
+
+        <div id="tlPhotoPreview" style="display:none; margin-top:10px;">
+            <img
+                id="tlPreviewImage"
+                style="width:100%; max-height:300px; object-fit:cover; border-radius:12px;"
+            >
         </div>
-      </div>
+
+        <!-- ACTIONS -->
+        <div class="quick-actions">
+
+            <button onclick="tlPublishBox()">
+                📝 Publication
+            </button>
+
+            <button onclick="tlPickPhoto()">
+                📷 Photo
+            </button>
+
+            <button onclick="showPage('gamePage')">
+                🎮 Jeu
+            </button>
+
+        </div>
+
+        <button
+            id="tlPublishBtn"
+            class="primary hidden"
+            onclick="tlPublishPost()">
+            Publier
+        </button>
+
+    </div>
+
+    <!-- FIL D'ACTUALITE -->
+    <div id="tlFeed">
+
+        <!-- PUBLICATION 1 -->
+        <article class="card tl-post">
+
+            <div class="post-header">
+
+                <div class="avatar">T</div>
+
+                <div>
+                    <div class="post-name">
+                        TrueLove ❤️
+                    </div>
+
+                    <div class="muted">
+                        Maintenant
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="post-text">
+                Bienvenue sur le nouveau fil d'actualité de TrueLove ❤️
+            </div>
+
+            <div class="post-actions">
+
+                <button onclick="tlLikePost(this)">
+                    👍 J'aime
+                </button>
+
+                <button onclick="tlCommentPost(this)">
+                    💬 Commenter
+                </button>
+
+                <button onclick="tlSharePost(this)">
+                    ↗️ Partager
+                </button>
+
+            </div>
+
+        </article>
+
+
+        <!-- PUBLICATION 2 -->
+        <article class="card tl-post">
+
+            <div class="post-header">
+
+                <div class="avatar">
+                    🎮
+                </div>
+
+                <div>
+                    <div class="post-name">
+                        TrueLove Jeux
+                    </div>
+
+                    <div class="muted">
+                        Maintenant
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="post-text">
+                Qui est prêt pour une partie d'Action ou Vérité ? 🎯
+            </div>
+
+            <div class="post-actions">
+
+                <button onclick="tlLikePost(this)">
+                    👍 J'aime
+                </button>
+
+                <button onclick="tlCommentPost(this)">
+                    💬 Commenter
+                </button>
+
+                <button onclick="tlSharePost(this)">
+                    ↗️ Partager
+                </button>
+
+            </div>
+
+        </article>
+
+    </div>
+
+</div>
+      
 
       <!-- PROFIL -->
       <div id="profilePage" class="page hidden">
@@ -564,7 +710,520 @@ function escapeHtml(s){
     await ensureProfile();
     enterApp();
   }
-})();
+})();<script>
+/* ==========================================
+   TRUELOVE - PUBLICATIONS ET RESEAUX SOCIAUX
+   ========================================== */
+
+
+/* ---------- OUVRIR LA ZONE PUBLICATION ---------- */
+
+function tlFocusPost() {
+
+    const textarea = document.getElementById("tlPostText");
+    const button = document.getElementById("tlPublishBtn");
+
+    if (!textarea) return;
+
+    textarea.classList.remove("hidden");
+    textarea.focus();
+
+    if (button) {
+        button.classList.remove("hidden");
+    }
+}
+
+
+/* ---------- BOUTON PUBLICATION ---------- */
+
+function tlPublishBox() {
+
+    tlFocusPost();
+
+}
+
+
+/* ---------- CHOISIR UNE PHOTO ---------- */
+
+function tlPickPhoto() {
+
+    const input = document.getElementById("tlPhotoInput");
+
+    if (input) {
+        input.click();
+    }
+
+}
+
+
+/* ---------- AFFICHER LA PHOTO ---------- */
+
+function tlSelectPhoto(event) {
+
+    const file = event.target.files[0];
+
+    if (!file) return;
+
+    const previewBox =
+        document.getElementById("tlPhotoPreview");
+
+    const previewImage =
+        document.getElementById("tlPreviewImage");
+
+    const textarea =
+        document.getElementById("tlPostText");
+
+    const publishButton =
+        document.getElementById("tlPublishBtn");
+
+    const reader = new FileReader();
+
+    reader.onload = function(e) {
+
+        previewImage.src = e.target.result;
+
+        previewBox.style.display = "block";
+
+        if (textarea) {
+            textarea.classList.remove("hidden");
+        }
+
+        if (publishButton) {
+            publishButton.classList.remove("hidden");
+        }
+
+    };
+
+    reader.readAsDataURL(file);
+
+}
+
+
+/* ---------- PUBLIER ---------- */
+
+function tlPublishPost() {
+
+    const textarea =
+        document.getElementById("tlPostText");
+
+    const feed =
+        document.getElementById("tlFeed");
+
+    const photo =
+        document.getElementById("tlPreviewImage");
+
+    const photoBox =
+        document.getElementById("tlPhotoPreview");
+
+    if (!feed) return;
+
+    const text =
+        textarea ? textarea.value.trim() : "";
+
+    const hasPhoto =
+        photo &&
+        photoBox &&
+        photoBox.style.display !== "none" &&
+        photo.src;
+
+    if (!text && !hasPhoto) {
+
+        alert("Écris quelque chose ou ajoute une photo.");
+
+        return;
+    }
+
+
+    /* CREATION DE LA PUBLICATION */
+
+    const article =
+        document.createElement("article");
+
+    article.className = "card tl-post";
+
+
+    /* EN-TETE */
+
+    const header =
+        document.createElement("div");
+
+    header.className = "post-header";
+
+    header.innerHTML = `
+        <div class="avatar">T</div>
+
+        <div>
+            <div class="post-name">
+                Moi ❤️
+            </div>
+
+            <div class="muted">
+                Maintenant
+            </div>
+        </div>
+    `;
+
+
+    /* CONTENU */
+
+    const content =
+        document.createElement("div");
+
+    content.className = "post-text";
+
+    if (text) {
+
+        const textElement =
+            document.createElement("div");
+
+        textElement.textContent = text;
+
+        content.appendChild(textElement);
+
+    }
+
+
+    /* PHOTO */
+
+    if (hasPhoto) {
+
+        const image =
+            document.createElement("img");
+
+        image.src = photo.src;
+
+        image.style.width = "100%";
+        image.style.maxHeight = "400px";
+        image.style.objectFit = "cover";
+        image.style.borderRadius = "12px";
+        image.style.marginTop = "10px";
+
+        content.appendChild(image);
+
+    }
+
+
+    /* BOUTONS */
+
+    const actions =
+        document.createElement("div");
+
+    actions.className = "post-actions";
+
+    actions.innerHTML = `
+        <button onclick="tlLikePost(this)">
+            👍 J'aime
+        </button>
+
+        <button onclick="tlCommentPost(this)">
+            💬 Commenter
+        </button>
+
+        <button onclick="tlSharePost(this)">
+            ↗️ Partager
+        </button>
+    `;
+
+
+    article.appendChild(header);
+    article.appendChild(content);
+    article.appendChild(actions);
+
+
+    /* AJOUTER EN HAUT DU FIL */
+
+    feed.prepend(article);
+
+
+    /* NETTOYER */
+
+    if (textarea) {
+
+        textarea.value = "";
+
+        textarea.classList.add("hidden");
+
+    }
+
+    if (photoBox) {
+
+        photoBox.style.display = "none";
+
+    }
+
+    if (photo) {
+
+        photo.src = "";
+
+    }
+
+    const input =
+        document.getElementById("tlPhotoInput");
+
+    if (input) {
+
+        input.value = "";
+
+    }
+
+    const publishButton =
+        document.getElementById("tlPublishBtn");
+
+    if (publishButton) {
+
+        publishButton.classList.add("hidden");
+
+    }
+
+}
+
+
+/* ---------- J'AIME ---------- */
+
+function tlLikePost(button) {
+
+    if (!button) return;
+
+
+    if (button.dataset.liked === "true") {
+
+        button.dataset.liked = "false";
+
+        button.innerHTML = "👍 J'aime";
+
+    } else {
+
+        button.dataset.liked = "true";
+
+        button.innerHTML = "❤️ J'aime";
+
+    }
+
+}
+
+
+/* ---------- COMMENTER ---------- */
+
+function tlCommentPost(button) {
+
+    const post =
+        button.closest(".tl-post");
+
+    if (!post) return;
+
+
+    let commentBox =
+        post.querySelector(".tl-comment-box");
+
+
+    /* CREER LA ZONE SI ELLE N'EXISTE PAS */
+
+    if (!commentBox) {
+
+        commentBox =
+            document.createElement("div");
+
+        commentBox.className =
+            "tl-comment-box";
+
+        commentBox.style.marginTop = "10px";
+
+        commentBox.innerHTML = `
+            <input
+                class="field"
+                placeholder="Écris un commentaire..."
+            >
+
+            <button class="primary">
+                Envoyer
+            </button>
+
+            <div class="tl-comments"></div>
+        `;
+
+        post.appendChild(commentBox);
+
+
+        const input =
+            commentBox.querySelector("input");
+
+        const send =
+            commentBox.querySelector("button");
+
+        const comments =
+            commentBox.querySelector(".tl-comments");
+
+
+        send.onclick = function() {
+
+            const value =
+                input.value.trim();
+
+            if (!value) return;
+
+
+            const comment =
+                document.createElement("div");
+
+            comment.style.marginTop = "8px";
+
+            comment.innerHTML =
+                "💬 <strong>Moi :</strong> "
+                + escapeHTML(value);
+
+
+            comments.appendChild(comment);
+
+            input.value = "";
+
+        };
+
+    }
+
+
+    const input =
+        commentBox.querySelector("input");
+
+    if (input) {
+
+        input.focus();
+
+    }
+
+}
+
+
+/* ---------- PARTAGER ---------- */
+
+async function tlSharePost(button) {
+
+    const post =
+        button.closest(".tl-post");
+
+    if (!post) return;
+
+
+    const textElement =
+        post.querySelector(".post-text");
+
+    const text =
+        textElement
+            ? textElement.innerText
+            : "Publication TrueLove ❤️";
+
+
+    /* PARTAGE TELEPHONE */
+
+    if (navigator.share) {
+
+        try {
+
+            await navigator.share({
+
+                title: "TrueLove ❤️",
+
+                text: text
+
+            });
+
+            return;
+
+        } catch (error) {
+
+            /* L'utilisateur a annulé */
+
+        }
+
+    }
+
+
+    /* COPIER LE TEXTE SI LE PARTAGE NATIF N'EST PAS DISPONIBLE */
+
+    try {
+
+        await navigator.clipboard.writeText(text);
+
+        alert("Publication copiée. Tu peux maintenant la partager.");
+
+    } catch (error) {
+
+        alert("Partage non disponible sur ce téléphone.");
+
+    }
+
+}
+
+
+/* ---------- CREER UNE STORY ---------- */
+
+function tlCreateStory() {
+
+    const text =
+        prompt("Écris ta story :");
+
+
+    if (!text || !text.trim()) {
+
+        return;
+
+    }
+
+
+    const stories =
+        document.getElementById("tlStories");
+
+    if (!stories) return;
+
+
+    const story =
+        document.createElement("div");
+
+    story.className = "story";
+
+    story.onclick = function() {
+
+        tlShowStory(text);
+
+    };
+
+
+    story.innerHTML = `
+        <div class="story-icon">❤️</div>
+        <span>Ma story</span>
+    `;
+
+
+    stories.appendChild(story);
+
+
+    alert("Story créée ❤️");
+
+}
+
+
+/* ---------- AFFICHER UNE STORY ---------- */
+
+function tlShowStory(text) {
+
+    alert("📖 Story :\n\n" + text);
+
+}
+
+
+/* ---------- SECURITE TEXTE ---------- */
+
+function escapeHTML(text) {
+
+    const div =
+        document.createElement("div");
+
+    div.textContent = text;
+
+    return div.innerHTML;
+
+}
+
+
 </script>
 </body>
 </html>
