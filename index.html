@@ -512,7 +512,7 @@ friends.style.boxSizing='border-box';
         results.innerHTML = data.map(user => `
 <button
     type="button"
-    onclick="alert('BOUTON CLIQUÉ')"
+    onclick="openUserProfile('${user.id}')"
     style="
         width:100%;
         background:rgba(255,255,255,0.15);
@@ -532,7 +532,7 @@ friends.style.boxSizing='border-box';
         
 
 async function openUserProfile(userId) {
-    alert("LE PROFIL S'OUVRE");
+    alert("ID REÇU : " + userId);
 }
 
     
