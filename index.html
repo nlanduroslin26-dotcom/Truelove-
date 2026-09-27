@@ -1112,13 +1112,72 @@ loadMessages();
 
 async function loadMessages(){
 
-const conversations =
-document.getElementById("conversations");
+    const conversations =
+    document.getElementById("conversations");
 
-conversations.innerHTML =
-"💬 Les messages seront disponibles ici.";
+    if(!currentUser){
+        conversations.innerHTML =
+        "❌ Tu dois être connecté.";
+        return;
+    }
+
+    if(!selectedConversationUserId){
+        conversations.innerHTML =
+        "💬 Choisis une conversation.";
+        return;
+    }
+
+    const { data, error } = await supabaseClient
+    .from("MESSAGES")
+    .select("sender_id,receiver_id,content")
+    .or(
+        `and(sender_id.eq.${currentUser.id},receiver_id.eq.${selectedConversationUserId}),and(sender_id.eq.${selectedConversationUserId},receiver_id.eq.${currentUser.id})`
+    )
+    .order("created_at", { ascending: true });
+
+    if(error){
+        conversations.innerHTML =
+        "❌ Erreur : " + error.message;
+        return;
+    }
+
+    if(!data || data.length === 0){
+        conversations.innerHTML =
+        "💬 Aucun message pour le moment.";
+        return;
+    }
+
+    conversations.innerHTML = "";
+
+    data.forEach(message => {
+
+        const div = document.createElement("div");
+
+        div.className = "message-box";
+
+        if(message.sender_id === currentUser.id){
+            div.innerHTML =
+            "🧑 <strong>Moi :</strong> " +
+            message.content;
+        }else{
+            div.innerHTML =
+            "👤 <strong>Lui :</strong> " +
+            message.content;
+        }
+
+        conversations.appendChild(div);
+
+    });
 
 }
+
+
+
+
+
+
+
+
 
 
 /* =====================================================
