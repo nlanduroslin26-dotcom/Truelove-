@@ -862,17 +862,406 @@ async function loadProfile(){
 
 if(!currentUser) return;
 
-
 document.getElementById("profileEmail").value =
 currentUser.email || "";
-
 
 const {data,error} =
 await supabaseClient
 .from("PROFILS")
 .select("Username,Full_name,Bio")
 .eq("id",currentUser.id)
-.m
+.maybeSingle();
+
+if(error){
+
+document.getElementById("profileMessage").textContent =
+"❌ " + error.message;
+
+return;
+}
+
+if(data){
+
+document.getElementById("profileUsername").value =
+data.Username || "";
+
+document.getElementById("profileFullName").value =
+data.Full_name || "";
+
+document.getElementById("profileBio").value =
+data.Bio || "";
+
+}
+
+}
+
+
+/* =====================================================
+   ENREGISTRER LE PROFIL
+===================================================== */
+
+async function saveProfile(){
+
+if(!currentUser) return;
+
+const username =
+document.getElementById("profileUsername").value.trim();
+
+const fullName =
+document.getElementById("profileFullName").value.trim();
+
+const bio =
+document.getElementById("profileBio").value.trim();
+
+const message =
+document.getElementById("profileMessage");
+
+message.textContent =
+"Enregistrement...";
+
+const {error} =
+await supabaseClient
+.from("PROFILS")
+.update({
+Username: username,
+Full_name: fullName,
+Bio: bio
+})
+.eq("id",currentUser.id);
+
+if(error){
+
+message.textContent =
+"❌ " + error.message;
+
+return;
+}
+
+message.textContent =
+"✅ Profil enregistré !";
+
+}
+
+
+/* =====================================================
+   RECHERCHE DES AMIS
+===================================================== */
+
+async function searchFriends(){
+
+const search =
+document.getElementById("friendSearch").value.trim();
+
+const results =
+document.getElementById("friendsResults");
+
+if(!search){
+
+results.innerHTML =
+"⚠️ Entre un pseudo à rechercher.";
+
+return;
+}
+
+results.innerHTML =
+"🔎 Recherche...";
+
+const {data,error} =
+await supabaseClient
+.from("PROFILS")
+.select("id,Username,Full_name")
+.ilike("Username","%" + search + "%");
+
+if(error){
+
+results.innerHTML =
+"❌ " + error.message;
+
+return;
+}
+
+if(!data || data.length === 0){
+
+results.innerHTML =
+"😔 Aucun utilisateur trouvé.";
+
+return;
+}
+
+results.innerHTML = "";
+
+data.forEach(user => {
+
+if(user.id === currentUser.id) return;
+
+const div =
+document.createElement("div");
+
+div.className = "result-user";
+
+div.innerHTML = `
+<strong>👤 ${user.Username || "Sans pseudo"}</strong>
+<br>
+<span>${user.Full_name || ""}</span>
+`;
+
+div.onclick = function(){
+
+openUserProfile(user.id);
+
+};
+
+results.appendChild(div);
+
+});
+
+}
+
+
+/* =====================================================
+   OUVRIR PROFIL UTILISATEUR
+===================================================== */
+
+async function openUserProfile(userId){
+
+selectedUserId = userId;
+
+showPage("userProfilePage");
+
+const content =
+document.getElementById("userProfileContent");
+
+content.innerHTML =
+"🔎 Chargement du profil...";
+
+const {data,error} =
+await supabaseClient
+.from("PROFILS")
+.select("Username,Full_name,Bio")
+.eq("id",userId)
+.maybeSingle();
+
+if(error){
+
+content.innerHTML =
+"❌ " + error.message;
+
+return;
+}
+
+if(!data){
+
+content.innerHTML =
+"❌ Profil introuvable.";
+
+return;
+}
+
+content.innerHTML = `
+<h2>👤 ${data.Username || "Utilisateur"}</h2>
+
+<p><strong>Nom :</strong><br>
+${data.Full_name || "Non renseigné"}</p>
+
+<p><strong>Présentation :</strong><br>
+${data.Bio || "Aucune présentation."}</p>
+`;
+
+}
+
+
+/* =====================================================
+   MESSAGE DEPUIS PROFIL
+===================================================== */
+
+function startConversationFromProfile(){
+
+if(!selectedUserId){
+
+alert("Utilisateur introuvable.");
+
+return;
+}
+
+selectedConversationUserId =
+selectedUserId;
+
+showPage("messagesPage");
+
+loadMessages();
+
+}
+
+
+/* =====================================================
+   MESSAGES
+===================================================== */
+
+async function loadMessages(){
+
+const conversations =
+document.getElementById("conversations");
+
+conversations.innerHTML =
+"💬 Les messages seront disponibles ici.";
+
+}
+
+
+/* =====================================================
+   ENVOYER MESSAGE
+===================================================== */
+
+async function sendMessage(){
+
+if(!selectedConversationUserId){
+
+alert("Choisis d'abord une conversation.");
+
+return;
+}
+
+const input =
+document.getElementById("messageInput");
+
+const text =
+input.value.trim();
+
+if(!text) return;
+
+alert("Message prêt à être enregistré : " + text);
+
+input.value = "";
+
+}
+
+
+/* =====================================================
+   NOTIFICATIONS
+===================================================== */
+
+async function loadNotifications(){
+
+document.getElementById("notificationsList").innerHTML =
+`
+<div class="notification-box">
+🔔 Aucune nouvelle notification.
+</div>
+`;
+
+}
+
+
+/* =====================================================
+   JEU
+===================================================== */
+
+function openGame(){
+
+showPage("gamePage");
+
+}
+
+function closeGame(){
+
+showPage("homePage");
+
+}
+
+function showQuestion(type){
+
+let list =
+type === "truth" ? truths : actions;
+
+const random =
+Math.floor(Math.random() * list.length);
+
+document.getElementById("question").textContent =
+list[random];
+
+document.getElementById("mode").textContent =
+type === "truth"
+? "💜 Vérité"
+: "🔥 Action";
+
+}
+
+function nextTurn(){
+
+turn++;
+
+document.getElementById("turn").textContent =
+"Tour de Joueur " + (turn + 1);
+
+document.getElementById("question").textContent =
+"À toi de choisir 😍";
+
+document.getElementById("mode").textContent =
+"Choisis Action ou Vérité";
+
+}
+
+
+/* =====================================================
+   DECONNEXION
+===================================================== */
+
+async function deconnexion(){
+
+await supabaseClient.auth.signOut();
+
+currentUser = null;
+
+document.getElementById("app")
+.classList.add("hidden");
+
+document.getElementById("auth")
+.classList.remove("hidden");
+
+document.getElementById("email").value = "";
+document.getElementById("password").value = "";
+
+document.getElementById("authMessage").textContent =
+"";
+
+showPage("homePage");
+
+}
+
+
+/* =====================================================
+   SESSION EXISTANTE
+===================================================== */
+
+async function checkSession(){
+
+const {data} =
+await supabaseClient.auth.getSession();
+
+if(data.session){
+
+currentUser =
+data.session.user;
+
+openApp();
+
+}
+
+}
+
+
+/* =====================================================
+   LANCEMENT
+===================================================== */
+
+checkSession();
+
+</script>
+
+</body>
+</html>
+
+
     
     
     
