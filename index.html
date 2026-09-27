@@ -1089,21 +1089,41 @@ ${data.Bio || "Aucune présentation."}</p>
 
 function startConversationFromProfile(){
 
-if(!selectedUserId){
+    if(!selectedUserId){
 
-alert("Utilisateur introuvable.");
+        alert("Utilisateur introuvable.");
 
-return;
+        return;
+    }
+
+    selectedConversationUserId =
+    selectedUserId;
+
+    showPage("messagesPage");
+
+    const chatArea =
+    document.getElementById("chatArea");
+
+    chatArea.classList.remove("hidden");
+
+    loadMessages();
+
 }
 
-selectedConversationUserId =
-selectedUserId;
 
-showPage("messagesPage");
 
-loadMessages();
 
-}
+
+
+
+
+
+
+
+
+
+
+
 
 
 /* =====================================================
