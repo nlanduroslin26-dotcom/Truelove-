@@ -12,42 +12,61 @@
 
 body{
   margin:0;
-  font-family:Arial,sans-serif;
+  font-family:Arial,Helvetica,sans-serif;
   min-height:100vh;
-  background:linear-gradient(135deg,#7b1fa2,#e91e63,#ff7043);
-  color:white;
-  padding:15px;
+  background:#f0f2f5;
+  color:#050505;
+  padding:0;
 }
 
+/* CONTENEUR PRINCIPAL */
 .card{
   width:100%;
   max-width:600px;
+  min-height:100vh;
   margin:auto;
-  background:rgba(255,255,255,.12);
-  backdrop-filter:blur(10px);
-  border-radius:25px;
-  padding:20px;
-  box-shadow:0 15px 45px rgba(0,0,0,.35);
+  background:#f0f2f5;
+  padding:0;
+  box-shadow:none;
 }
 
+/* TITRES */
 h1,h2{
   text-align:center;
+  margin:0;
 }
 
+h1{
+  font-size:25px;
+}
+
+h2{
+  font-size:21px;
+}
+
+/* SOUS-TITRE */
 .subtitle{
   text-align:center;
-  opacity:.85;
-  margin-bottom:20px;
+  color:#65676b;
+  margin-bottom:15px;
 }
 
+/* CHAMPS */
 input,textarea{
   width:100%;
-  padding:14px;
+  padding:13px;
   margin:7px 0;
-  border:0;
-  border-radius:14px;
+  border:1px solid #ccd0d5;
+  border-radius:8px;
   font-size:16px;
   outline:none;
+  background:white;
+  color:#050505;
+}
+
+input:focus,
+textarea:focus{
+  border-color:#1877f2;
 }
 
 textarea{
@@ -55,62 +74,70 @@ textarea{
   resize:vertical;
 }
 
+/* BOUTONS */
 button{
   width:100%;
-  padding:14px;
-  margin:7px 0;
+  padding:12px;
+  margin:5px 0;
   border:0;
-  border-radius:15px;
+  border-radius:8px;
   font-size:16px;
   font-weight:bold;
   cursor:pointer;
 }
 
 .start{
-  background:#ff4081;
+  background:#1877f2;
   color:white;
 }
 
 .action{
-  background:#7b1fa2;
+  background:#42b72a;
   color:white;
 }
 
 .truth{
-  background:#673ab7;
+  background:#f02849;
   color:white;
 }
 
 .next{
-  background:#ffd166;
-  color:#5b3b00;
+  background:#f7b928;
+  color:#050505;
 }
 
 .back{
-  background:rgba(255,255,255,.2);
-  color:white;
+  background:#e4e6eb;
+  color:#050505;
 }
 
+/* BOUTONS SOCIAUX */
 .social-button{
-  background:rgba(255,255,255,.18);
-  color:white;
-  border:1px solid rgba(255,255,255,.15);
+  background:white;
+  color:#050505;
+  border:1px solid #dddfe2;
+  border-radius:8px;
+  padding:12px;
 }
 
+/* MENU */
 .nav-grid{
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:8px;
 }
 
+/* ÉLÉMENTS CACHÉS */
 .hidden{
   display:none !important;
 }
 
+/* PAGES */
 .page{
   width:100%;
 }
 
+/* QUESTION DE JEU */
 .question{
   min-height:170px;
   display:flex;
@@ -119,10 +146,11 @@ button{
   text-align:center;
   font-size:23px;
   font-weight:bold;
-  border-radius:18px;
-  background:rgba(255,255,255,.12);
+  border-radius:12px;
+  background:white;
   padding:20px;
   margin:15px 0;
+  box-shadow:0 1px 2px rgba(0,0,0,.15);
 }
 
 .player{
@@ -133,65 +161,335 @@ button{
 
 .mode{
   text-align:center;
-  opacity:.85;
-  margin-top:15px;
+  opacity:.7;
+  margin-top:10px;
 }
 
 .small{
   text-align:center;
   font-size:14px;
-  opacity:.9;
+  color:#65676b;
   margin-top:10px;
 }
 
+/* RECHERCHE UTILISATEUR */
 .result-user{
-  background:rgba(255,255,255,.15);
+  background:white;
   padding:15px;
   margin:10px 0;
-  border-radius:15px;
+  border-radius:10px;
   cursor:pointer;
-  border:1px solid rgba(255,255,255,.2);
+  border:1px solid #dddfe2;
+  box-shadow:0 1px 2px rgba(0,0,0,.08);
+  transition:.2s;
 }
 
 .result-user:hover{
-  background:rgba(255,255,255,.25);
+  background:#f5f6f7;
 }
 
+/* PROFIL */
 .profile-box{
   text-align:center;
-  background:rgba(255,255,255,.12);
-  border-radius:20px;
+  background:white;
+  border-radius:12px;
   padding:20px;
+  margin:10px 0;
+  box-shadow:0 1px 2px rgba(0,0,0,.12);
 }
 
+/* MESSAGES */
 .message-box{
-  background:rgba(255,255,255,.12);
+  background:white;
   padding:12px;
-  border-radius:15px;
-  margin:8px 0;
+  border-radius:12px;
+  margin:10px 0;
 }
 
+/* MESSAGE ENVOYÉ */
 .message-me{
   text-align:right;
+  background:#0084ff;
+  color:white;
+  padding:10px 14px;
+  border-radius:18px 18px 4px 18px;
+  margin:8px 0 8px 25%;
 }
 
+/* MESSAGE REÇU */
 .message-other{
   text-align:left;
+  background:#e4e6eb;
+  color:#050505;
+  padding:10px 14px;
+  border-radius:18px 18px 18px 4px;
+  margin:8px 25% 8px 0;
 }
 
+/* NOTIFICATIONS */
 .notification-box{
-  background:rgba(255,255,255,.12);
+  background:white;
   padding:15px;
-  border-radius:15px;
+  border-radius:12px;
   margin:8px 0;
+  box-shadow:0 1px 2px rgba(0,0,0,.08);
 }
 
+/* LIGNE DE SÉPARATION */
 hr{
   border:0;
-  border-top:1px solid rgba(255,255,255,.2);
-  margin:20px 0;
+  border-top:1px solid #dddfe2;
+  margin:15px 0;
 }
-</style>
+
+/* PAGE CONNEXION */
+#auth{
+  padding:20px;
+  background:#f0f2f5;
+  min-height:100vh;
+}
+
+#auth h1{
+  color:#1877f2;
+  font-size:40px;
+  margin-top:35px;
+  margin-bottom:10px;
+}
+
+#auth .subtitle{
+  font-size:17px;
+  color:#65676b;
+}
+
+/* APPLICATION */
+#app{
+  width:100%;
+  background:#f0f2f5;
+  min-height:100vh;
+}
+
+/* ACCUEIL STYLE FACEBOOK */
+#homePage{
+  background:#f0f2f5;
+}
+
+/* EN-TÊTE */
+.facebook-header{
+  position:sticky;
+  top:0;
+  z-index:1000;
+  background:white;
+  border-bottom:1px solid #dddfe2;
+  padding:10px 12px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+/* NOM TRUELOVE */
+.facebook-logo{
+  color:#1877f2;
+  font-size:24px;
+  font-weight:bold;
+}
+
+/* BARRE DE RECHERCHE */
+.search-box{
+  background:#f0f2f5;
+  border-radius:20px;
+  padding:9px 15px;
+  border:0;
+}
+
+/* MENU SOCIAL */
+.social-menu{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  background:white;
+  border-bottom:1px solid #dddfe2;
+  margin-bottom:8px;
+}
+
+.social-menu button{
+  background:white;
+  color:#65676b;
+  border-radius:0;
+  margin:0;
+  padding:12px 5px;
+  font-size:14px;
+}
+
+/* CARTE PUBLICATION */
+.post{
+  background:white;
+  margin:8px 0;
+  padding:12px;
+  border-top:1px solid #dddfe2;
+  border-bottom:1px solid #dddfe2;
+}
+
+.post-header{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.avatar{
+  width:42px;
+  height:42px;
+  border-radius:50%;
+  background:#1877f2;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:white;
+  font-weight:bold;
+}
+
+.post-name{
+  font-weight:bold;
+}
+
+.post-time{
+  color:#65676b;
+  font-size:12px;
+}
+
+.post-content{
+  margin-top:12px;
+  line-height:1.4;
+}
+
+/* ACTIONS PUBLICATION */
+.post-actions{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  border-top:1px solid #dddfe2;
+  margin-top:10px;
+  padding-top:5px;
+}
+
+.post-actions button{
+  background:white;
+  color:#65676b;
+  margin:0;
+  font-size:14px;
+}
+
+/* PROFIL UTILISATEUR */
+.user-profile{
+  background:white;
+  padding:20px;
+  text-align:center;
+  border-radius:0 0 12px 12px;
+}
+
+.profile-avatar{
+  width:90px;
+  height:90px;
+  border-radius:50%;
+  margin:auto;
+  background:#1877f2;
+  color:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:35px;
+  font-weight:bold;
+}
+
+/* AMIS */
+.friend-card{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  background:white;
+  padding:12px;
+  margin:6px 0;
+  border-radius:8px;
+  cursor:pointer;
+}
+
+/* BARRE DE RECHERCHE AMIS */
+#friendSearch{
+  background:white;
+  border-radius:20px;
+}
+
+/* MESSAGES */
+.messages-list{
+  background:white;
+  border-radius:10px;
+  overflow:hidden;
+}
+
+.conversation{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:12px;
+  border-bottom:1px solid #dddfe2;
+  cursor:pointer;
+}
+
+.conversation:hover{
+  background:#f0f2f5;
+}
+
+/* NOTIFICATIONS */
+.notification{
+  background:white;
+  padding:14px;
+  margin:6px 0;
+  border-radius:8px;
+}
+
+/* PARAMÈTRES */
+.settings-box{
+  background:white;
+  border-radius:10px;
+  padding:15px;
+  margin:10px 0;
+}
+
+.settings-item{
+  padding:14px 5px;
+  border-bottom:1px solid #dddfe2;
+}
+
+/* MOBILE */
+@media(max-width:600px){
+
+  .card{
+    max-width:100%;
+  }
+
+  body{
+    font-size:15px;
+  }
+
+  h1{
+    font-size:23px;
+  }
+
+  .question{
+    font-size:20px;
+    min-height:150px;
+  }
+
+  button{
+    padding:13px 10px;
+  }
+
+  .nav-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+}
+  
+
+
+
 </head>
 
 <body>
