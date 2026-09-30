@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TrueBook </title>
+<title>TrueBook ❤️</title>
 <style>
 *{box-sizing:border-box}
 body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f0f2f5;color:#050505}
@@ -97,7 +97,7 @@ textarea.field{min-height:100px;resize:vertical}
 <!-- CONNEXION -->
 <section id="auth">
   <div class="auth-card">
-    <div class="auth-logo">TrueBook </div>
+    <div class="auth-logo">TrueBook ❤️</div>
     <div class="auth-sub">Connecte-toi pour entrer dans ton réseau social.</div>
     <input id="email" class="field" type="email" placeholder="Ton adresse e-mail">
     <input id="password" class="field" type="password" placeholder="Mot de passe">
@@ -110,8 +110,8 @@ textarea.field{min-height:100px;resize:vertical}
 <!-- APPLICATION -->
 <section id="app" class="hidden">
   <header class="topbar">
-    <div class="logo">TrueBook</div>
-    <input id="globalSearch" class="search" placeholder="🔎 Rechercher sur TrueLove..." onkeydown="if(event.key==='Enter') globalSearch()">
+    <div class="logo">TrueLove</div>
+    <input id="globalSearch" class="search" placeholder="🔎 Rechercher sur TrueBook..." onkeydown="if(event.key==='Enter') globalSearch()">
     <div class="top-actions">
       <button class="icon-btn" onclick="showPage('homePage')" title="Accueil">⌂</button>
       <button class="icon-btn" onclick="showPage('messagesPage');loadConversations()" title="Messages">💬</button>
@@ -140,7 +140,7 @@ textarea.field{min-height:100px;resize:vertical}
       <!-- ACCUEIL -->
       <div id="homePage" class="page">
         <div class="card">
-          <h1 class="home-title">Bienvenue sur TrueBook</h1>
+          <h1 class="home-title">Bienvenue sur TrueBook ❤️</h1>
           <div class="muted">Un espace pour discuter, rencontrer des amis et jouer.</div>
         </div>
 
@@ -159,9 +159,11 @@ textarea.field{min-height:100px;resize:vertical}
             <button class="composer-input" onclick="focusPost()">À quoi penses-tu ?</button>
           </div>
           <textarea id="postText" class="field hidden" placeholder="Écris une publication..."></textarea>
+          <input id="postPhoto" type="file" accept="image/*" style="display:none" onchange="previewPhoto(event)">
+          <div id="photoPreview"></div>
           <div id="postButtons" class="quick-actions">
             <button onclick="showPostBox()">📝 Publication</button>
-            <button onclick="showPostBox()">📷 Photo</button>
+            <button onclick="document.getElementById('postPhoto').click();showPostBox()">📷 Photo</button>
             <button onclick="showPage('gamePage')">🎮 Jeu</button>
           </div>
           <button id="publishBtn" class="primary hidden" onclick="publishPost()">Publier</button>
@@ -169,14 +171,14 @@ textarea.field{min-height:100px;resize:vertical}
 
         <div id="feed">
           <article class="card">
-            <div class="post-header"><div class="avatar">T</div><div><div class="post-name">TrueBook</div><div class="post-time">À l'instant · 🌍</div></div></div>
-            <div class="post-text">Bienvenue sur le nouveau fil d'actualité de TrueBook. 👋</div>
+            <div class="post-header"><div class="avatar">T</div><div><div class="post-name">TrueBook ❤️</div><div class="post-time">À l'instant · 🌍</div></div></div>
+            <div class="post-text">Bienvenue sur le nouveau fil d'actualité de TrueBook. 👋❤️</div>
             <div class="post-actions">
-              <button onclick="likePost(this)">👍 J'aime</button><button>💬 Commenter</button><button>↗️ Partager</button>
+              <button onclick="likePost(null,this)">👍 J'aime</button><button>💬 Commenter</button><button onclick="sharePost(null)">↗️ Partager</button>
             </div>
           </article>
           <article class="card">
-            <div class="post-header"><div class="avatar">🎮</div><div><div class="post-name">TrueLove Games</div><div class="post-time">Aujourd'hui · 🌍</div></div></div>
+            <div class="post-header"><div class="avatar">🎮</div><div><div class="post-name">TrueBook Games</div><div class="post-time">Aujourd'hui · 🌍</div></div></div>
             <div class="post-text">Qui est prêt pour une partie d'Action ou Vérité ? 🔥</div>
             <div class="post-actions">
               <button onclick="likePost(this)">👍 J'aime</button><button>💬 Commenter</button><button onclick="showPage('gamePage')">🎮 Jouer</button>
@@ -186,61 +188,29 @@ textarea.field{min-height:100px;resize:vertical}
       </div>
 
       <!-- PROFIL -->
-<div id="profilePage" class="page hidden">
-  <div class="page-card">
-    <div class="profile-cover"></div>
-
-    <div id="profileAvatar" class="avatar big">T</div>
-
-    <h2 id="profileDisplayName">Mon profil</h2>
-
-    <div class="muted" id="profileDisplayUsername">@pseudo</div>
-
-    <hr>
-
-    <input id="profileUsername" class="field" placeholder="Ton pseudo">
-
-    <input id="profileFullName" class="field" placeholder="Ton nom complet">
-
-    <input id="profileEmail" class="field" type="email" disabled placeholder="Ton e-mail">
-
-    <textarea id="profileBio" class="field" placeholder="Ta présentation..."></textarea>
-
-    <!-- PHOTO DE PROFIL -->
-    <label class="field" style="display:block;cursor:pointer;text-align:center;">
-      📷 Choisir une photo
-      <input
-        id="profilePhoto"
-        type="file"
-        accept="image/*"
-        style="display:none"
-        onchange="uploadProfilePhoto()"
-      >
-    </label>
-
-    <div id="photoMessage" class="message"></div>
-
-    <button class="primary" onclick="saveProfile()">💾 Enregistrer</button>
-
-    <button class="secondary" onclick="showPage('homePage')">
-      🏠 Retour
-    </button>
-
-    <div id="profileMessage" class="message"></div>
-  
-</div>
-      
-      
-          
-      
-          
+      <div id="profilePage" class="page hidden">
+        <div class="page-card">
+          <div class="profile-cover"></div>
+          <div class="profile-head">
+            <div id="profileAvatar" class="avatar big">T</div>
+            <h2 id="profileDisplayName">Mon profil</h2>
+            <div class="muted" id="profileDisplayUsername">@pseudo</div>
+          </div>
+          <hr>
+          <input id="profileUsername" class="field" placeholder="Ton pseudo">
+          <input id="profileFullName" class="field" placeholder="Ton nom complet">
+          <input id="profileEmail" class="field" type="email" disabled placeholder="Ton e-mail">
+          <textarea id="profileBio" class="field" placeholder="Ta présentation..."></textarea>
+          <button class="primary" onclick="saveProfile()">💾 Enregistrer</button>
+          <div id="profileMessage" class="message"></div>
+        </div>
       </div>
 
       <!-- AMIS -->
       <div id="friendsPage" class="page hidden">
         <div class="page-card">
           <h2>👥 Amis</h2>
-          <div class="muted">Recherche des personnes inscrites sur TrueLove.</div>
+          <div class="muted">Recherche des personnes inscrites sur TrueBook.</div>
           <input id="friendSearch" class="field" placeholder="🔎 Rechercher un pseudo..." onkeydown="if(event.key==='Enter')searchFriends()">
           <button class="primary" onclick="searchFriends()">Rechercher</button>
           <div id="friendsResults"></div>
@@ -290,7 +260,7 @@ textarea.field{min-height:100px;resize:vertical}
         <div class="page-card">
           <h2>🔔 Notifications</h2>
           <div id="notificationsList">
-            <div class="notice">Bienvenue sur TrueBook</div>
+            <div class="notice">Bienvenue sur TrueBook ❤️</div>
             <div class="notice">Les notifications sociales pourront être reliées à Supabase ensuite.</div>
           </div>
         </div>
@@ -325,7 +295,7 @@ textarea.field{min-height:100px;resize:vertical}
 
     <aside class="rightbar">
       <div class="card"><b>Suggestions</b><p class="muted">Recherche des utilisateurs pour commencer à créer ton réseau.</p><button class="primary" onclick="showPage('friendsPage')">👥 Trouver des amis</button></div>
-      <div class="card"><b>TrueBook</b><p class="muted">Discute, joue et partage avec tes proches.</p></div>
+      <div class="card"><b>TrueBook ❤️</b><p class="muted">Discute, joue et partage avec tes proches.</p></div>
     </aside>
   </div>
 </section>
@@ -408,6 +378,7 @@ function enterApp(){
   document.getElementById("app").classList.remove("hidden");
   showPage("homePage");
   loadProfile();
+  loadPublications();
 }
 
 async function loadProfile(){
@@ -536,7 +507,7 @@ function closeConversation(){
 }
 
 async function loadNotifications(){
-  document.getElementById("notificationsList").innerHTML='<div class="notice">🔔 Bienvenue sur TrueLove.</div><div class="notice">Les notifications sociales sont prêtes à être reliées à une table dédiée.</div>';
+  document.getElementById("notificationsList").innerHTML='<div class="notice">🔔 Bienvenue sur TrueBook.</div><div class="notice">Les notifications sociales sont prêtes à être reliées à une table dédiée.</div>';
 }
 
 function showPage(id){
@@ -559,40 +530,135 @@ function showPostBox(){
   document.getElementById("postText").focus();
 }
 function focusPost(){showPostBox()}
+
+function previewPhoto(event){
+  const file=event.target.files[0];
+  const box=document.getElementById("photoPreview");
+  box.innerHTML="";
+  if(!file)return;
+  const img=document.createElement("img");
+  img.src=URL.createObjectURL(file);
+  img.style.width="100%";
+  img.style.maxHeight="300px";
+  img.style.objectFit="cover";
+  img.style.borderRadius="12px";
+  img.style.marginTop="10px";
+  box.appendChild(img);
+  showPostBox();
+}
+
 async function publishPost(){
+  if(!currentUser){alert("Tu dois être connecté.");return;}
 
-  if(!currentUser){
-    alert("Tu dois être connecté.");
-    return;
+  const text=document.getElementById("postText").value.trim();
+  const input=document.getElementById("postPhoto");
+  const photo=input.files[0];
+  if(!text && !photo){alert("Écris quelque chose ou ajoute une photo.");return;}
+
+  let photoUrl=null;
+
+  if(photo){
+    const ext=(photo.name.split(".").pop()||"jpg").toLowerCase();
+    const fileName=currentUser.id+"/"+Date.now()+"."+ext;
+    const {error:uploadError}=await supabaseClient.storage.from("publications").upload(fileName,photo,{upsert:false,contentType:photo.type});
+    if(uploadError){alert("Erreur lors de l'envoi de la photo : "+uploadError.message);return;}
+    const {data:urlData}=supabaseClient.storage.from("publications").getPublicUrl(fileName);
+    photoUrl=urlData.publicUrl;
   }
 
-  const text = document.getElementById("postText").value.trim();
+  const {data,error}=await supabaseClient.from("PUBLICATIONS").insert({
+    user_id:currentUser.id,
+    content:text||null,
+    photo_url:photoUrl
+  }).select("id,user_id,content,photo_url,created_at").single();
 
-  if(!text){
-    alert("Écris quelque chose avant de publier.");
-    return;
-  }
+  if(error){alert("Erreur lors de la publication : "+error.message);return;}
 
-  const { error } = await supabaseClient
-    .from("PUBLICATIONS")
-    .insert({
-      user_id: currentUser.id,
-      content: text
-    });
-
-  if(error){
-    alert("Erreur lors de la publication : " + error.message);
-    return;
-  }
-
-  document.getElementById("postText").value = "";
+  document.getElementById("postText").value="";
+  input.value="";
+  document.getElementById("photoPreview").innerHTML="";
   document.getElementById("postText").classList.add("hidden");
   document.getElementById("publishBtn").classList.add("hidden");
-
   alert("Publication envoyée avec succès !");
+  await loadPublications();
+}
 
- }
-function likePost(btn){btn.textContent=btn.textContent.includes("👍")?"❤️ J’aime":"👍 J’aime"}
+function renderPublication(p,profile){
+  const article=document.createElement("article");
+  article.className="card";
+  const name=profile?.Full_name||profile?.Username||"Utilisateur";
+  const letter=(name.trim()[0]||"U").toUpperCase();
+  const time=p.created_at?new Date(p.created_at).toLocaleString("fr-FR",{dateStyle:"short",timeStyle:"short"}):"";
+  article.innerHTML=`
+    <div class="post-header">
+      <div class="avatar">${escapeHtml(letter)}</div>
+      <div><div class="post-name">${escapeHtml(name)}</div><div class="post-time">${escapeHtml(time)} · 🌍</div></div>
+    </div>
+    ${p.content?`<div class="post-text">${escapeHtml(p.content)}</div>`:""}
+    ${p.photo_url?`<img src="${escapeHtml(p.photo_url)}" alt="Photo" style="width:100%;max-height:450px;object-fit:cover;border-radius:12px;margin-top:10px">`:""}
+    <div class="post-actions">
+      <button onclick="likePost('${p.id}',this)">👍 J'aime</button>
+      <button>💬 Commenter</button>
+      <button onclick="sharePost('${p.id}')">↗️ Partager</button>
+    </div>`;
+  return article;
+}
+
+async function loadPublications(){
+  const feed=document.getElementById("feed");
+  if(!feed)return;
+  const {data,error}=await supabaseClient.from("PUBLICATIONS").select("id,user_id,content,photo_url,created_at").order("created_at",{ascending:false}).limit(50);
+  if(error){console.error("PUBLICATIONS:",error.message);return;}
+  if(!data||!data.length)return;
+
+  const ids=[...new Set(data.map(p=>p.user_id))];
+  const {data:profiles}=await supabaseClient.from("PROFILS").select("id,Username,Full_name").in("id",ids);
+  const map={};
+  (profiles||[]).forEach(x=>map[x.id]=x);
+
+  const dynamic=document.createDocumentFragment();
+  data.forEach(p=>dynamic.appendChild(renderPublication(p,map[p.user_id])));
+  feed.innerHTML="";
+  feed.appendChild(dynamic);
+}
+
+async function likePost(publicationId,btn){
+  if(!currentUser){alert("Connecte-toi pour aimer une publication.");return;}
+  if(!publicationId){
+    btn.textContent=btn.textContent.includes("👍")?"❤️ J'aime":"👍 J'aime";
+    return;
+  }
+
+  const {data:existing,error:checkError}=await supabaseClient.from("PUBLICATION_LIKES").select("id").eq("publication_id",publicationId).eq("user_id",currentUser.id).maybeSingle();
+  if(checkError){alert("Erreur J'aime : "+checkError.message);return;}
+
+  if(existing){
+    const {error}=await supabaseClient.from("PUBLICATION_LIKES").delete().eq("id",existing.id);
+    if(error){alert("Erreur : "+error.message);return;}
+    btn.textContent="👍 J'aime";
+  }else{
+    const {error}=await supabaseClient.from("PUBLICATION_LIKES").insert({publication_id:publicationId,user_id:currentUser.id});
+    if(error){alert("Erreur : "+error.message);return;}
+    btn.textContent="❤️ J'aime";
+  }
+}
+
+async function sharePost(publicationId){
+  if(!currentUser){alert("Connecte-toi pour partager.");return;}
+  const url=window.location.href;
+  if(publicationId){
+    const {error}=await supabaseClient.from("PUBLICATION_SHARES").insert({publication_id:publicationId,user_id:currentUser.id});
+    if(error && !String(error.message).toLowerCase().includes("duplicate")){
+      alert("Erreur de partage : "+error.message);return;
+    }
+  }
+  try{
+    if(navigator.share){await navigator.share({title:"TrueBook",text:"Regarde cette publication sur TrueBook !",url});}
+    else{await navigator.clipboard.writeText(url);alert("Lien copié ! Tu peux maintenant le partager.");}
+  }catch(e){
+    if(e?.name!=="AbortError") alert("Le partage n'a pas pu être effectué.");
+  }
+}
 
 function showQuestion(type){
   const list=type==="truth"?truths:actions;
