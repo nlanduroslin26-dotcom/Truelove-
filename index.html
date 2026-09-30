@@ -559,20 +559,39 @@ function showPostBox(){
   document.getElementById("postText").focus();
 }
 function focusPost(){showPostBox()}
-function publishPost(){
-  const text=document.getElementById("postText").value.trim();
-  if(!text)return;
-  const feed=document.getElementById("feed");
-  const article=document.createElement("article");article.className="card";
-  const name=document.getElementById("miniName").textContent||"Moi";
-  const letter=name.trim()[0]?.toUpperCase()||"T";
-  article.innerHTML='<div class="post-header"><div class="avatar">'+escapeHtml(letter)+'</div><div><div class="post-name">'+escapeHtml(name)+'</div><div class="post-time">À l\'instant · 🌍</div></div></div><div class="post-text"></div><div class="post-actions"><button>👍 J\'aime</button><button>💬 Commenter</button><button>↗️ Partager</button></div>';
-  article.querySelector(".post-text").textContent=text;
-  feed.prepend(article);
-  document.getElementById("postText").value="";
+async function publishPost(){
+
+  if(!currentUser){
+    alert("Tu dois être connecté.");
+    return;
+  }
+
+  const text = document.getElementById("postText").value.trim();
+
+  if(!text){
+    alert("Écris quelque chose avant de publier.");
+    return;
+  }
+
+  const { error } = await supabaseClient
+    .from("PUBLICATIONS")
+    .insert({
+      user_id: currentUser.id,
+      content: text
+    });
+
+  if(error){
+    alert("Erreur lors de la publication : " + error.message);
+    return;
+  }
+
+  document.getElementById("postText").value = "";
   document.getElementById("postText").classList.add("hidden");
   document.getElementById("publishBtn").classList.add("hidden");
-}
+
+  alert("Publication envoyée avec succès !");
+
+ }
 function likePost(btn){btn.textContent=btn.textContent.includes("👍")?"❤️ J’aime":"👍 J’aime"}
 
 function showQuestion(type){
