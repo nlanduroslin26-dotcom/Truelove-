@@ -1,1139 +1,311 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>TrueBook ❤️</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-*{box-sizing:border-box}
-body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f0f2f5;color:#050505}
-button,input,textarea{font:inherit}
-button{cursor:pointer;border:0}
-.hidden{display:none!important}
-.page{width:100%}
-
-/* AUTH */
-#auth{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;background:linear-gradient(135deg,#1877f2,#8b5cf6,#ff4d7d)}
-.auth-card{width:100%;max-width:420px;background:#fff;border-radius:16px;padding:25px;box-shadow:0 8px 30px #0003}
-.auth-logo{text-align:center;color:#1877f2;font-size:42px;font-weight:800;margin:0 0 8px}
-.auth-sub{text-align:center;color:#65676b;margin-bottom:20px}
-.field{width:100%;padding:14px;border:1px solid #ccd0d5;border-radius:9px;margin:6px 0;background:#fff}
-.field:focus{outline:2px solid #1877f2;border-color:#1877f2}
-.primary{background:#1877f2;color:#fff;border-radius:9px;padding:13px;width:100%;font-weight:700;margin:5px 0}
-.success{background:#42b72a;color:#fff;border-radius:9px;padding:13px;width:100%;font-weight:700;margin:5px 0}
-.secondary{background:#e4e6eb;color:#050505;border-radius:9px;padding:12px;width:100%;font-weight:700;margin:5px 0}
-.message{min-height:20px;text-align:center;color:#65676b;font-size:14px;margin:8px}
-
-/* APP */
-#app{min-height:100vh}
-.topbar{position:sticky;top:0;z-index:1000;height:58px;background:#fff;border-bottom:1px solid #dddfe2;display:flex;align-items:center;gap:10px;padding:7px 12px}
-.logo{font-size:27px;font-weight:800;color:#1877f2;white-space:nowrap}
-.search{flex:1;max-width:330px;background:#f0f2f5;border:0;border-radius:22px;padding:11px 15px;outline:0}
-.top-actions{margin-left:auto;display:flex;gap:7px}
-.icon-btn{width:42px;height:42px;border-radius:50%;background:#e4e6eb;color:#050505;font-size:19px}
-.icon-btn:hover{background:#d8dadf}
-.layout{max-width:1050px;margin:auto;display:grid;grid-template-columns:220px minmax(0,600px) 220px;gap:14px;padding:14px}
-.sidebar,.rightbar{position:sticky;top:72px;height:max-content}
-.side-item{width:100%;display:flex;align-items:center;gap:10px;padding:12px;border-radius:9px;background:transparent;text-align:left;font-weight:700}
-.side-item:hover{background:#e4e6eb}
-.profile-mini{display:flex;align-items:center;gap:10px;padding:10px;margin-bottom:5px}
-.avatar{width:42px;height:42px;border-radius:50%;background:#1877f2;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;flex:none}
-.avatar.big{width:90px;height:90px;font-size:35px;margin:auto}
-.card{background:#fff;border-radius:10px;margin-bottom:12px;box-shadow:0 1px 2px #0002;padding:14px}
-.home-title{font-size:24px;margin:5px 0}
-.muted{color:#65676b;font-size:14px}
-.composer{display:flex;gap:10px;align-items:center}
-.composer-input{flex:1;background:#f0f2f5;border:0;border-radius:22px;padding:12px 16px;color:#65676b}
-.quick-actions{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid #dddfe2;margin-top:12px;padding-top:6px;gap:4px}
-.quick-actions button{background:#fff;padding:10px;border-radius:8px;color:#65676b;font-weight:700}
-.quick-actions button:hover{background:#f0f2f5}
-.post-header{display:flex;gap:10px;align-items:center}
-.post-name{font-weight:700}
-.post-time{font-size:12px;color:#65676b}
-.post-text{margin:14px 0;line-height:1.45;white-space:pre-wrap}
-.post-actions{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid #dddfe2;border-bottom:1px solid #dddfe2;padding:4px 0}
-.post-actions button{background:#fff;padding:10px;border-radius:7px;color:#65676b;font-weight:700}
-.post-actions button:hover{background:#f0f2f5}
-.story-row{display:flex;gap:8px;overflow-x:auto}
-.story{min-width:115px;height:175px;border-radius:10px;background:linear-gradient(160deg,#1877f2,#8b5cf6);color:#fff;padding:10px;display:flex;align-items:end;font-weight:700}
-.section-title{font-size:20px;margin:5px 0 12px}
-.page-card{background:#fff;border-radius:10px;padding:18px;box-shadow:0 1px 2px #0002}
-.page-card h2{margin-top:0}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.result-user,.friend-card,.conversation{background:#fff;border:1px solid #dddfe2;border-radius:10px;padding:12px;margin:8px 0;display:flex;align-items:center;gap:10px;cursor:pointer}
-.result-user:hover,.friend-card:hover,.conversation:hover{background:#f0f2f5}
-.result-info{flex:1}
-.profile-cover{height:120px;background:linear-gradient(135deg,#1877f2,#8b5cf6,#ff4d7d);border-radius:10px 10px 0 0;margin:-18px -18px 55px}
-.profile-head{text-align:center;margin-top:-90px}
-textarea.field{min-height:100px;resize:vertical}
-#chatArea{margin-top:12px}
-.chat-header{display:flex;align-items:center;gap:10px;border-bottom:1px solid #dddfe2;padding-bottom:10px}
-.chat-header button{background:#e4e6eb;border-radius:50%;width:40px;height:40px}
-.chat-messages{height:330px;overflow-y:auto;padding:10px 0}
-.bubble{max-width:75%;padding:9px 12px;border-radius:18px;margin:6px 0;line-height:1.35}
-.mine{margin-left:auto;background:#1877f2;color:#fff;border-bottom-right-radius:4px}
-.theirs{margin-right:auto;background:#e4e6eb;color:#050505;border-bottom-left-radius:4px}
-.chat-input{display:flex;gap:7px;border-top:1px solid #dddfe2;padding-top:8px}
-.chat-input input{flex:1}
-.chat-input button{width:50px;border-radius:50%;background:#1877f2;color:#fff}
-.notice{background:#fff;border-radius:10px;padding:14px;margin:8px 0;box-shadow:0 1px 2px #0002}
-.game-question{min-height:180px;display:flex;align-items:center;justify-content:center;text-align:center;font-size:22px;font-weight:700;background:#f0f2f5;border-radius:12px;padding:20px;margin:15px 0}
-.game-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.truth{background:#8b5cf6;color:#fff;padding:13px;border-radius:9px;font-weight:700}
-.action{background:#42b72a;color:#fff;padding:13px;border-radius:9px;font-weight:700}
-@media(max-width:850px){
- .layout{grid-template-columns:1fr;max-width:650px}
- .sidebar,.rightbar{display:none}
- .topbar .search{max-width:none}
-}
-@media(max-width:520px){
- .topbar{padding:7px}.logo{font-size:22px}.top-actions{gap:3px}.icon-btn{width:38px;height:38px}
- .layout{padding:8px}.grid2{grid-template-columns:1fr}.quick-actions{grid-template-columns:1fr 1fr 1fr}
-}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f0f2f5;color:#1c1e21}
+button,input,textarea{font:inherit}button{cursor:pointer;border:0}
+:root{--blue:#1877f2;--card:#fff;--muted:#65676b;--line:#dddfe2}
+.top{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid var(--line)}
+.nav{height:62px;display:flex;align-items:center;gap:10px;padding:8px 14px;max-width:1100px;margin:auto}
+.logo{font-size:27px;font-weight:800;color:var(--blue);white-space:nowrap}.search{flex:1;max-width:430px}
+.search input{width:100%;border:0;background:#f0f2f5;border-radius:22px;padding:12px 16px;outline:0}
+.navbtn{width:44px;height:44px;border-radius:50%;background:#f0f2f5;font-size:21px}
+.navbtn:hover{background:#e4e6e9}.badge{position:absolute;background:#e41e3f;color:#fff;font-size:11px;padding:3px 6px;border-radius:12px;margin-left:-13px;margin-top:-6px}
+.layout{max-width:1100px;margin:16px auto;display:grid;grid-template-columns:230px minmax(0,1fr) 230px;gap:16px}
+.side{position:sticky;top:78px;height:max-content}.side .card,.card{background:var(--card);border-radius:12px;padding:12px;box-shadow:0 1px 2px #0002;margin-bottom:12px}
+.sideitem{display:flex;gap:10px;align-items:center;padding:11px;border-radius:9px;font-weight:600}
+.sideitem:hover{background:#e4e6e9}.avatar{width:42px;height:42px;border-radius:50%;object-fit:cover;background:#1877f2;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;overflow:hidden}
+.avatar img{width:100%;height:100%;object-fit:cover}.small{font-size:13px;color:var(--muted)}.hidden{display:none!important}
+.storyrow{display:flex;gap:8px;overflow:auto;padding-bottom:2px}.story{min-width:118px;height:185px;border-radius:12px;overflow:hidden;position:relative;background:linear-gradient(135deg,#1877f2,#a84de6);color:#fff}
+.story img{width:100%;height:100%;object-fit:cover}.story .overlay{position:absolute;inset:0;background:linear-gradient(transparent 45%,#000b);padding:10px;display:flex;align-items:end;font-weight:700}
+.composer{display:grid;grid-template-columns:44px 1fr;gap:10px;align-items:center}.composer input{border:0;background:#f0f2f5;border-radius:24px;padding:13px 18px;outline:0}
+.actions{display:flex;border-top:1px solid var(--line);margin-top:12px;padding-top:8px;justify-content:space-around}.action{padding:9px 14px;border-radius:8px;color:#65676b;font-weight:700;background:transparent}.action:hover{background:#f0f2f5}
+.posthead{display:flex;gap:10px;align-items:center}.post{overflow:hidden}.posttext{font-size:16px;line-height:1.45;margin:14px 0}.postmedia{width:calc(100% + 24px);margin-left:-12px;max-height:620px;object-fit:cover}.counts{display:flex;justify-content:space-between;color:#65676b;font-size:14px;padding:8px 0;border-bottom:1px solid var(--line)}
+.commentbox{display:flex;gap:8px;margin-top:9px}.commentbox input{flex:1;border:0;background:#f0f2f5;border-radius:20px;padding:10px 14px;outline:0}
+.modal{position:fixed;inset:0;background:#0008;z-index:50;display:flex;align-items:center;justify-content:center;padding:15px}.modalbox{background:#fff;width:min(620px,100%);max-height:90vh;overflow:auto;border-radius:14px;padding:18px}
+.modalbox h2{margin-top:0}.close{float:right;background:#f0f2f5;border-radius:50%;width:36px;height:36px;font-size:20px}
+.field{width:100%;padding:12px;border:1px solid #ccd0d5;border-radius:8px;margin:7px 0;outline:0}.primary{background:var(--blue);color:#fff;border-radius:8px;padding:11px 18px;font-weight:700}.danger{background:#e41e3f;color:#fff;border-radius:8px;padding:10px}
+.profilecover{height:210px;background:linear-gradient(135deg,#1877f2,#d83fb0);border-radius:12px 12px 0 0}.profileinfo{padding:0 20px 20px;text-align:center}.profilebig{width:120px;height:120px;margin:-60px auto 10px;border:5px solid #fff}.tabs{display:flex;gap:3px;border-top:1px solid var(--line);padding-top:5px;overflow:auto}.tab{padding:12px 18px;background:transparent;font-weight:700;white-space:nowrap}.tab.active{color:var(--blue);border-bottom:3px solid var(--blue)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.feature{padding:16px;background:#f0f2f5;border-radius:10px;font-weight:700}.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#1c1e21;color:#fff;padding:12px 18px;border-radius:22px;z-index:100}
+@media(max-width:900px){.layout{grid-template-columns:1fr;max-width:700px;padding:0 8px}.left,.right{display:none}.nav{padding:8px}.logo{font-size:22px}.search{max-width:none}.navbtn{width:40px;height:40px}.story{min-width:105px;height:165px}}
+@media(max-width:520px){.logo{display:none}.nav{gap:6px}.search input{font-size:13px}.layout{margin-top:8px}.card{border-radius:9px}.actions .action{font-size:13px;padding:8px 5px}}
 </style>
 </head>
 <body>
-
-<!-- CONNEXION -->
-<section id="auth">
-  <div class="auth-card">
-    <div class="auth-logo">TrueBook ❤️</div>
-    <div class="auth-sub">Connecte-toi pour entrer dans ton réseau social.</div>
-    <input id="email" class="field" type="email" placeholder="Ton adresse e-mail">
-    <input id="password" class="field" type="password" placeholder="Mot de passe">
-    <button class="primary" onclick="inscription()">Créer un compte</button>
-    <button class="success" onclick="connexion()">Se connecter</button>
-    <div id="authMessage" class="message"></div>
+<div class="top">
+  <div class="nav">
+    <div class="logo">TrueBook ❤️</div>
+    <div class="search"><input id="globalSearch" placeholder="🔎 Rechercher sur TrueBook..." onkeydown="if(event.key==='Enter')searchUsers(this.value)"></div>
+    <button class="navbtn" onclick="goHome()">⌂</button>
+    <button class="navbtn" onclick="openMessages()">💬</button>
+    <button class="navbtn" onclick="openNotifications()">🔔<span id="notifBadge" class="badge hidden">0</span></button>
+    <button class="navbtn" onclick="openMenu()">☰</button>
   </div>
-</section>
+</div>
 
-<!-- APPLICATION -->
-<section id="app" class="hidden">
-  <header class="topbar">
-    <div class="logo">TrueLove</div>
-    <input id="globalSearch" class="search" placeholder="🔎 Rechercher sur TrueBook..." onkeydown="if(event.key==='Enter') globalSearch()">
-    <div class="top-actions">
-      <button class="icon-btn" onclick="showPage('homePage')" title="Accueil">⌂</button>
-      <button class="icon-btn" onclick="showPage('messagesPage');loadConversations()" title="Messages">💬</button>
-      <button class="icon-btn" onclick="showPage('notificationsPage');loadNotifications()" title="Notifications">🔔</button>
-      <button class="icon-btn" onclick="showPage('settingsPage')" title="Paramètres">☰</button>
+<div class="layout">
+<aside class="side left">
+  <div class="card">
+    <div class="sideitem" onclick="openProfile()"><span id="sideAvatar" class="avatar">R</span><span id="sideName">Mon profil</span></div>
+    <div class="sideitem" onclick="openFriends()">👥 Amis</div>
+    <div class="sideitem" onclick="openMessages()">💬 Messages</div>
+    <div class="sideitem" onclick="openNotifications()">🔔 Notifications</div>
+    <div class="sideitem" onclick="openGame()">🎮 Action ou Vérité</div>
+  </div>
+</aside>
+
+<main id="app">
+  <section id="homeView">
+    <div class="card">
+      <h2 style="margin:4px 0">Bienvenue sur TrueBook ❤️</h2>
+      <div class="small">Un espace pour discuter, rencontrer des amis, publier, partager et jouer.</div>
     </div>
-  </header>
 
-  <div class="layout">
-    <aside class="sidebar">
-      <div class="profile-mini">
-        <div id="miniAvatar" class="avatar">T</div>
-        <div><b id="miniName">Mon profil</b><div class="muted">Voir mon profil</div></div>
+    <div class="card">
+      <div class="storyrow" id="stories"></div>
+    </div>
+
+    <div class="card">
+      <div class="composer">
+        <span id="composerAvatar" class="avatar">R</span>
+        <input placeholder="À quoi pensez-vous ?" onclick="openComposer()">
       </div>
-      <button class="side-item" onclick="showPage('homePage')">🏠 Accueil</button>
-      <button class="side-item" onclick="showPage('profilePage');loadProfile()">👤 Mon profil</button>
-      <button class="side-item" onclick="showPage('friendsPage')">👥 Amis</button>
-       <button class="side-item" onclick="showPage('storiesPage');loadStories()">⭕ Stories</button>
-       <button class="side-item" onclick="showPage('friendsManagePage');loadFriends()">🤝 Mes amis</button>
-       <button class="side-item" onclick="showPage('savedPage');loadSaved()">🔖 Enregistrements</button>
-       <button class="side-item" onclick="showPage('groupsPage');loadGroups()">👨‍👩‍👧‍👦 Groupes</button>
-       <button class="side-item" onclick="showPage('marketplacePage');loadMarketplace()">🛍️ Marketplace</button>
-       <button class="side-item" onclick="showPage('eventsPage');loadEvents()">📅 Événements</button>
-       <button class="side-item" onclick="showPage('reelsPage');loadReels()">🎬 Reels</button>
-      <button class="side-item" onclick="showPage('messagesPage');loadConversations()">💬 Messages</button>
-      <button class="side-item" onclick="showPage('notificationsPage');loadNotifications()">🔔 Notifications</button>
-      <button class="side-item" onclick="showPage('gamePage')">🎮 Action ou Vérité</button>
-      <button class="side-item" onclick="showPage('settingsPage')">⚙️ Paramètres</button>
-      <button class="side-item" onclick="deconnexion()">🚪 Déconnexion</button>
-    </aside>
-
-    <main>
-      <!-- ACCUEIL -->
-      <div id="homePage" class="page">
-        <div class="card">
-          <h1 class="home-title">Bienvenue sur TrueBook ❤️</h1>
-          <div class="muted">Un espace pour discuter, rencontrer des amis et jouer.</div>
-        </div>
-
-        <div class="card">
-          <div class="story-row">
-            <div class="story">➕<br>Créer une story</div>
-            <div class="story">❤️<br>Amour</div>
-            <div class="story">😂<br>Drôle</div>
-            <div class="story">🎮<br>Jeux</div>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="composer">
-            <div id="composerAvatar" class="avatar">T</div>
-            <button class="composer-input" onclick="focusPost()">À quoi penses-tu ?</button>
-          </div>
-          <textarea id="postText" class="field hidden" placeholder="Écris une publication..."></textarea>
-          <input id="postPhoto" type="file" accept="image/*" style="display:none" onchange="previewPhoto(event)">
-          <div id="photoPreview"></div>
-          <div id="postButtons" class="quick-actions">
-            <button onclick="showPostBox()">📝 Publication</button>
-            <button onclick="document.getElementById('postPhoto').click();showPostBox()">📷 Photo</button>
-            <button onclick="showPage('gamePage')">🎮 Jeu</button>
-          </div>
-          <button id="publishBtn" class="primary hidden" onclick="publishPost()">Publier</button>
-        </div>
-
-        <div id="feed">
-          <article class="card">
-            <div class="post-header"><div class="avatar">T</div><div><div class="post-name">TrueBook ❤️</div><div class="post-time">À l'instant · 🌍</div></div></div>
-            <div class="post-text">Bienvenue sur le nouveau fil d'actualité de TrueBook. 👋❤️</div>
-            <div class="post-actions">
-              <button onclick="likePost(null,this)">👍 J'aime</button><button onclick="alert('Publie une publication pour utiliser les commentaires.')">💬 Commenter</button><button onclick="sharePost(null)">↗️ Partager</button>
-            </div>
-          </article>
-          <article class="card">
-            <div class="post-header"><div class="avatar">🎮</div><div><div class="post-name">TrueBook Games</div><div class="post-time">Aujourd'hui · 🌍</div></div></div>
-            <div class="post-text">Qui est prêt pour une partie d'Action ou Vérité ? 🔥</div>
-            <div class="post-actions">
-              <button onclick="likePost(this)">👍 J'aime</button><button onclick="alert('Publie une publication pour utiliser les commentaires.')">💬 Commenter</button><button onclick="showPage('gamePage')">🎮 Jouer</button>
-            </div>
-          </article>
-        </div>
+      <div class="actions">
+        <button class="action" onclick="openComposer()">📝 Publication</button>
+        <button class="action" onclick="choosePhoto()">📷 Photo</button>
+        <button class="action" onclick="openGame()">🎮 Jeu</button>
       </div>
+    </div>
+    <input id="photoInput" type="file" accept="image/*" class="hidden" onchange="uploadPublicationPhoto(this)">
 
-      <!-- PROFIL -->
-      <div id="profilePage" class="page hidden">
-        <div class="page-card">
-          <div class="profile-cover"></div>
-          <div class="profile-head">
-            <div id="profileAvatar" class="avatar big">T</div>
-            <h2 id="profileDisplayName">Mon profil</h2>
-            <div class="muted" id="profileDisplayUsername">@pseudo</div>
-          </div>
-          <hr>
-          <input id="profileUsername" class="field" placeholder="Ton pseudo">
-          <input id="profileFullName" class="field" placeholder="Ton nom complet">
-          <input id="profileEmail" class="field" type="email" disabled placeholder="Ton e-mail">
-          <textarea id="profileBio" class="field" placeholder="Ta présentation..."></textarea>
-          <button class="primary" onclick="saveProfile()">💾 Enregistrer</button>
-          <div id="profileMessage" class="message"></div>
-        </div>
-      </div>
+    <div id="feed"></div>
+  </section>
+</main>
 
-      <!-- AMIS -->
-      <div id="friendsPage" class="page hidden">
-        <div class="page-card">
-          <h2>👥 Amis</h2>
-          <div class="muted">Recherche des personnes inscrites sur TrueBook.</div>
-          <input id="friendSearch" class="field" placeholder="🔎 Rechercher un pseudo..." onkeydown="if(event.key==='Enter')searchFriends()">
-          <button class="primary" onclick="searchFriends()">Rechercher</button>
-          <div id="friendsResults"></div>
-          <hr>
-          <h3>Mes amis</h3>
-          <div id="myFriends"><div class="muted">Les demandes d'amis pourront être ajoutées ensuite.</div></div>
-        </div>
-      </div>
+<aside class="side right">
+  <div class="card"><b>Raccourcis</b><div class="sideitem" onclick="openProfile()">👤 Profil</div><div class="sideitem" onclick="openFriends()">🔎 Rechercher des personnes</div><div class="sideitem" onclick="openMenu()">☰ Menu</div></div>
+  <div class="card small">TrueBook est une application indépendante. Cette interface reproduit des concepts de réseau social sans utiliser les données privées de Facebook.</div>
+</aside>
+</div>
 
-      <!-- PROFIL UTILISATEUR -->
-      <div id="userProfilePage" class="page hidden">
-        <div class="page-card">
-          <div class="profile-cover"></div>
-          <div class="profile-head">
-            <div id="userProfileAvatar" class="avatar big">U</div>
-            <h2 id="userProfileName">Profil</h2>
-            <div class="muted" id="userProfileUsername"></div>
-          </div>
-          <p id="userProfileBio" style="text-align:center"></p>
-          <button class="primary" onclick="startConversationFromProfile()">💬 Envoyer un message</button>
-           <button class="success" onclick="sendFriendRequest(selectedUserId)">👥 Ajouter comme ami</button>
-          <button class="secondary" onclick="showPage('friendsPage')">👥 Retour</button>
-        </div>
-      </div>
+<div id="modal" class="modal hidden" onclick="if(event.target===this)closeModal()"><div id="modalbox" class="modalbox"></div></div>
+<div id="toast" class="toast hidden"></div>
 
-      <!-- MESSAGES -->
-      <div id="messagesPage" class="page hidden">
-        <div class="page-card">
-          <h2>💬 Messages</h2>
-          <input id="messageSearch" class="field" placeholder="🔎 Rechercher une conversation..." oninput="filterConversations()">
-          <div id="conversations">Chargement...</div>
-          <div id="chatArea" class="hidden">
-            <div class="chat-header">
-              <button onclick="closeConversation()">←</button>
-              <div><b id="chatTitle">Conversation</b><div class="muted">TrueLove</div></div>
-            </div>
-            <div id="chatMessages" class="chat-messages"></div>
-            <div class="chat-input">
-              <input id="messageInput" class="field" placeholder="Écris un message..." onkeydown="if(event.key==='Enter')sendMessage()">
-              <button onclick="sendMessage()">➤</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- NOTIFICATIONS -->
-      <div id="notificationsPage" class="page hidden">
-        <div class="page-card">
-          <h2>🔔 Notifications</h2>
-          <div id="notificationsList">
-            <div class="notice">Bienvenue sur TrueBook ❤️</div>
-            <div class="notice">Les notifications sociales pourront être reliées à Supabase ensuite.</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- PARAMETRES -->
-      <div id="settingsPage" class="page hidden">
-        <div class="page-card">
-          <h2>⚙️ Paramètres</h2>
-          <button class="side-item" onclick="showPage('profilePage');loadProfile()">👤 Modifier mon profil</button>
-          <button class="side-item" onclick="alert('La confidentialité sera ajoutée progressivement.')">🔒 Confidentialité</button>
-          <button class="side-item" onclick="alert('Les paramètres de notifications seront ajoutés progressivement.')">🔔 Notifications</button>
-          <button class="side-item" onclick="deconnexion()">🚪 Déconnexion</button>
-        </div>
-      </div>
-
-
-      <!-- FONCTIONS SOCIALES AVANCEES -->
-      <div id="storiesPage" class="page hidden">
-        <div class="page-card">
-          <h2>⭕ Stories</h2>
-          <div class="muted">Les stories sont visibles pendant 24 heures.</div>
-          <input id="storyText" class="field" placeholder="Écris ta story...">
-          <input id="storyMedia" type="file" accept="image/*,video/*" class="field">
-          <button class="primary" onclick="createStory()">Publier ma story</button>
-          <div id="storiesList"></div>
-        </div>
-      </div>
-
-      <div id="friendsManagePage" class="page hidden">
-        <div class="page-card">
-          <h2>👥 Mes amis</h2>
-          <button class="secondary" onclick="loadFriendRequests()">🔔 Demandes reçues</button>
-          <button class="secondary" onclick="loadFriends()">👥 Liste de mes amis</button>
-          <div id="friendManageList"></div>
-        </div>
-      </div>
-
-      <div id="savedPage" class="page hidden">
-        <div class="page-card">
-          <h2>🔖 Enregistrements</h2>
-          <div class="muted">Retrouve les publications que tu as sauvegardées.</div>
-          <div id="savedList"></div>
-        </div>
-      </div>
-
-      <div id="groupsPage" class="page hidden">
-        <div class="page-card">
-          <h2>👨‍👩‍👧‍👦 Groupes</h2>
-          <input id="groupName" class="field" placeholder="Nom du groupe">
-          <input id="groupDescription" class="field" placeholder="Description">
-          <button class="primary" onclick="createGroup()">Créer un groupe</button>
-          <div id="groupsList"></div>
-        </div>
-      </div>
-
-      <div id="marketplacePage" class="page hidden">
-        <div class="page-card">
-          <h2>🛍️ Marketplace</h2>
-          <input id="marketTitle" class="field" placeholder="Titre de l'annonce">
-          <input id="marketPrice" class="field" type="number" placeholder="Prix">
-          <input id="marketCity" class="field" placeholder="Ville">
-          <textarea id="marketDescription" class="field" placeholder="Description"></textarea>
-          <button class="primary" onclick="createListing()">Publier une annonce</button>
-          <div id="marketList"></div>
-        </div>
-      </div>
-
-      <div id="eventsPage" class="page hidden">
-        <div class="page-card">
-          <h2>📅 Événements</h2>
-          <input id="eventTitle" class="field" placeholder="Nom de l'événement">
-          <input id="eventDate" class="field" type="datetime-local">
-          <input id="eventPlace" class="field" placeholder="Lieu">
-          <textarea id="eventDescription" class="field" placeholder="Description"></textarea>
-          <button class="primary" onclick="createEvent()">Créer l'événement</button>
-          <div id="eventsList"></div>
-        </div>
-      </div>
-
-      <div id="reelsPage" class="page hidden">
-        <div class="page-card">
-          <h2>🎬 Reels</h2>
-          <div class="muted">Publie une courte vidéo et regarde les vidéos disponibles.</div>
-          <input id="reelText" class="field" placeholder="Légende">
-          <input id="reelVideo" type="file" accept="video/*" class="field">
-          <button class="primary" onclick="createReel()">Publier le Reel</button>
-          <div id="reelsList"></div>
-        </div>
-      </div>
-
-      <div id="privacyPage" class="page hidden">
-        <div class="page-card">
-          <h2>🔒 Confidentialité et sécurité</h2>
-          <label><input id="privacyProfile" type="checkbox"> Autoriser les autres à voir mon profil</label>
-          <br><br>
-          <label><input id="privacyMessages" type="checkbox"> Autoriser les autres à m'envoyer des messages</label>
-          <br><br>
-          <button class="primary" onclick="savePrivacy()">Enregistrer</button>
-          <button class="secondary" onclick="showPage('settingsPage')">Retour</button>
-          <div id="privacyMessage" class="message"></div>
-        </div>
-      </div>
-
-      <!-- JEU -->
-      <div id="gamePage" class="page hidden">
-        <div class="page-card">
-          <h2>🎮 Action ou Vérité ❤️</h2>
-          <div id="turn" class="muted" style="text-align:center">À toi de jouer</div>
-          <div id="gameQuestion" class="game-question">Choisis Vérité ou Action.</div>
-          <div class="game-grid">
-            <button class="truth" onclick="showQuestion('truth')">💜 Vérité</button>
-            <button class="action" onclick="showQuestion('action')">🔥 Action</button>
-          </div>
-          <button class="secondary" onclick="nextTurn()">➡️ Tour suivant</button>
-          <button class="secondary" onclick="showPage('homePage')">🏠 Retour à l'accueil</button>
-        </div>
-      </div>
-    </main>
-
-    <aside class="rightbar">
-      <div class="card"><b>Suggestions</b><p class="muted">Recherche des utilisateurs pour commencer à créer ton réseau.</p><button class="primary" onclick="showPage('friendsPage')">👥 Trouver des amis</button></div>
-      <div class="card"><b>TrueBook ❤️</b><p class="muted">Discute, joue et partage avec tes proches.</p></div>
-    </aside>
-  </div>
-</section>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-const supabaseUrl="https://jmtndvfpvsgbntouqhkp.supabase.co";
-const supabaseKey="sb_publishable_wGcvqH1z0yXa7-GrSC7R2A_oHgtQxc-";
-const supabaseClient=window.supabase.createClient(supabaseUrl,supabaseKey);
+/* =========================
+   CONFIGURATION SUPABASE
+   Remplace seulement ces 2 valeurs par celles de ton projet Supabase.
+   ========================= */
+const SUPABASE_URL = "https://TON-PROJET.supabase.co";
+const SUPABASE_ANON_KEY = "TA_CLE_ANON_PUBLIQUE";
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-let currentUser=null;
-let selectedUserId=null;
-let selectedConversationUserId=null;
-let profilesCache=[];
-let turn=0;
+let me=null, profile=null, selectedUser=null, currentConversation=null;
 
-const truths=[
-"Quelle est ta plus belle histoire d’amour ?","Quelle qualité apprécies-tu le plus chez quelqu’un ?",
-"Quel serait ton rendez-vous idéal ?","Quelle petite chose te fait vraiment sourire ?",
-"Quel rêve veux-tu absolument réaliser ?","Quelle personne te connaît le mieux ?",
-"Quel souvenir d’enfance te fait sourire ?","Quelle activité aimerais-tu faire à deux ?",
-"Quelle est une chose que tu aimerais améliorer chez toi ?","Qu’est-ce qui te rend heureux(se) ?",
-"Quel voyage rêves-tu de faire ?","Quelle chanson te rappelle un beau souvenir ?",
-"Quelle est ta plus grande qualité ?","Quelle est ta plus grande peur dans une relation ?",
-"Qu'aimerais-tu apprendre cette année ?"
-];
-const actions=[
-"Fais un compliment sincère à quelqu’un.","Regarde ton partenaire dans les yeux pendant 15 secondes.",
-"Chante le refrain d’une chanson.","Fais rire l’autre en moins de 30 secondes.",
-"Dis trois qualités de ton partenaire.","Fais une petite déclaration d’amour.",
-"Imite quelqu’un pendant 15 secondes.","Danse pendant 15 secondes.",
-"Raconte une blague sans rire.","Donne un surnom amusant à l’autre.",
-"Dis trois choses pour lesquelles tu es reconnaissant(e).","Fais une pose de mannequin pendant 10 secondes.",
-"Mime un animal choisi par l’autre.","Décris ton futur idéal en 30 secondes.",
-"Fais un compliment sans utiliser le mot beau ou belle."
-];
+const $=id=>document.getElementById(id);
+function toast(msg){$("toast").textContent=msg;$("toast").classList.remove("hidden");setTimeout(()=>$("toast").classList.add("hidden"),2500)}
+function closeModal(){$("modal").classList.add("hidden")}
+function modal(title,body){$("modalbox").innerHTML='<button class="close" onclick="closeModal()">×</button><h2>'+title+'</h2>'+body;$("modal").classList.remove("hidden")}
+function initials(name){return (name||"R").trim().split(/\s+/).map(x=>x[0]).join("").slice(0,2).toUpperCase()}
+function avatarHTML(p,cls="avatar"){return p?.Avatar?'<span class="'+cls+'"><img src="'+esc(p.Avatar)+'"></span>':'<span class="'+cls+'">'+esc(initials(p?.Username||p?.Full_name))+'</span>'}
+function esc(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
 
-async function inscription(){
-  const email=document.getElementById("email").value.trim();
-  const password=document.getElementById("password").value;
-  const m=document.getElementById("authMessage");
-  if(!email||!password){m.textContent="⚠️ Entre ton e-mail et ton mot de passe.";return}
-  if(password.length<6){m.textContent="⚠️ Le mot de passe doit avoir au moins 6 caractères.";return}
-  m.textContent="Création du compte...";
-  const {data,error}=await supabaseClient.auth.signUp({email,password});
-  if(error){m.textContent="❌ "+error.message;return}
-  m.textContent=data.session?"Compte créé.":"✅ Compte créé. Vérifie ton e-mail si Supabase le demande.";
-  if(data.session){currentUser=data.user;await ensureProfile();enterApp()}
+async function init(){
+  const {data:{session}}=await sb.auth.getSession();
+  if(!session){showLogin();return}
+  me=session.user; await loadProfile(); await refreshAll();
+  sb.auth.onAuthStateChange((_e,s)=>{me=s?.user||null;if(!me)showLogin()});
 }
-
-async function connexion(){
-  const email=document.getElementById("email").value.trim();
-  const password=document.getElementById("password").value;
-  const m=document.getElementById("authMessage");
-  if(!email||!password){m.textContent="⚠️ Entre ton e-mail et ton mot de passe.";return}
-  m.textContent="Connexion...";
-  const {data,error}=await supabaseClient.auth.signInWithPassword({email,password});
-  if(error){m.textContent="❌ "+error.message;return}
-  currentUser=data.user;await ensureProfile();enterApp()
-}
-
-async function deconnexion(){
-  await supabaseClient.auth.signOut();
-  currentUser=null;
-  document.getElementById("app").classList.add("hidden");
-  document.getElementById("auth").classList.remove("hidden");
-  document.getElementById("authMessage").textContent="Tu es déconnecté(e).";
-}
-
-async function ensureProfile(){
-  if(!currentUser)return;
-  const {data}=await supabaseClient.from("PROFILS").select("*").eq("id",currentUser.id).maybeSingle();
-  if(!data){
-    await supabaseClient.from("PROFILS").insert({id:currentUser.id,Username:(currentUser.email||"user").split("@")[0],Full_name:"",Bio:""});
-  }
-}
-
-function enterApp(){
-  document.getElementById("auth").classList.add("hidden");
-  document.getElementById("app").classList.remove("hidden");
-  showPage("homePage");
-  loadProfile();
-  loadPublications();
-  enableRealtime();
-}
-
 async function loadProfile(){
-  if(!currentUser)return;
-  const {data,error}=await supabaseClient.from("PROFILS").select("*").eq("id",currentUser.id).maybeSingle();
-  if(error){document.getElementById("profileMessage").textContent="❌ "+error.message;return}
-  const p=data||{};
-  document.getElementById("profileUsername").value=p.Username||"";
-  document.getElementById("profileFullName").value=p.Full_name||"";
-  document.getElementById("profileBio").value=p.Bio||"";
-  document.getElementById("profileEmail").value=currentUser.email||"";
-  const name=p.Full_name||p.Username||"Mon profil";
-  document.getElementById("profileDisplayName").textContent=name;
-  document.getElementById("profileDisplayUsername").textContent=p.Username?"@"+p.Username:"";
-  document.getElementById("miniName").textContent=name;
-  const letter=(name.trim()[0]||"T").toUpperCase();
-  ["miniAvatar","composerAvatar","profileAvatar"].forEach(id=>{const e=document.getElementById(id);if(e)e.textContent=letter});
+  if(!me)return;
+  let {data,error}=await sb.from("PROFILS").select("*").eq("id",me.id).maybeSingle();
+  if(error) console.error(error);
+  profile=data||{id:me.id,Username:me.email?.split("@")[0]||"Utilisateur",Full_name:""};
+  updateUserUI();
 }
-
-async function saveProfile(){
-  if(!currentUser)return;
-  const username=document.getElementById("profileUsername").value.trim();
-  const full=document.getElementById("profileFullName").value.trim();
-  const bio=document.getElementById("profileBio").value.trim();
-  const m=document.getElementById("profileMessage");
-  m.textContent="Enregistrement...";
-  const {error}=await supabaseClient.from("PROFILS").upsert({id:currentUser.id,Username:username,Full_name:full,Bio:bio},{onConflict:"id"});
-  if(error){m.textContent="❌ "+error.message;return}
-  m.textContent="✅ Profil enregistré.";
-  loadProfile();
-}
-
-async function searchFriends(){
-  const q=document.getElementById("friendSearch").value.trim();
-  const box=document.getElementById("friendsResults");
-  if(!q){box.innerHTML='<div class="muted">Écris un pseudo à rechercher.</div>';return}
-  box.innerHTML="Recherche...";
-  const {data,error}=await supabaseClient.from("PROFILS").select("id,Username,Full_name,Bio,Avatar").ilike("Username","%"+q+"%").limit(20);
-  if(error){box.innerHTML='<div class="muted">❌ '+escapeHtml(error.message)+'</div>';return}
-  profilesCache=data||[];
-  if(!profilesCache.length){box.innerHTML='<div class="muted">Aucun utilisateur trouvé.</div>';return}
-  box.innerHTML="";
-  profilesCache.filter(p=>p.id!==currentUser?.id).forEach(p=>{
-    const div=document.createElement("div");div.className="result-user";
-    const letter=(p.Full_name||p.Username||"U").trim()[0].toUpperCase();
-    div.innerHTML='<div class="avatar">'+escapeHtml(letter)+'</div><div class="result-info"><b>'+escapeHtml(p.Full_name||p.Username||"Utilisateur")+'</b><div class="muted">@'+escapeHtml(p.Username||"")+'</div></div>';
-    div.onclick=()=>openUserProfile(p.id);box.appendChild(div);
-  })
-}
-
-async function openUserProfile(userId){
-  selectedUserId=userId;showPage("userProfilePage");
-  const box=document.getElementById("userProfilePage");
-  box.querySelector("#userProfileName").textContent="Chargement...";
-  const {data,error}=await supabaseClient.from("PROFILS").select("*").eq("id",userId).maybeSingle();
-  if(error){document.getElementById("userProfileName").textContent="Erreur";return}
-  if(!data){document.getElementById("userProfileName").textContent="Profil introuvable";return}
-  const name=data.Full_name||data.Username||"Utilisateur";
-  document.getElementById("userProfileName").textContent=name;
-  document.getElementById("userProfileUsername").textContent=data.Username?"@"+data.Username:"";
-  document.getElementById("userProfileBio").textContent=data.Bio||"";
-  document.getElementById("userProfileAvatar").textContent=name.trim()[0].toUpperCase();
-}
-
-function startConversationFromProfile(){
-  if(!selectedUserId)return;
-  selectedConversationUserId=selectedUserId;
-  showPage("messagesPage");
-  openConversation(selectedUserId);
-}
-
-async function loadConversations(){
-  const box=document.getElementById("conversations");
-  box.innerHTML='<div class="muted">Chargement...</div>';
-  if(!currentUser)return;
-  const {data,error}=await supabaseClient.from("MESSAGES").select("sender_id,receiver_id,content,created_at").or("sender_id.eq."+currentUser.id+",receiver_id.eq."+currentUser.id).order("created_at",{ascending:false}).limit(100);
-  if(error){box.innerHTML='<div class="muted">❌ '+escapeHtml(error.message)+'</div>';return}
-  const ids=[];
-  (data||[]).forEach(m=>{const id=m.sender_id===currentUser.id?m.receiver_id:m.sender_id;if(!ids.includes(id))ids.push(id)});
-  if(!ids.length){box.innerHTML='<div class="muted">Aucune conversation. Recherche un utilisateur dans Amis.</div>';return}
-  const {data:people}=await supabaseClient.from("PROFILS").select("id,Username,Full_name").in("id",ids);
-  box.innerHTML="";
-  (people||[]).forEach(p=>{
-    const d=document.createElement("div");d.className="conversation";
-    d.innerHTML='<div class="avatar">'+escapeHtml((p.Full_name||p.Username||"U").trim()[0].toUpperCase())+'</div><div class="result-info"><b>'+escapeHtml(p.Full_name||p.Username||"Utilisateur")+'</b><div class="muted">@'+escapeHtml(p.Username||"")+'</div></div>';
-    d.onclick=()=>openConversation(p.id);box.appendChild(d);
-  })
-}
-
-function filterConversations(){
-  const q=(document.getElementById("messageSearch").value||"").toLowerCase();
-  document.querySelectorAll("#conversations .conversation").forEach(x=>x.style.display=x.innerText.toLowerCase().includes(q)?"flex":"none")
-}
-
-async function openConversation(userId){
-  selectedConversationUserId=userId;
-  document.getElementById("chatArea").classList.remove("hidden");
-  const {data:p}=await supabaseClient.from("PROFILS").select("Username,Full_name").eq("id",userId).maybeSingle();
-  document.getElementById("chatTitle").textContent=p?.Full_name||p?.Username||"Conversation";
-  await loadMessages();
-}
-
-async function loadMessages(){
-  if(!currentUser||!selectedConversationUserId)return;
-  const {data,error}=await supabaseClient.from("MESSAGES").select("sender_id,receiver_id,content,created_at").or("and(sender_id.eq."+currentUser.id+",receiver_id.eq."+selectedConversationUserId+"),and(sender_id.eq."+selectedConversationUserId+",receiver_id.eq."+currentUser.id+")").order("created_at",{ascending:true});
-  const box=document.getElementById("chatMessages");
-  if(error){box.innerHTML='<div class="muted">❌ '+escapeHtml(error.message)+'</div>';return}
-  box.innerHTML="";
-  (data||[]).forEach(m=>{
-    const d=document.createElement("div");d.className="bubble "+(m.sender_id===currentUser.id?"mine":"theirs");d.textContent=m.content;box.appendChild(d)
-  });
-  box.scrollTop=box.scrollHeight;
-}
-
-async function sendMessage(){
-  const input=document.getElementById("messageInput");
-  const content=input.value.trim();
-  if(!content||!currentUser||!selectedConversationUserId)return;
-  const {error}=await supabaseClient.from("MESSAGES").insert({sender_id:currentUser.id,receiver_id:selectedConversationUserId,content});
-  if(error){alert("Erreur: "+error.message);return}
-  input.value="";await loadMessages();
-}
-
-function closeConversation(){
-  selectedConversationUserId=null;document.getElementById("chatArea").classList.add("hidden");loadConversations();
-}
-
-async function loadNotifications(){
-  document.getElementById("notificationsList").innerHTML='<div class="notice">🔔 Bienvenue sur TrueBook.</div><div class="notice">Les notifications sociales sont prêtes à être reliées à une table dédiée.</div>';
-}
-
-function showPage(id){
-  document.querySelectorAll(".page").forEach(p=>p.classList.add("hidden"));
-  const el=document.getElementById(id);if(el)el.classList.remove("hidden");
-  window.scrollTo(0,0);
-  if(id==="messagesPage")loadConversations();
-  if(id==="profilePage")loadProfile();
-}
-
-function globalSearch(){
-  const q=document.getElementById("globalSearch").value.trim();
-  if(!q)return;
-  document.getElementById("friendSearch").value=q;showPage("friendsPage");searchFriends();
-}
-
-function showPostBox(){
-  document.getElementById("postText").classList.remove("hidden");
-  document.getElementById("publishBtn").classList.remove("hidden");
-  document.getElementById("postText").focus();
-}
-function focusPost(){showPostBox()}
-
-function previewPhoto(event){
-  const file=event.target.files[0];
-  const box=document.getElementById("photoPreview");
-  box.innerHTML="";
-  if(!file)return;
-  const img=document.createElement("img");
-  img.src=URL.createObjectURL(file);
-  img.style.width="100%";
-  img.style.maxHeight="300px";
-  img.style.objectFit="cover";
-  img.style.borderRadius="12px";
-  img.style.marginTop="10px";
-  box.appendChild(img);
-  showPostBox();
-}
-
-async function publishPost(){
-  if(!currentUser){alert("Tu dois être connecté.");return;}
-
-  const text=document.getElementById("postText").value.trim();
-  const input=document.getElementById("postPhoto");
-  const photo=input.files[0];
-  if(!text && !photo){alert("Écris quelque chose ou ajoute une photo.");return;}
-
-  let photoUrl=null;
-
-  if(photo){
-    const ext=(photo.name.split(".").pop()||"jpg").toLowerCase();
-    const fileName=currentUser.id+"/"+Date.now()+"."+ext;
-    const {error:uploadError}=await supabaseClient.storage.from("publications").upload(fileName,photo,{upsert:false,contentType:photo.type});
-    if(uploadError){alert("Erreur lors de l'envoi de la photo : "+uploadError.message);return;}
-    const {data:urlData}=supabaseClient.storage.from("publications").getPublicUrl(fileName);
-    photoUrl=urlData.publicUrl;
-  }
-
-  const {data,error}=await supabaseClient.from("PUBLICATIONS").insert({
-    user_id:currentUser.id,
-    content:text||null,
-    photo_url:photoUrl
-  }).select("id,user_id,content,photo_url,created_at").single();
-
-  if(error){alert("Erreur lors de la publication : "+error.message);return;}
-
-  document.getElementById("postText").value="";
-  input.value="";
-  document.getElementById("photoPreview").innerHTML="";
-  document.getElementById("postText").classList.add("hidden");
-  document.getElementById("publishBtn").classList.add("hidden");
-  alert("Publication envoyée avec succès !");
-  await loadPublications();
-}
-
-function renderPublication(p,profile){
-  const article=document.createElement("article");
-  article.className="card";
-  const name=profile?.Full_name||profile?.Username||"Utilisateur";
-  const letter=(name.trim()[0]||"U").toUpperCase();
-  const time=p.created_at?new Date(p.created_at).toLocaleString("fr-FR",{dateStyle:"short",timeStyle:"short"}):"";
-  article.innerHTML=`
-    <div class="post-header">
-      <div class="avatar">${escapeHtml(letter)}</div>
-      <div><div class="post-name">${escapeHtml(name)}</div><div class="post-time">${escapeHtml(time)} · 🌍</div></div>
-    </div>
-    ${p.content?`<div class="post-text">${escapeHtml(p.content)}</div>`:""}
-    ${p.photo_url?`<img src="${escapeHtml(p.photo_url)}" alt="Photo" style="width:100%;max-height:450px;object-fit:cover;border-radius:12px;margin-top:10px">`:""}
-    <div class="post-actions">
-      <button onclick="likePost('${p.id}',this)">👍 J'aime</button>
-      <button onclick="alert('Publie une publication pour utiliser les commentaires.')">💬 Commenter</button>
-      <button onclick="sharePost('${p.id}')">↗️ Partager</button>
-    </div>`;
-  return article;
-}
-
-async function loadPublications(){
-  const feed=document.getElementById("feed");
-  if(!feed)return;
-  const {data,error}=await supabaseClient.from("PUBLICATIONS").select("id,user_id,content,photo_url,created_at").order("created_at",{ascending:false}).limit(50);
-  if(error){console.error("PUBLICATIONS:",error.message);return;}
-  if(!data||!data.length)return;
-
-  const ids=[...new Set(data.map(p=>p.user_id))];
-  const {data:profiles}=await supabaseClient.from("PROFILS").select("id,Username,Full_name").in("id",ids);
-  const map={};
-  (profiles||[]).forEach(x=>map[x.id]=x);
-
-  const dynamic=document.createDocumentFragment();
-  data.forEach(p=>dynamic.appendChild(renderPublication(p,map[p.user_id])));
-  feed.innerHTML="";
-  feed.appendChild(dynamic);
-}
-
-async function likePost(publicationId,btn){
-  if(btn===undefined && publicationId && typeof publicationId==="object"){btn=publicationId;publicationId=null;}
-  if(!currentUser){alert("Connecte-toi pour aimer une publication.");return;}
-  if(!publicationId){
-    btn.textContent=btn.textContent.includes("👍")?"❤️ J'aime":"👍 J'aime";
-    return;
-  }
-
-  const {data:existing,error:checkError}=await supabaseClient.from("PUBLICATION_LIKES").select("id").eq("publication_id",publicationId).eq("user_id",currentUser.id).maybeSingle();
-  if(checkError){alert("Erreur J'aime : "+checkError.message);return;}
-
-  if(existing){
-    const {error}=await supabaseClient.from("PUBLICATION_LIKES").delete().eq("id",existing.id);
-    if(error){alert("Erreur : "+error.message);return;}
-    btn.textContent="👍 J'aime";
-  }else{
-    const {error}=await supabaseClient.from("PUBLICATION_LIKES").insert({publication_id:publicationId,user_id:currentUser.id});
-    if(error){alert("Erreur : "+error.message);return;}
-    btn.textContent="❤️ J'aime";
-  }
-}
-
-async function sharePost(publicationId){
-  if(!currentUser){alert("Connecte-toi pour partager.");return;}
-  const url=window.location.href;
-  if(publicationId){
-    const {error}=await supabaseClient.from("PUBLICATION_SHARES").insert({publication_id:publicationId,user_id:currentUser.id});
-    if(error && !String(error.message).toLowerCase().includes("duplicate")){
-      alert("Erreur de partage : "+error.message);return;
-    }
-  }
-  try{
-    if(navigator.share){await navigator.share({title:"TrueBook",text:"Regarde cette publication sur TrueBook !",url});}
-    else{await navigator.clipboard.writeText(url);alert("Lien copié ! Tu peux maintenant le partager.");}
-  }catch(e){
-    if(e?.name!=="AbortError") alert("Le partage n'a pas pu être effectué.");
-  }
-}
-
-function showQuestion(type){
-  const list=type==="truth"?truths:actions;
-  document.getElementById("gameQuestion").textContent=list[Math.floor(Math.random()*list.length)];
-  document.getElementById("turn").textContent=type==="truth"?"💜 VÉRITÉ":"🔥 ACTION";
-}
-function nextTurn(){
-  turn=1-turn;document.getElementById("turn").textContent="Tour "+(turn+1)+" — choisis ton défi";
-  document.getElementById("gameQuestion").textContent="À toi de choisir 😍";
-}
-
-
-/* ================= TRUEBOOK SOCIAL ENGINE ================= */
-
-function notifyLocal(text){
-  const box=document.getElementById("notificationsList");
-  if(box){
-    const d=document.createElement("div");
-    d.className="notice";
-    d.textContent=text;
-    box.prepend(d);
-  }
-}
-
-async function createNotification(userId,type,entityId=null,message=""){
-  if(!currentUser || !userId || userId===currentUser.id) return;
-  await supabaseClient.from("NOTIFICATIONS").insert({
-    user_id:userId, actor_id:currentUser.id, type, entity_id:entityId, message
+function updateUserUI(){
+  const name=profile.Username||profile.Full_name||"Mon profil";
+  $("sideName").textContent=name;
+  ["sideAvatar","composerAvatar"].forEach(id=>{
+    const el=$(id);el.innerHTML=profile.Avatar?'<img src="'+esc(profile.Avatar)+'">':esc(initials(name));
   });
 }
+async function refreshAll(){await loadStories();await loadFeed();await loadNotificationsCount()}
+function goHome(){location.reload()}
+function showLogin(){
+  modal("Connexion à TrueBook",`
+  <p class="small">Connecte-toi avec ton compte Supabase.</p>
+  <input id="loginEmail" class="field" type="email" placeholder="E-mail">
+  <input id="loginPass" class="field" type="password" placeholder="Mot de passe">
+  <button class="primary" onclick="login()">Se connecter</button>
+  <button class="action" onclick="signup()">Créer un compte</button>`);
+}
+async function login(){const email=$("loginEmail").value.trim(),password=$("loginPass").value;const {error}=await sb.auth.signInWithPassword({email,password});if(error)return toast(error.message);closeModal();location.reload()}
+async function signup(){const email=$("loginEmail").value.trim(),password=$("loginPass").value;if(password.length<6)return toast("Mot de passe: 6 caractères minimum");const {error}=await sb.auth.signUp({email,password});if(error)return toast(error.message);toast("Compte créé. Vérifie ton e-mail si nécessaire.")}
+async function logout(){await sb.auth.signOut();location.reload()}
 
-async function reactToPost(postId,btn){
-  if(!currentUser || !postId) return;
-  const reactions=["like","love","haha","wow","sad","angry"];
-  const choice=prompt("Réaction : like, love, haha, wow, sad ou angry","like");
-  if(!choice || !reactions.includes(choice.toLowerCase())) return;
-  const reaction=choice.toLowerCase();
-  const {error}=await supabaseClient.from("PUBLICATION_REACTIONS")
-    .upsert({publication_id:postId,user_id:currentUser.id,reaction},{onConflict:"publication_id,user_id"});
-  if(error){alert("Erreur réaction : "+error.message);return;}
-  btn.textContent=({like:"👍",love:"❤️",haha:"😂",wow:"😮",sad:"😢",angry:"😡"})[reaction]+" Réagir";
+function openComposer(){
+ modal("Créer une publication",`
+ <textarea id="postContent" class="field" rows="5" placeholder="À quoi pensez-vous ?"></textarea>
+ <div class="grid2"><button class="feature" onclick="choosePhoto()">📷 Ajouter une photo</button><button class="feature" onclick="publishText()">🚀 Publier</button></div>`);
+}
+async function publishText(photo_url=null){
+ const content=($("postContent")?.value||"").trim();
+ if(!content&&!photo_url)return toast("Écris quelque chose ou ajoute une photo.");
+ const {error}=await sb.from("PUBLICATIONS").insert({user_id:me.id,content,photo_url});
+ if(error)return toast(error.message);
+ closeModal();toast("Publication publiée ❤️");loadFeed();
+}
+function choosePhoto(){ $("photoInput").click() }
+async function uploadPublicationPhoto(input){
+ const file=input.files?.[0];if(!file)return;
+ const path=me.id+"/posts/"+Date.now()+"_"+file.name.replace(/[^a-zA-Z0-9._-]/g,"_");
+ const up=await sb.storage.from("media").upload(path,file,{upsert:true});
+ if(up.error)return toast(up.error.message);
+ const {data}=sb.storage.from("media").getPublicUrl(path);
+ if(!$("modal").classList.contains("hidden")&&$("postContent"))return publishText(data.publicUrl);
+ modal("Créer une publication",`<img src="${esc(data.publicUrl)}" style="width:100%;max-height:350px;object-fit:contain;border-radius:10px"><textarea id="postContent" class="field" rows="4" placeholder="Ajoute une description..."></textarea><button class="primary" onclick="publishText('${esc(data.publicUrl)}')">🚀 Publier</button>`);
 }
 
-async function openComments(postId){
-  const text=prompt("Ton commentaire :");
-  if(!text?.trim() || !currentUser) return;
-  const {error}=await supabaseClient.from("PUBLICATION_COMMENTS")
-    .insert({publication_id:postId,user_id:currentUser.id,content:text.trim()});
-  if(error){alert("Erreur commentaire : "+error.message);return;}
-  notifyLocal("💬 Commentaire publié.");
+async function loadFeed(){
+ const {data,error}=await sb.from("PUBLICATIONS").select("*,PROFILS(Username,Full_name,Avatar)").order("created_at",{ascending:false}).limit(50);
+ if(error){$("feed").innerHTML='<div class="card">Impossible de charger le fil: '+esc(error.message)+'</div>';return}
+ if(!data?.length){$("feed").innerHTML='<div class="card">Aucune publication pour le moment.</div>';return}
+ $("feed").innerHTML=data.map(p=>postHTML(p)).join("");
+ await Promise.all(data.map(async p=>{
+   const [likes,comments]=await Promise.all([
+     sb.from("LIKES").select("id",{count:"exact",head:true}).eq("publication_id",p.id),
+     sb.from("COMMENTAIRES").select("id",{count:"exact",head:true}).eq("publication_id",p.id)
+   ]);
+   const el=$("post-"+p.id);if(el){el.querySelector(".likecount").textContent=likes.count||0;el.querySelector(".commentcount").textContent=comments.count||0}
+ }));
 }
-
-async function savePost(postId,btn){
-  if(!currentUser)return;
-  const {data}=await supabaseClient.from("SAVED_POSTS").select("id")
-    .eq("user_id",currentUser.id).eq("publication_id",postId).maybeSingle();
-  if(data){
-    await supabaseClient.from("SAVED_POSTS").delete().eq("id",data.id);
-    if(btn)btn.textContent="🔖 Enregistrer";
-  }else{
-    const {error}=await supabaseClient.from("SAVED_POSTS")
-      .insert({user_id:currentUser.id,publication_id:postId});
-    if(error){alert("Erreur : "+error.message);return;}
-    if(btn)btn.textContent="✅ Enregistré";
-  }
+function postHTML(p){
+ const name=p.PROFILS?.Full_name||p.PROFILS?.Username||"Utilisateur";
+ const img=p.photo_url?`<img class="postmedia" src="${esc(p.photo_url)}">`:"";
+ return `<article class="card post" id="post-${p.id}">
+ <div class="posthead">${avatarHTML(p.PROFILS)}<div><b>${esc(name)}</b><div class="small">${new Date(p.created_at).toLocaleString("fr-FR")}</div></div></div>
+ <div class="posttext">${esc(p.content||"")}</div>${img}
+ <div class="counts"><span>👍 <span class="likecount">0</span></span><span><span class="commentcount">0</span> commentaires</span></div>
+ <div class="actions">
+ <button class="action" onclick="likePost('${p.id}')">👍 J'aime</button>
+ <button class="action" onclick="showComments('${p.id}')">💬 Commenter</button>
+ <button class="action" onclick="sharePost('${p.id}')">↗️ Partager</button>
+ </div>
+ <div id="comments-${p.id}"></div></article>`;
 }
-
-async function openPostMenu(postId){
-  const choice=prompt("Tape : signaler, bloquer ou supprimer");
-  if(!choice)return;
-  const c=choice.toLowerCase().trim();
-  if(c==="supprimer"){
-    const {error}=await supabaseClient.from("PUBLICATIONS").delete()
-      .eq("id",postId).eq("user_id",currentUser.id);
-    if(error)alert("Impossible : "+error.message); else loadPublications();
-  }else if(c==="signaler"){
-    const reason=prompt("Pourquoi signales-tu cette publication ?")||"Non précisé";
-    await supabaseClient.from("REPORTS").insert({reporter_id:currentUser.id,publication_id:postId,reason});
-    alert("Signalement enregistré.");
-  }
+async function likePost(id){
+ const {data:existing}=await sb.from("LIKES").select("id").eq("publication_id",id).eq("user_id",me.id).maybeSingle();
+ if(existing) await sb.from("LIKES").delete().eq("id",existing.id);
+ else {const {error}=await sb.from("LIKES").insert({publication_id:id,user_id:me.id});if(error)return toast(error.message);await notifyPostOwner(id,"a aimé votre publication.")}
+ loadFeed();
 }
-
-async function sendFriendRequest(userId){
-  if(!currentUser || !userId || userId===currentUser.id)return;
-  const {data:existing}=await supabaseClient.from("FRIENDSHIPS").select("id,status")
-    .or(`and(requester_id.eq.${currentUser.id},addressee_id.eq.${userId}),and(requester_id.eq.${userId},addressee_id.eq.${currentUser.id})`)
-    .maybeSingle();
-  if(existing){alert("Une relation existe déjà.");return;}
-  const {error}=await supabaseClient.from("FRIENDSHIPS")
-    .insert({requester_id:currentUser.id,addressee_id:userId,status:"pending"});
-  if(error){alert("Erreur demande d'ami : "+error.message);return;}
-  await createNotification(userId,"friend_request",null,"Vous avez reçu une demande d'ami.");
-  alert("Demande d'ami envoyée.");
+async function notifyPostOwner(postId,text){
+ const {data:p}=await sb.from("PUBLICATIONS").select("user_id").eq("id",postId).single();
+ if(p&&p.user_id!==me.id)await sb.from("NOTIFICATIONS").insert({user_id:p.user_id,sender_id:me.id,type:"like",message:text,publication_id:postId});
 }
-
-async function loadFriendRequests(){
-  const box=document.getElementById("friendManageList"); if(!box)return;
-  box.innerHTML="Chargement...";
-  const {data,error}=await supabaseClient.from("FRIENDSHIPS")
-    .select("id,requester_id,created_at").eq("addressee_id",currentUser.id).eq("status","pending");
-  if(error){box.textContent=error.message;return;}
-  if(!data?.length){box.innerHTML='<div class="muted">Aucune demande.</div>';return;}
-  const ids=data.map(x=>x.requester_id);
-  const {data:people}=await supabaseClient.from("PROFILS").select("id,Username,Full_name").in("id",ids);
-  box.innerHTML="";
-  data.forEach(r=>{
-    const p=(people||[]).find(x=>x.id===r.requester_id);
-    const d=document.createElement("div");d.className="friend-card";
-    d.innerHTML=`<div class="avatar">${escapeHtml((p?.Full_name||p?.Username||"U")[0].toUpperCase())}</div>
-      <div class="result-info"><b>${escapeHtml(p?.Full_name||p?.Username||"Utilisateur")}</b>
-      <div class="muted">@${escapeHtml(p?.Username||"")}</div></div>
-      <button class="success">Accepter</button>`;
-    d.querySelector("button").onclick=()=>acceptFriendRequest(r.id,r.requester_id);
-    box.appendChild(d);
-  });
+async function showComments(id){
+ const {data}=await sb.from("COMMENTAIRES").select("*,PROFILS(Username,Full_name,Avatar)").eq("publication_id",id).order("created_at");
+ const list=(data||[]).map(c=>`<div style="display:flex;gap:8px;margin:8px 0">${avatarHTML(c.PROFILS,"avatar")}<div><b>${esc(c.PROFILS?.Full_name||c.PROFILS?.Username||"Utilisateur")}</b><div class="feature">${esc(c.content)}</div></div></div>`).join("");
+ modal("Commentaires",list+`<div class="commentbox"><input id="newComment" placeholder="Écrire un commentaire..."><button class="primary" onclick="addComment('${id}')">Envoyer</button></div>`);
 }
-
-async function acceptFriendRequest(id,requesterId){
-  const {error}=await supabaseClient.from("FRIENDSHIPS").update({status:"accepted"}).eq("id",id).eq("addressee_id",currentUser.id);
-  if(error){alert(error.message);return;}
-  await createNotification(requesterId,"friend_accept",null,"Votre demande d'ami a été acceptée.");
-  loadFriendRequests(); loadFriends();
+async function addComment(id){
+ const content=$("newComment").value.trim();if(!content)return;
+ const {error}=await sb.from("COMMENTAIRES").insert({publication_id:id,user_id:me.id,content});
+ if(error)return toast(error.message);
+ await notifyPostOwner(id,"a commenté votre publication.");showComments(id);loadFeed();
 }
-
-async function loadFriends(){
-  const box=document.getElementById("friendManageList"); if(!box)return;
-  box.innerHTML="Chargement...";
-  const {data,error}=await supabaseClient.from("FRIENDSHIPS").select("requester_id,addressee_id")
-    .eq("status","accepted").or(`requester_id.eq.${currentUser.id},addressee_id.eq.${currentUser.id}`);
-  if(error){box.textContent=error.message;return;}
-  const ids=(data||[]).map(x=>x.requester_id===currentUser.id?x.addressee_id:x.requester_id);
-  if(!ids.length){box.innerHTML='<div class="muted">Tu n’as pas encore d’amis.</div>';return;}
-  const {data:people}=await supabaseClient.from("PROFILS").select("id,Username,Full_name,Bio").in("id",ids);
-  box.innerHTML="";
-  (people||[]).forEach(p=>{
-    const d=document.createElement("div");d.className="friend-card";
-    d.innerHTML=`<div class="avatar">${escapeHtml((p.Full_name||p.Username||"U")[0].toUpperCase())}</div>
-      <div class="result-info"><b>${escapeHtml(p.Full_name||p.Username||"Utilisateur")}</b>
-      <div class="muted">@${escapeHtml(p.Username||"")}</div></div>
-      <button class="primary">Message</button>`;
-    d.querySelector("button").onclick=()=>{selectedConversationUserId=p.id;showPage("messagesPage");openConversation(p.id)};
-    box.appendChild(d);
-  });
-}
-
-async function createStory(){
-  if(!currentUser)return;
-  const text=document.getElementById("storyText").value.trim();
-  const file=document.getElementById("storyMedia").files[0];
-  if(!text&&!file){alert("Ajoute un texte ou un média.");return;}
-  let media_url=null,media_type=null;
-  if(file){
-    const name=currentUser.id+"/story-"+Date.now()+"-"+file.name.replace(/[^a-zA-Z0-9._-]/g,"_");
-    const {error}=await supabaseClient.storage.from("media").upload(name,file,{upsert:false,contentType:file.type});
-    if(error){alert(error.message);return;}
-    media_url=supabaseClient.storage.from("media").getPublicUrl(name).data.publicUrl;
-    media_type=file.type.startsWith("video/")?"video":"image";
-  }
-  const {error}=await supabaseClient.from("STORIES").insert({user_id:currentUser.id,content:text||null,media_url,media_type});
-  if(error){alert(error.message);return;}
-  document.getElementById("storyText").value="";document.getElementById("storyMedia").value="";
-  loadStories();
+async function sharePost(id){
+ const {data:p}=await sb.from("PUBLICATIONS").select("user_id,content,photo_url").eq("id",id).single();if(!p)return;
+ const {error}=await sb.from("PARTAGES").insert({publication_id:id,user_id:me.id});
+ if(error)return toast(error.message);
+ if(navigator.share){try{await navigator.share({title:"TrueBook",text:p.content||"Publication TrueBook"})}catch(e){}}
+ else await navigator.clipboard?.writeText(location.href+"#post-"+id);
+ toast("Publication partagée.");
 }
 
 async function loadStories(){
-  const box=document.getElementById("storiesList"); if(!box||!currentUser)return;
-  const {data,error}=await supabaseClient.from("STORIES").select("id,user_id,content,media_url,media_type,created_at")
-    .gt("expires_at",new Date().toISOString()).order("created_at",{ascending:false});
-  if(error){box.textContent=error.message;return;}
-  if(!data?.length){box.innerHTML='<div class="muted">Aucune story pour le moment.</div>';return;}
-  const ids=[...new Set(data.map(x=>x.user_id))];
-  const {data:ps}=await supabaseClient.from("PROFILS").select("id,Username,Full_name").in("id",ids);
-  box.innerHTML="";
-  data.forEach(s=>{
-    const p=(ps||[]).find(x=>x.id===s.user_id); const d=document.createElement("div");d.className="card";
-    const media=s.media_url?(s.media_type==="video"?`<video controls src="${escapeHtml(s.media_url)}" style="width:100%;max-height:420px"></video>`:`<img src="${escapeHtml(s.media_url)}" style="width:100%;max-height:420px;object-fit:cover;border-radius:10px">`):"";
-    d.innerHTML=`<b>${escapeHtml(p?.Full_name||p?.Username||"Utilisateur")}</b><div class="muted">${new Date(s.created_at).toLocaleString("fr-FR")}</div>
-      ${s.content?`<p>${escapeHtml(s.content)}</p>`:""}${media}`;
-    box.appendChild(d);
-  });
+ const {data}=await sb.from("STORIES").select("*,PROFILS(Username,Full_name,Avatar)").gt("expires_at",new Date().toISOString()).order("created_at",{ascending:false}).limit(20);
+ const mine=`<div class="story" onclick="createStory()"><div style="font-size:45px;text-align:center;margin-top:45px">➕</div><div class="overlay">Créer une story</div></div>`;
+ $("stories").innerHTML=mine+(data||[]).map(s=>`<div class="story" onclick="viewStory('${s.id}','${esc(s.media_url||"")}','${esc(s.content||"")}')">${s.media_url?`<img src="${esc(s.media_url)}">`:""}<div class="overlay">${esc(s.content||s.PROFILS?.Username||"Story")}</div></div>`).join("");
 }
+function createStory(){modal("Créer une story",`<textarea id="storyText" class="field" rows="3" placeholder="Ta story..."></textarea><input id="storyFile" class="field" type="file" accept="image/*"><button class="primary" onclick="publishStory()">Publier</button>`)}
+async function publishStory(){
+ let media_url=null;const f=$("storyFile").files?.[0];
+ if(f){const path=me.id+"/stories/"+Date.now()+"_"+f.name.replace(/[^a-zA-Z0-9._-]/g,"_");const up=await sb.storage.from("media").upload(path,f,{upsert:true});if(up.error)return toast(up.error.message);media_url=sb.storage.from("media").getPublicUrl(path).data.publicUrl}
+ const {error}=await sb.from("STORIES").insert({user_id:me.id,content:$("storyText").value.trim(),media_url});if(error)return toast(error.message);closeModal();loadStories();toast("Story publiée")}
+function viewStory(id,url,text){modal("Story",`${url?`<img src="${esc(url)}" style="width:100%;max-height:65vh;object-fit:contain">`:""}<p>${esc(text)}</p>`)}
+async function loadNotificationsCount(){const {count}=await sb.from("NOTIFICATIONS").select("id",{count:"exact",head:true}).eq("user_id",me.id).eq("read",false);const b=$("notifBadge");if(count){b.textContent=count;b.classList.remove("hidden")}else b.classList.add("hidden")}
+async function openNotifications(){
+ const {data}=await sb.from("NOTIFICATIONS").select("*,PROFILS:sender_id(Username,Full_name,Avatar)").eq("user_id",me.id).order("created_at",{ascending:false}).limit(50);
+ modal("Notifications",(data||[]).map(n=>`<div class="sideitem" onclick="markNotification('${n.id}')">${avatarHTML(n.PROFILS)}<span>${esc(n.message||"Nouvelle notification")}<div class="small">${new Date(n.created_at).toLocaleString("fr-FR")}</div></span></div>`).join("")||"<p>Aucune notification.</p>");
+ await sb.from("NOTIFICATIONS").update({read:true}).eq("user_id",me.id);loadNotificationsCount();
+}
+async function markNotification(id){await sb.from("NOTIFICATIONS").update({read:true}).eq("id",id);loadNotificationsCount()}
 
-async function loadSaved(){
-  const box=document.getElementById("savedList");if(!box||!currentUser)return;
-  const {data,error}=await supabaseClient.from("SAVED_POSTS")
-    .select("publication_id,created_at").eq("user_id",currentUser.id).order("created_at",{ascending:false});
-  if(error){box.textContent=error.message;return;}
-  if(!data?.length){box.innerHTML='<div class="muted">Aucune publication enregistrée.</div>';return;}
-  const ids=data.map(x=>x.publication_id);
-  const {data:posts}=await supabaseClient.from("PUBLICATIONS").select("id,content,photo_url,created_at,user_id").in("id",ids);
-  box.innerHTML="";
-  (posts||[]).forEach(p=>{
-    const d=document.createElement("div");d.className="card";
-    d.innerHTML=`<div class="post-text">${escapeHtml(p.content||"")}</div>${p.photo_url?`<img src="${escapeHtml(p.photo_url)}" style="width:100%;border-radius:10px">`:""}`;
-    box.appendChild(d);
-  });
+async function searchUsers(q){
+ q=(q||"").trim();if(!q)return;
+ const {data}=await sb.from("PROFILS").select("*").or(`Username.ilike.%${q}%,Full_name.ilike.%${q}%`).limit(30);
+ modal("Résultats de recherche",(data||[]).map(u=>`<div class="sideitem" onclick="viewUser('${u.id}')">${avatarHTML(u)}<span><b>${esc(u.Full_name||u.Username)}</b><div class="small">@${esc(u.Username||"")}</div></span></div>`).join("")||"Aucun utilisateur trouvé.");
 }
+async function viewUser(id){
+ const {data:u}=await sb.from("PROFILS").select("*").eq("id",id).single();if(!u)return;
+ selectedUser=u;
+ modal(esc(u.Full_name||u.Username),`${u.Avatar?`<img src="${esc(u.Avatar)}" style="width:100%;max-height:250px;object-fit:cover;border-radius:12px">`:""}<h2>${esc(u.Full_name||u.Username)}</h2><p>@${esc(u.Username||"")}</p><p>${esc(u.Bio||"")}</p><div class="grid2"><button class="primary" onclick="openChat('${u.id}')">💬 Message</button><button class="feature" onclick="followUser('${u.id}')">👥 Suivre</button></div>`);
+}
+async function openFriends(){modal("Amis et recherche",`<input id="friendSearch" class="field" placeholder="Rechercher un nom ou pseudo..." oninput="searchUsers(this.value)"><div class="feature">Utilise la barre ci-dessus pour trouver des personnes sur TrueBook.</div>`)}
+async function followUser(id){const {data}=await sb.from("ABONNEMENTS").select("id").eq("follower_id",me.id).eq("following_id",id).maybeSingle();if(data){await sb.from("ABONNEMENTS").delete().eq("id",data.id);toast("Abonnement retiré")}else{const {error}=await sb.from("ABONNEMENTS").insert({follower_id:me.id,following_id:id});if(error)return toast(error.message);await sb.from("NOTIFICATIONS").insert({user_id:id,sender_id:me.id,type:"follow",message:"a commencé à vous suivre."});toast("Vous suivez maintenant cette personne")}}
+async function openChat(id){currentConversation=id;const {data:u}=await sb.from("PROFILS").select("*").eq("id",id).single();modal("💬 "+esc(u?.Full_name||u?.Username),`<div id="chatMessages" style="max-height:50vh;overflow:auto"></div><div class="commentbox"><input id="chatInput" placeholder="Écrire un message..." onkeydown="if(event.key==='Enter')sendMessage()"><button class="primary" onclick="sendMessage()">Envoyer</button></div>`);loadMessages()}
+async function openMessages(){modal("💬 Messages",`<input class="field" placeholder="Rechercher une personne..." oninput="searchUsers(this.value)"><div class="feature">Sélectionne une personne dans les résultats pour ouvrir une conversation.</div>`)}
+async function loadMessages(){
+ if(!currentConversation)return;
+ const {data}=await sb.from("MESSAGES").select("*").or(`and(sender_id.eq.${me.id},receiver_id.eq.${currentConversation}),and(sender_id.eq.${currentConversation},receiver_id.eq.${me.id})`).order("created_at");
+ $("chatMessages").innerHTML=(data||[]).map(m=>`<div style="text-align:${m.sender_id===me.id?"right":"left"};margin:7px"><span style="display:inline-block;background:${m.sender_id===me.id?"#1877f2":"#e4e6e9"};color:${m.sender_id===me.id?"#fff":"#111"};padding:9px 12px;border-radius:16px">${esc(m.content)}</span></div>`).join("");
+ $("chatMessages").scrollTop=$("chatMessages").scrollHeight;
+}
+async function sendMessage(){const content=$("chatInput").value.trim();if(!content)return;const {error}=await sb.from("MESSAGES").insert({sender_id:me.id,receiver_id:currentConversation,content});if(error)return toast(error.message);$("chatInput").value="";await sb.from("NOTIFICATIONS").insert({user_id:currentConversation,sender_id:me.id,type:"message",message:"vous a envoyé un message."});loadMessages()}
 
-async function createGroup(){
-  if(!currentUser)return;
-  const name=document.getElementById("groupName").value.trim(), description=document.getElementById("groupDescription").value.trim();
-  if(!name){alert("Nom du groupe obligatoire.");return;}
-  const {data,error}=await supabaseClient.from("GROUPS").insert({name,description,owner_id:currentUser.id}).select().single();
-  if(error){alert(error.message);return;}
-  await supabaseClient.from("GROUP_MEMBERS").insert({group_id:data.id,user_id:currentUser.id,role:"admin"});
-  document.getElementById("groupName").value="";document.getElementById("groupDescription").value="";
-  loadGroups();
+function openProfile(){
+ const u=profile||{};
+ modal("Mon profil",`<div class="profilecover"></div><div class="profileinfo">${avatarHTML(u,"avatar profilebig")}<h2>${esc(u.Full_name||"Votre nom")}</h2><p>@${esc(u.Username||"")}</p><input id="editUsername" class="field" value="${esc(u.Username||"")}" placeholder="Pseudo"><input id="editFull" class="field" value="${esc(u.Full_name||"")}" placeholder="Nom complet"><textarea id="editBio" class="field" rows="4" placeholder="Présentation">${esc(u.Bio||"")}</textarea><input id="avatarFile" class="field" type="file" accept="image/*"><button class="primary" onclick="saveProfile()">💾 Enregistrer</button><button class="action" onclick="logout()">🚪 Déconnexion</button></div>`);
 }
-
-async function loadGroups(){
-  const box=document.getElementById("groupsList");if(!box)return;
-  const {data,error}=await supabaseClient.from("GROUPS").select("id,name,description,created_at").order("created_at",{ascending:false});
-  if(error){box.textContent=error.message;return;}
-  box.innerHTML="";
-  (data||[]).forEach(g=>{
-    const d=document.createElement("div");d.className="card";
-    d.innerHTML=`<h3>${escapeHtml(g.name)}</h3><div>${escapeHtml(g.description||"")}</div>
-      <button class="primary" onclick="joinGroup('${g.id}')">Rejoindre</button>`;
-    box.appendChild(d);
-  });
+async function saveProfile(){
+ let Avatar=profile.Avatar||null;const f=$("avatarFile").files?.[0];
+ if(f){const path=me.id+"/avatars/"+Date.now()+"_"+f.name.replace(/[^a-zA-Z0-9._-]/g,"_");const up=await sb.storage.from("media").upload(path,f,{upsert:true});if(up.error)return toast(up.error.message);Avatar=sb.storage.from("media").getPublicUrl(path).data.publicUrl}
+ const row={id:me.id,Username:$("editUsername").value.trim(),Full_name:$("editFull").value.trim(),Bio:$("editBio").value.trim(),Avatar};
+ const {error}=await sb.from("PROFILS").upsert(row);if(error)return toast(error.message);profile={...profile,...row};updateUserUI();closeModal();toast("Profil enregistré")}
+function openMenu(){
+ modal("Menu",`<div class="grid2">
+ <button class="feature" onclick="openProfile()">👤 Mon profil</button><button class="feature" onclick="openMessages()">💬 Messages</button>
+ <button class="feature" onclick="openFriends()">👥 Ami(e)s</button><button class="feature" onclick="openNotifications()">🔔 Notifications</button>
+ <button class="feature" onclick="openDashboard()">📊 Tableau de bord</button><button class="feature" onclick="openGame()">🎮 Jeux</button>
+ <button class="feature" onclick="placeholder('Reels')">🎬 Reels</button><button class="feature" onclick="placeholder('Marketplace')">🛍️ Marketplace</button>
+ <button class="feature" onclick="placeholder('Groupes')">👨‍👩‍👧 Groupes</button><button class="feature" onclick="placeholder('Pages')">📄 Pages</button>
+ <button class="feature" onclick="placeholder('Enregistrements')">🔖 Enregistrements</button><button class="feature" onclick="placeholder('Événements')">📅 Événements</button>
+ <button class="feature" onclick="placeholder('Souvenirs')">🕒 Souvenirs</button><button class="feature" onclick="openSettings()">⚙️ Paramètres</button>
+ </div>`);
 }
-
-async function joinGroup(groupId){
-  const {error}=await supabaseClient.from("GROUP_MEMBERS").upsert({group_id:groupId,user_id:currentUser.id,role:"member"},{onConflict:"group_id,user_id"});
-  if(error)alert(error.message);else alert("Tu as rejoint le groupe.");
+function placeholder(name){modal(name,`<p>Le module <b>${esc(name)}</b> est prêt dans l'interface. Pour le rendre totalement persistant comme les publications/messages, il faut sa table Supabase dédiée.</p><button class="primary" onclick="closeModal()">Fermer</button>`)}
+async function openDashboard(){
+ const [pub,like,msg]=await Promise.all([
+  sb.from("PUBLICATIONS").select("id",{count:"exact",head:true}).eq("user_id",me.id),
+  sb.from("LIKES").select("id",{count:"exact",head:true}).eq("user_id",me.id),
+  sb.from("MESSAGES").select("id",{count:"exact",head:true}).or(`sender_id.eq.${me.id},receiver_id.eq.${me.id}`)
+ ]);
+ modal("📊 Tableau de bord",`<div class="grid2"><div class="feature">📝 Publications<br><b>${pub.count||0}</b></div><div class="feature">👍 J'aime donnés<br><b>${like.count||0}</b></div><div class="feature">💬 Messages<br><b>${msg.count||0}</b></div><div class="feature">👤 Compte<br><b>${esc(profile.Username||"")}</b></div></div>`)
 }
-
-async function createListing(){
-  if(!currentUser)return;
-  const title=document.getElementById("marketTitle").value.trim(), price=Number(document.getElementById("marketPrice").value), city=document.getElementById("marketCity").value.trim(), description=document.getElementById("marketDescription").value.trim();
-  if(!title||!Number.isFinite(price)){alert("Titre et prix obligatoires.");return;}
-  const {error}=await supabaseClient.from("MARKETPLACE_LISTINGS").insert({seller_id:currentUser.id,title,price,city,description});
-  if(error){alert(error.message);return;}
-  loadMarketplace();
+function openSettings(){modal("⚙️ Paramètres",`<div class="feature">Compte connecté: ${esc(me.email||"")}</div><button class="action" onclick="toast('Les paramètres de sécurité se gèrent dans Supabase Auth.')">🔐 Sécurité</button><button class="danger" onclick="logout()">Déconnexion</button>`)}
+function openGame(){
+ modal("🎮 Action ou Vérité",`<div class="feature"><h3>À toi de choisir !</h3><p id="gameQuestion">Appuie sur un bouton.</p><div class="grid2"><button class="primary" onclick="gameQuestion('action')">🎯 Action</button><button class="primary" onclick="gameQuestion('verite')">❓ Vérité</button></div></div>`);
 }
-
-async function loadMarketplace(){
-  const box=document.getElementById("marketList");if(!box)return;
-  const {data,error}=await supabaseClient.from("MARKETPLACE_LISTINGS").select("id,title,price,city,description,created_at").eq("status","active").order("created_at",{ascending:false});
-  if(error){box.textContent=error.message;return;}
-  box.innerHTML="";
-  (data||[]).forEach(x=>{
-    const d=document.createElement("div");d.className="card";
-    d.innerHTML=`<h3>${escapeHtml(x.title)}</h3><b>${escapeHtml(String(x.price))}</b><div class="muted">${escapeHtml(x.city||"")}</div><p>${escapeHtml(x.description||"")}</p>`;
-    box.appendChild(d);
-  });
-}
-
-async function createEvent(){
-  if(!currentUser)return;
-  const title=document.getElementById("eventTitle").value.trim(), date=document.getElementById("eventDate").value, place=document.getElementById("eventPlace").value.trim(), description=document.getElementById("eventDescription").value.trim();
-  if(!title||!date){alert("Nom et date obligatoires.");return;}
-  const {error}=await supabaseClient.from("EVENTS").insert({creator_id:currentUser.id,title,event_date:date,place,description});
-  if(error){alert(error.message);return;}
-  loadEvents();
-}
-
-async function loadEvents(){
-  const box=document.getElementById("eventsList");if(!box)return;
-  const {data,error}=await supabaseClient.from("EVENTS").select("id,title,event_date,place,description").gte("event_date",new Date().toISOString()).order("event_date");
-  if(error){box.textContent=error.message;return;}
-  box.innerHTML="";
-  (data||[]).forEach(e=>{
-    const d=document.createElement("div");d.className="card";
-    d.innerHTML=`<h3>${escapeHtml(e.title)}</h3><b>${new Date(e.event_date).toLocaleString("fr-FR")}</b><div>${escapeHtml(e.place||"")}</div><p>${escapeHtml(e.description||"")}</p><button class="primary" onclick="rsvpEvent('${e.id}')">Je participe</button>`;
-    box.appendChild(d);
-  });
-}
-
-async function rsvpEvent(eventId){
-  const {error}=await supabaseClient.from("EVENT_RSVPS").upsert({event_id:eventId,user_id:currentUser.id,status:"going"},{onConflict:"event_id,user_id"});
-  if(error)alert(error.message);else alert("Participation enregistrée.");
-}
-
-async function createReel(){
-  if(!currentUser)return;
-  const file=document.getElementById("reelVideo").files[0], caption=document.getElementById("reelText").value.trim();
-  if(!file){alert("Choisis une vidéo.");return;}
-  const name=currentUser.id+"/reel-"+Date.now()+"-"+file.name.replace(/[^a-zA-Z0-9._-]/g,"_");
-  const {error:up}=await supabaseClient.storage.from("media").upload(name,file,{upsert:false,contentType:file.type});
-  if(up){alert(up.message);return;}
-  const url=supabaseClient.storage.from("media").getPublicUrl(name).data.publicUrl;
-  const {error}=await supabaseClient.from("REELS").insert({user_id:currentUser.id,video_url:url,caption});
-  if(error){alert(error.message);return;}
-  loadReels();
-}
-
-async function loadReels(){
-  const box=document.getElementById("reelsList");if(!box)return;
-  const {data,error}=await supabaseClient.from("REELS").select("id,video_url,caption,created_at,user_id").order("created_at",{ascending:false}).limit(30);
-  if(error){box.textContent=error.message;return;}
-  box.innerHTML="";
-  (data||[]).forEach(r=>{
-    const d=document.createElement("div");d.className="card";
-    d.innerHTML=`<video controls playsinline src="${escapeHtml(r.video_url)}" style="width:100%;max-height:500px;border-radius:10px"></video>
-      <p>${escapeHtml(r.caption||"")}</p><div class="post-actions"><button onclick="reactToReel('${r.id}',this)">👍 Réagir</button><button onclick="commentReel('${r.id}')">💬 Commenter</button><button onclick="saveReel('${r.id}',this)">🔖 Enregistrer</button></div>`;
-    box.appendChild(d);
-  });
-}
-
-async function reactToReel(id,btn){
-  const reaction=prompt("Réaction : like, love, haha, wow, sad, angry","like"); if(!reaction)return;
-  const {error}=await supabaseClient.from("REEL_REACTIONS").upsert({reel_id:id,user_id:currentUser.id,reaction:reaction.toLowerCase()},{onConflict:"reel_id,user_id"});
-  if(error)alert(error.message);else btn.textContent="❤️ Réagi";
-}
-async function commentReel(id){
-  const content=prompt("Commentaire :");if(!content?.trim())return;
-  const {error}=await supabaseClient.from("REEL_COMMENTS").insert({reel_id:id,user_id:currentUser.id,content:content.trim()});
-  if(error)alert(error.message);
-}
-async function saveReel(id,btn){
-  const {error}=await supabaseClient.from("SAVED_REELS").upsert({reel_id:id,user_id:currentUser.id},{onConflict:"reel_id,user_id"});
-  if(error)alert(error.message);else btn.textContent="✅ Enregistré";
-}
-
-async function loadPrivacy(){
-  const {data}=await supabaseClient.from("PROFILS").select("profile_public,allow_messages").eq("id",currentUser.id).maybeSingle();
-  document.getElementById("privacyProfile").checked=data?.profile_public!==false;
-  document.getElementById("privacyMessages").checked=data?.allow_messages!==false;
-}
-async function savePrivacy(){
-  const {error}=await supabaseClient.from("PROFILS").update({
-    profile_public:document.getElementById("privacyProfile").checked,
-    allow_messages:document.getElementById("privacyMessages").checked
-  }).eq("id",currentUser.id);
-  document.getElementById("privacyMessage").textContent=error?"❌ "+error.message:"✅ Paramètres enregistrés.";
-}
-
-async function loadNotifications(){
-  const box=document.getElementById("notificationsList");
-  if(!box||!currentUser)return;
-  const {data,error}=await supabaseClient.from("NOTIFICATIONS")
-    .select("id,type,message,created_at,is_read").eq("user_id",currentUser.id)
-    .order("created_at",{ascending:false}).limit(50);
-  if(error){box.innerHTML='<div class="notice">❌ '+escapeHtml(error.message)+'</div>';return;}
-  box.innerHTML="";
-  if(!data?.length){box.innerHTML='<div class="notice">Aucune notification.</div>';return;}
-  data.forEach(n=>{
-    const d=document.createElement("div");d.className="notice";d.style.fontWeight=n.is_read?"normal":"700";
-    d.textContent=(n.message||"Nouvelle notification")+" · "+new Date(n.created_at).toLocaleString("fr-FR");
-    d.onclick=()=>supabaseClient.from("NOTIFICATIONS").update({is_read:true}).eq("id",n.id);
-    box.appendChild(d);
-  });
-}
-
-function enableRealtime(){
-  if(!currentUser)return;
-  try{
-    supabaseClient.channel("truebook-social-"+currentUser.id)
-      .on("postgres_changes",{event:"INSERT",schema:"public",table:"MESSAGES",filter:"receiver_id=eq."+currentUser.id},()=>loadMessages())
-      .on("postgres_changes",{event:"INSERT",schema:"public",table:"NOTIFICATIONS",filter:"user_id=eq."+currentUser.id},()=>loadNotifications())
-      .subscribe();
-  }catch(e){console.warn("Realtime:",e);}
-}
-
-/* Extend search to profiles, publications and groups. */
-async function globalSearch(){
-  const q=document.getElementById("globalSearch").value.trim();
-  if(!q)return;
-  document.getElementById("friendSearch").value=q;
-  showPage("friendsPage");
-  searchFriends();
-}
-
-
-function escapeHtml(s){
-  return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
-}
-
-(async function(){
-  const {data}=await supabaseClient.auth.getSession();
-  if(data.session){
-    currentUser=data.session.user;
-    await ensureProfile();
-    enterApp();
-  }
-})();
+const truths=["Quelle est la chose que tu n'oses jamais dire aux autres ?","Quel est ton plus grand rêve ?","Qui te connaît le mieux ?","Quelle qualité recherches-tu chez un ami ?","Quel souvenir te fait toujours sourire ?"];
+const actions=["Envoie un emoji à la dernière personne à qui tu as parlé.","Fais un compliment sincère à quelqu'un.","Chante 10 secondes d'une chanson.","Raconte une blague sans rire.","Fais une photo drôle."]; 
+function gameQuestion(t){$("gameQuestion").textContent=(t==="action"?actions:truths)[Math.floor(Math.random()*(t==="action"?actions:truths).length)]}
+init();
 </script>
 </body>
 </html>
