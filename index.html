@@ -300,12 +300,187 @@ async function openDashboard(){
 }
 function openSettings(){modal("⚙️ Paramètres",`<div class="feature">Compte connecté: ${esc(me.email||"")}</div><button class="action" onclick="toast('Les paramètres de sécurité se gèrent dans Supabase Auth.')">🔐 Sécurité</button><button class="danger" onclick="logout()">Déconnexion</button>`)}
 function openGame(){
- modal("🎮 Action ou Vérité",`<div class="feature"><h3>À toi de choisir !</h3><p id="gameQuestion">Appuie sur un bouton.</p><div class="grid2"><button class="primary" onclick="gameQuestion('action')">🎯 Action</button><button class="primary" onclick="gameQuestion('verite')">❓ Vérité</button></div></div>`);
+ let gameRoom = null;
+let gameChannel = null;
+let gamePlayer = "";
+let gameOpponent = "";
+
+async function openGame() {
+  modal("🎮 Action ou Vérité", `
+    <h3>❤️ À toi de choisir</h3>
+    <input id="gamePlayer" class="field" placeholder="Ton nom">
+    <input id="gameRoom" class="field" placeholder="Code de la salle">
+    <button class="primary" onclick="createGameRoom()">Créer une salle</button>
+    <button class="action" onclick="joinGameRoom()">Rejoindre une salle</button>
+    <div id="gameStatus"></div>
+  `);
 }
-const truths=["Quelle est la chose que tu n'oses jamais dire aux autres ?","Quel est ton plus grand rêve ?","Qui te connaît le mieux ?","Quelle qualité recherches-tu chez un ami ?","Quel souvenir te fait toujours sourire ?"];
-const actions=["Envoie un emoji à la dernière personne à qui tu as parlé.","Fais un compliment sincère à quelqu'un.","Chante 10 secondes d'une chanson.","Raconte une blague sans rire.","Fais une photo drôle."]; 
-function gameQuestion(t){$("gameQuestion").textContent=(t==="action"?actions:truths)[Math.floor(Math.random()*(t==="action"?actions:truths).length)]}
-init();
+
+function randomRoomCode() {
+  return Math.random().toString(36).substring(2, 8).toUpperCase();
+}
+
+async function createGameRoom() {
+  const name = $("gamePlayer").value.trim();
+  if (!name) return toast("Entre ton nom.");
+
+  const code = randomRoomCode();
+
+  const { error } = await sb.from("GAME_ROOMS").insert({
+    room_code: code,
+    player1: name,
+    status: "waiting"
+  });
+
+  if (error) return toast(error.message);
+
+  gameRoom = code;
+  gamePlayer = name;
+
+  $("gameRoom").value = code;
+  $("gameStatus").innerHTML = `
+    <p>✅ Salle créée : <b>${esc(code)}</b></p>
+    <p>Envoie ce code à ton partenaire.</p>
+    <button class="primary" onclick="startGameMessages()">Ouvrir le jeu</button>
+  `;
+}
+
+async function joinGameRoom() {
+  const name = $("gamePlayer").value.trim();
+  const code = $("gameRoom").value.trim().toUpperCase();
+
+  if (!name || !code) return toast("Entre ton nom et le code.");
+
+  const { data: room, error } = await sb
+    .from("GAME_ROOMS")
+    .select("*")
+    .eq("room_code", code)
+    .maybeSingle();
+
+  if (error) return toast(error.message);
+  if (!room) return toast("Salle introuvable.");
+
+  if (room.player1 === name) {
+    return toast("Choisis un nom différent de celui du créateur.");
+  }
+
+  if (room.player2 && room.player2 !== name) {
+    return toast("Cette salle est déjà occupée.");
+  }
+
+  const { error: updateError } = await sb
+    .from("GAME_ROOMS")
+    .update({ player2: name, status: "playing" })
+    .eq("room_code", code);
+
+  if (updateError) return toast(updateError.message);
+
+  gameRoom = code;
+  gamePlayer = name;
+  gameOpponent = room.player1;
+
+  startGameMessages();
+}
+
+async function startGameMessages() {
+  if (!gameRoom) return toast("Crée ou rejoins une salle.");
+
+  const { data: room, error } = await sb
+    .from("GAME_ROOMS")
+    .select("*")
+    .eq("room_code", gameRoom)
+    .single();
+
+  if (error) return toast(error.message);
+
+  gameOpponent = room.player1 === gamePlayer
+    ? (room.player2 || "En attente du partenaire")
+    : room.player1;
+
+  modal("❤️ Action ou Vérité", `
+    <p>Salle : <b>${esc(gameRoom)}</b></p>
+    <p>Joueur : ${esc(gamePlayer)}</p>
+    <p>Partenaire : ${esc(gameOpponent)}</p>
+    <div id="gameMessages" style="height:250px;overflow:auto;border:1px solid #ddd;padding:10px;border-radius:10px"></div>
+    <button class="action" onclick="sendGameMessage('Action')">🎯 Action</button>
+    <button class="action" onclick="sendGameMessage('Vérité')">❤️ Vérité</button>
+    <input id="gameMessageInput" class="field" placeholder="Écrire un message...">
+    <button class="primary" onclick="sendGameMessage('Message')">Envoyer</button>
+  `);
+
+  await loadGameMessages();
+
+  if (gameChannel) {
+    await sb.removeChannel(gameChannel);
+  }
+
+  gameChannel = sb.channel("game-" + gameRoom)
+    .on("postgres_changes", {
+      event: "*",
+      schema: "public",
+      table: "GAME_MESSAGES",
+      filter: "room_code=eq." + gameRoom
+    }, loadGameMessages)
+    .subscribe();
+}
+
+async function loadGameMessages() {
+  if (!gameRoom) return;
+
+  const { data, error } = await sb
+    .from("GAME_MESSAGES")
+    .select("*")
+    .eq("room_code", gameRoom)
+    .order("created_at", { ascending: true });
+
+  if (error) return;
+
+  const box = $("gameMessages");
+  if (!box) return;
+
+  box.innerHTML = (data || []).map(m => `
+    <div style="margin:8px 0;padding:8px;background:#f0f2f5;border-radius:10px">
+      <b>${esc(m.player_name)}</b>
+      <span> ${esc(m.message_type)}</span>
+      <div>${esc(m.content)}</div>
+    </div>
+  `).join("");
+
+  box.scrollTop = box.scrollHeight;
+}
+
+async function sendGameMessage(type) {
+  if (!gameRoom) return toast("Aucune salle active.");
+
+  const input = $("gameMessageInput");
+  const content = input.value.trim();
+
+  if (!content && type === "Message") {
+    return toast("Écris un message.");
+  }
+
+  let message = content;
+
+  if (type === "Action" && !message) {
+    message = actions[Math.floor(Math.random() * actions.length)];
+  }
+
+  if (type === "Vérité" && !message) {
+    message = truths[Math.floor(Math.random() * truths.length)];
+  }
+
+  const { error } = await sb.from("GAME_MESSAGES").insert({
+    room_code: gameRoom,
+    player_name: gamePlayer,
+    message_type: type,
+    content: message
+  });
+
+  if (error) return toast(error.message);
+
+  if (input) input.value = "";
+  await loadGameMessages();
+}
 </script>
 </body>
   </html>
