@@ -103,7 +103,284 @@ button,input,textarea{font:inherit}button{cursor:pointer;border:0}
 const SUPABASE_URL = "https://jmtndvfpvsgbntouqhkp.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_wGcvqH1z0yXa7-GrSC7R2A_oHgtQxc-";
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+// =====================================
+// TRUEBOOK ❤️ ACTION OU VÉRITÉ EN LIGNE
+// =====================================
 
+let trueBookRoom = null;
+let trueBookSubscription = null;
+
+async function tbCreateGameRoom() {
+    if (!me) {
+        toast("Connecte-toi avant de créer une partie.");
+        return;
+    }
+
+    const code = Math.random().toString(36)
+        .substring(2, 8).toUpperCase();
+
+    const { data, error } = await sb
+        .from("truebook_game_rooms")
+        .insert({
+            room_code: code,
+            player1: me.id,
+            status: "waiting"
+        })
+        .select()
+        .single();
+
+    if (error) {
+        console.error(error);
+        toast("Impossible de créer la partie : " + error.message);
+        return;
+    }
+
+    trueBookRoom = data;
+
+    modal(
+        "❤️ Partie créée",
+        '<p>Communique ce code à ton partenaire :</p>' +
+        '<h2 style="text-align:center;letter-spacing:5px">' +
+        esc(data.room_code) +
+        '</h2>' +
+        '<p>En attente du deuxième joueur...</p>' +
+        '<button class="primary" onclick="tbListenForPlayer()">' +
+        'Vérifier le joueur</button>' +
+        '<button class="action" onclick="tbOpenMessages()">' +
+        'Ouvrir les messages</button>'
+    );
+}
+
+async function tbJoinGameRoom() {
+    if (!me) {
+        toast("Connecte-toi avant de rejoindre une partie.");
+        return;
+    }
+
+    modal(
+        "Rejoindre une partie",
+        '<label for="tbRoomCode">Code de la partie</label>' +
+        '<input id="tbRoomCode" class="field" ' +
+        'placeholder="Ex. A1B2C3" maxlength="6">' +
+        '<button class="primary" onclick="tbJoinWithCode()">' +
+        'Rejoindre</button>'
+    );
+}
+
+async function tbJoinWithCode() {
+    const input = document.getElementById("tbRoomCode");
+
+    if (!input) return;
+
+    const code = input.value.trim().toUpperCase();
+
+    if (!/^[A-Z0-9]{6}$/.test(code)) {
+        toast("Entre un code valide de 6 caractères.");
+        return;
+    }
+
+    const { data: room, error } = await sb
+        .from("truebook_game_rooms")
+        .select("*")
+        .eq("room_code", code)
+        .eq("status", "waiting")
+        .maybeSingle();
+
+    if (error || !room) {
+        toast("Partie introuvable ou déjà commencée.");
+        return;
+    }
+
+    if (room.player1 === me.id) {
+        toast("Tu ne peux pas rejoindre ta propre partie.");
+        return;
+    }
+
+    if (room.player2) {
+        toast("Cette partie possède déjà deux joueurs.");
+        return;
+    }
+
+    const { data, error: joinError } = await sb
+        .from("truebook_game_rooms")
+        .update({
+            player2: me.id,
+            status: "playing"
+        })
+        .eq("id", room.id)
+        .eq("status", "waiting")
+        .is("player2", null)
+        .select()
+        .maybeSingle();
+
+    if (joinError || !data) {
+        toast("Impossible de rejoindre. Réessaie.");
+        return;
+    }
+
+    trueBookRoom = data;
+
+    tbOpenMessages();
+}
+
+async function tbListenForPlayer() {
+    if (!trueBookRoom || !me) return;
+
+    const { data, error } = await sb
+        .from("truebook_game_rooms")
+        .select("*")
+        .eq("id", trueBookRoom.id)
+        .maybeSingle();
+
+    if (error || !data) {
+        toast("Impossible de vérifier la partie.");
+        return;
+    }
+
+    trueBookRoom = data;
+
+    if (data.player2) {
+        toast("Ton partenaire a rejoint la partie !");
+        tbOpenMessages();
+    } else {
+        toast("Ton partenaire n'a pas encore rejoint.");
+    }
+}
+
+async function tbSendGameMessage(type) {
+    if (!me || !trueBookRoom) {
+        toast("Crée ou rejoins une partie d'abord.");
+        return;
+    }
+
+    const input = document.getElementById("tbMessageInput");
+    if (!input) return;
+
+    const message = input.value.trim();
+
+    if (!message) {
+        toast("Écris un message.");
+        return;
+    }
+
+    if (message.length > 2000) {
+        toast("Le message est trop long.");
+        return;
+    }
+
+    const { error } = await sb
+        .from("truebook_game_messages")
+        .insert({
+            room_id: trueBookRoom.id,
+            sender_id: me.id,
+            message: message,
+            message_type: type
+        });
+
+    if (error) {
+        toast("Envoi impossible : " + error.message);
+        return;
+    }
+
+    input.value = "";
+}
+
+async function tbOpenMessages() {
+    if (!me || !trueBookRoom) {
+        toast("Aucune partie sélectionnée.");
+        return;
+    }
+
+    if (trueBookSubscription) {
+        await sb.removeChannel(trueBookSubscription);
+        trueBookSubscription = null;
+    }
+
+    modal(
+        "❤️ Action ou Vérité — Messages",
+        '<p>Code de la partie : <b>' +
+        esc(trueBookRoom.room_code) +
+        '</b></p>' +
+        '<div id="tbMessages" style="' +
+        'height:280px;overflow-y:auto;padding:10px;' +
+        'background:#f0f2f5;border-radius:10px"></div>' +
+        '<input id="tbMessageInput" class="field" ' +
+        'placeholder="Écris ton message..." maxlength="2000">' +
+        '<div class="grid2">' +
+        '<button class="primary" onclick="tbSendGameMessage(\'chat\')">' +
+        'Envoyer</button>' +
+        '<button class="primary" onclick="tbSendGameMessage(\'truth\')">' +
+        '❓ Vérité</button>' +
+        '<button class="primary" onclick="tbSendGameMessage(\'action\')">' +
+        '🔥 Action</button>' +
+        '</div>'
+    );
+
+    await tbLoadMessages();
+
+    trueBookSubscription = sb
+        .channel("truebook-game-" + trueBookRoom.id)
+        .on(
+            "postgres_changes",
+            {
+                event: "INSERT",
+                schema: "public",
+                table: "truebook_game_messages",
+                filter: "room_id=eq." + trueBookRoom.id
+            },
+            () => tbLoadMessages()
+        )
+        .subscribe();
+}
+
+async function tbLoadMessages() {
+    if (!trueBookRoom || !me) return;
+
+    const { data, error } = await sb
+        .from("truebook_game_messages")
+        .select("*")
+        .eq("room_id", trueBookRoom.id)
+        .order("created_at", { ascending: true });
+
+    if (error) {
+        console.error(error);
+        return;
+    }
+
+    const box = document.getElementById("tbMessages");
+    if (!box) return;
+
+    box.replaceChildren();
+
+    (data || []).forEach(item => {
+        const bubble = document.createElement("div");
+
+        bubble.style.cssText =
+            "padding:10px;margin:8px 0;border-radius:10px;" +
+            "background:" +
+            (item.sender_id === me.id ? "#d9fdd3" : "#ffffff") +
+            ";overflow-wrap:anywhere";
+
+        const label = document.createElement("b");
+        label.textContent =
+            item.sender_id === me.id ? "Moi" : "Partenaire";
+
+        const content = document.createElement("div");
+
+        const prefix = {
+            truth: "❓ VÉRITÉ : ",
+            action: "🔥 ACTION : "
+        };
+
+        content.textContent =
+            (prefix[item.message_type] || "") + item.message;
+
+        bubble.append(label, content);
+        box.appendChild(bubble);
+    });
+
+    box.scrollTop = box.scrollHeight;
+              }
 let me=null, profile=null, selectedUser=null, currentConversation=null;
 
 const $=id=>document.getElementById(id);
