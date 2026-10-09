@@ -69,7 +69,7 @@ button,input,textarea{font:inherit}button{cursor:pointer;border:0}
 /* CONFIGURATION SUPABASE : conserve les valeurs de ton projet */
 const SUPABASE_URL = "https://jmtndvfpvsgbntouqhkp.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_wGcvqH1z0yXa7-GrSC7R2A_oHgtQxc-";
-const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const sb = supabase.createClient(https://jmtndvfpvsgbntouqhkp.supabase.co/rest/v1/, sb_publishable_wGcvqH1z0yXa7-GrSC7R2A_oHgtQxc-);
 let me=null, profile=null, selectedUser=null, currentConversation=null;
 const $=id=>document.getElementById(id);
 function toast(msg){$("toast").textContent=msg;$("toast").classList.remove("hidden");setTimeout(()=>$("toast").classList.add("hidden"),2800)}
