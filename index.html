@@ -10,501 +10,165 @@
 button,input,textarea{font:inherit}button{cursor:pointer;border:0}
 :root{--blue:#1877f2;--card:#fff;--muted:#65676b;--line:#dddfe2}
 .top{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid var(--line)}
-.nav{height:62px;display:flex;align-items:center;gap:10px;padding:8px 14px;max-width:1100px;margin:auto}
+.nav{min-height:62px;display:flex;align-items:center;gap:10px;padding:8px 14px;max-width:1100px;margin:auto}
 .logo{font-size:27px;font-weight:800;color:var(--blue);white-space:nowrap}.search{flex:1;max-width:430px}
 .search input{width:100%;border:0;background:#f0f2f5;border-radius:22px;padding:12px 16px;outline:0}
 .navbtn{width:44px;height:44px;border-radius:50%;background:#f0f2f5;font-size:21px}
 .navbtn:hover{background:#e4e6e9}.badge{position:absolute;background:#e41e3f;color:#fff;font-size:11px;padding:3px 6px;border-radius:12px;margin-left:-13px;margin-top:-6px}
 .layout{max-width:1100px;margin:16px auto;display:grid;grid-template-columns:230px minmax(0,1fr) 230px;gap:16px}
 .side{position:sticky;top:78px;height:max-content}.side .card,.card{background:var(--card);border-radius:12px;padding:12px;box-shadow:0 1px 2px #0002;margin-bottom:12px}
-.sideitem{display:flex;gap:10px;align-items:center;padding:11px;border-radius:9px;font-weight:600}
-.sideitem:hover{background:#e4e6e9}.avatar{width:42px;height:42px;border-radius:50%;object-fit:cover;background:#1877f2;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;overflow:hidden}
+.sideitem{display:flex;gap:10px;align-items:center;padding:11px;border-radius:9px;font-weight:600;cursor:pointer}
+.sideitem:hover{background:#e4e6e9}.avatar{width:42px;height:42px;border-radius:50%;object-fit:cover;background:#1877f2;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;overflow:hidden;flex-shrink:0}
 .avatar img{width:100%;height:100%;object-fit:cover}.small{font-size:13px;color:var(--muted)}.hidden{display:none!important}
 .storyrow{display:flex;gap:8px;overflow:auto;padding-bottom:2px}.story{min-width:118px;height:185px;border-radius:12px;overflow:hidden;position:relative;background:linear-gradient(135deg,#1877f2,#a84de6);color:#fff}
 .story img{width:100%;height:100%;object-fit:cover}.story .overlay{position:absolute;inset:0;background:linear-gradient(transparent 45%,#000b);padding:10px;display:flex;align-items:end;font-weight:700}
 .composer{display:grid;grid-template-columns:44px 1fr;gap:10px;align-items:center}.composer input{border:0;background:#f0f2f5;border-radius:24px;padding:13px 18px;outline:0}
-.actions{display:flex;border-top:1px solid var(--line);margin-top:12px;padding-top:8px;justify-content:space-around}.action{padding:9px 14px;border-radius:8px;color:#65676b;font-weight:700;background:transparent}.action:hover{background:#f0f2f5}
+.actions{display:flex;border-top:1px solid var(--line);margin-top:12px;padding-top:8px;justify-content:space-around;flex-wrap:wrap}.action{padding:9px 14px;border-radius:8px;color:#65676b;font-weight:700;background:transparent}.action:hover{background:#f0f2f5}
 .posthead{display:flex;gap:10px;align-items:center}.post{overflow:hidden}.posttext{font-size:16px;line-height:1.45;margin:14px 0}.postmedia{width:calc(100% + 24px);margin-left:-12px;max-height:620px;object-fit:cover}.counts{display:flex;justify-content:space-between;color:#65676b;font-size:14px;padding:8px 0;border-bottom:1px solid var(--line)}
-.commentbox{display:flex;gap:8px;margin-top:9px}.commentbox input{flex:1;border:0;background:#f0f2f5;border-radius:20px;padding:10px 14px;outline:0}
+.commentbox{display:flex;gap:8px;margin-top:9px}.commentbox input{flex:1;min-width:0;border:0;background:#f0f2f5;border-radius:20px;padding:10px 14px;outline:0}
 .modal{position:fixed;inset:0;background:#0008;z-index:50;display:flex;align-items:center;justify-content:center;padding:15px}.modalbox{background:#fff;width:min(620px,100%);max-height:90vh;overflow:auto;border-radius:14px;padding:18px}
 .modalbox h2{margin-top:0}.close{float:right;background:#f0f2f5;border-radius:50%;width:36px;height:36px;font-size:20px}
 .field{width:100%;padding:12px;border:1px solid #ccd0d5;border-radius:8px;margin:7px 0;outline:0}.primary{background:var(--blue);color:#fff;border-radius:8px;padding:11px 18px;font-weight:700}.danger{background:#e41e3f;color:#fff;border-radius:8px;padding:10px}
 .profilecover{height:210px;background:linear-gradient(135deg,#1877f2,#d83fb0);border-radius:12px 12px 0 0}.profileinfo{padding:0 20px 20px;text-align:center}.profilebig{width:120px;height:120px;margin:-60px auto 10px;border:5px solid #fff}.tabs{display:flex;gap:3px;border-top:1px solid var(--line);padding-top:5px;overflow:auto}.tab{padding:12px 18px;background:transparent;font-weight:700;white-space:nowrap}.tab.active{color:var(--blue);border-bottom:3px solid var(--blue)}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.feature{padding:16px;background:#f0f2f5;border-radius:10px;font-weight:700}.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#1c1e21;color:#fff;padding:12px 18px;border-radius:22px;z-index:100}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.feature{padding:16px;background:#f0f2f5;border-radius:10px;font-weight:600}.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#1c1e21;color:#fff;padding:12px 18px;border-radius:22px;z-index:100;max-width:90%;text-align:center}
+.course-card{border:1px solid var(--line);border-radius:12px;padding:14px;margin:10px 0}.course-progress{height:8px;background:#ddd;border-radius:8px;overflow:hidden}.course-progress span{display:block;height:100%;background:var(--blue)}
 @media(max-width:900px){.layout{grid-template-columns:1fr;max-width:700px;padding:0 8px}.left,.right{display:none}.nav{padding:8px}.logo{font-size:22px}.search{max-width:none}.navbtn{width:40px;height:40px}.story{min-width:105px;height:165px}}
-@media(max-width:520px){.logo{display:none}.nav{gap:6px}.search input{font-size:13px}.layout{margin-top:8px}.card{border-radius:9px}.actions .action{font-size:13px;padding:8px 5px}}
+@media(max-width:520px){.logo{display:none}.nav{gap:6px}.search input{font-size:13px}.layout{margin-top:8px}.card{border-radius:9px}.actions .action{font-size:13px;padding:8px 5px}.grid2{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
-<div class="top">
-  <div class="nav">
-    <div class="logo">TrueBook ❤️</div>
-    <div class="search"><input id="globalSearch" placeholder="🔎 Rechercher sur TrueBook..." onkeydown="if(event.key==='Enter')searchUsers(this.value)"></div>
-    <button class="navbtn" onclick="goHome()">⌂</button>
-    <button class="navbtn" onclick="openMessages()">💬</button>
-    <button class="navbtn" onclick="openNotifications()">🔔<span id="notifBadge" class="badge hidden">0</span></button>
-    <button class="navbtn" onclick="openMenu()">☰</button>
-  </div>
-</div>
-
+<div class="top"><div class="nav">
+  <div class="logo">TrueBook ❤️</div>
+  <div class="search"><input id="globalSearch" placeholder="🔎 Rechercher sur TrueBook..." onkeydown="if(event.key==='Enter')searchUsers(this.value)"></div>
+  <button class="navbtn" onclick="goHome()" aria-label="Accueil">⌂</button>
+  <button class="navbtn" onclick="openMessages()" aria-label="Messages">💬</button>
+  <button class="navbtn" onclick="openNotifications()" aria-label="Notifications">🔔<span id="notifBadge" class="badge hidden">0</span></button>
+  <button class="navbtn" onclick="openMenu()" aria-label="Menu">☰</button>
+</div></div>
 <div class="layout">
-<aside class="side left">
-  <div class="card">
-    <div class="sideitem" onclick="openProfile()"><span id="sideAvatar" class="avatar">R</span><span id="sideName">Mon profil</span></div>
-    <div class="sideitem" onclick="openFriends()">👥 Amis</div>
-    <div class="sideitem" onclick="openMessages()">💬 Messages</div>
-    <div class="sideitem" onclick="openNotifications()">🔔 Notifications</div>
-    <div class="sideitem" onclick="openGame()">🎮 Action ou Vérité</div>
+<aside class="side left"><div class="card">
+  <div class="sideitem" onclick="openProfile()"><span id="sideAvatar" class="avatar">R</span><span id="sideName">Mon profil</span></div>
+  <div class="sideitem" onclick="openFriends()">👥 Amis</div><div class="sideitem" onclick="openMessages()">💬 Messages</div>
+  <div class="sideitem" onclick="openNotifications()">🔔 Notifications</div><div class="sideitem" onclick="openGame()">🎮 Jeux</div>
+  <div class="sideitem" onclick="openTraining()">🎓 Formations en ligne</div>
+</div></aside>
+<main id="app"><section id="homeView">
+  <div class="card"><h2 style="margin:4px 0">Bienvenue sur TrueBook ❤️</h2><div class="small">Un espace pour discuter, rencontrer des amis, publier, partager, jouer et apprendre.</div></div>
+  <div class="card"><h3>🎓 Apprends de nouvelles compétences</h3><p>Découvre nos formations en anglais, français, espagnol, informatique et coupe-couture.</p><button class="primary" onclick="openTraining()">Découvrir les formations</button></div>
+  <div class="card"><div class="storyrow" id="stories"></div></div>
+  <div class="card"><div class="composer"><span id="composerAvatar" class="avatar">R</span><input placeholder="À quoi pensez-vous ?" onclick="openComposer()"></div>
+    <div class="actions"><button class="action" onclick="openComposer()">📝 Publication</button><button class="action" onclick="choosePhoto()">📷 Photo</button><button class="action" onclick="openGame()">🎮 Jeux</button><button class="action" onclick="openTraining()">🎓 Formation</button></div>
   </div>
-</aside>
-
-<main id="app">
-  <section id="homeView">
-    <div class="card">
-      <h2 style="margin:4px 0">Bienvenue sur TrueBook ❤️</h2>
-      <div class="small">Un espace pour discuter, rencontrer des amis, publier, partager et jouer.</div>
-    </div>
-
-    <div class="card">
-      <div class="storyrow" id="stories"></div>
-    </div>
-
-    <div class="card">
-      <div class="composer">
-        <span id="composerAvatar" class="avatar">R</span>
-        <input placeholder="À quoi pensez-vous ?" onclick="openComposer()">
-      </div>
-      <div class="actions">
-        <button class="action" onclick="openComposer()">📝 Publication</button>
-        <button class="action" onclick="choosePhoto()">📷 Photo</button>
-        <button class="action" onclick="openGame()">🎮 Jeu</button>
-      </div>
-    </div>
-    <input id="photoInput" type="file" accept="image/*" class="hidden" onchange="uploadPublicationPhoto(this)">
-
-    <div id="feed"></div>
-  </section>
-</main>
-
-<aside class="side right">
-  <div class="card"><b>Raccourcis</b><div class="sideitem" onclick="openProfile()">👤 Profil</div><div class="sideitem" onclick="openFriends()">🔎 Rechercher des personnes</div><div class="sideitem" onclick="openMenu()">☰ Menu</div></div>
-  <div class="card small">TrueBook est une application indépendante. Cette interface reproduit des concepts de réseau social sans utiliser les données privées de Facebook.</div>
-</aside>
+  <input id="photoInput" type="file" accept="image/*" class="hidden" onchange="uploadPublicationPhoto(this)"><div id="feed"></div>
+</section></main>
+<aside class="side right"><div class="card"><b>Raccourcis</b><div class="sideitem" onclick="openProfile()">👤 Profil</div><div class="sideitem" onclick="openFriends()">🔎 Rechercher des personnes</div><div class="sideitem" onclick="openTraining()">🎓 Formations</div><div class="sideitem" onclick="openMenu()">☰ Menu</div></div>
+<div class="card small">TrueBook est une application indépendante. Cette interface reproduit des concepts de réseau social sans utiliser les données privées de Facebook.</div></aside>
 </div>
-
-<div id="modal" class="modal hidden" onclick="if(event.target===this)closeModal()"><div id="modalbox" class="modalbox"></div></div>
-<div id="toast" class="toast hidden"></div>
-
+<div id="modal" class="modal hidden" onclick="if(event.target===this)closeModal()"><div id="modalbox" class="modalbox"></div></div><div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
 <script>
-/* =========================
-   CONFIGURATION SUPABASE
-   Remplace seulement ces 2 valeurs par celles de ton projet Supabase.
-   ========================= */
+/* CONFIGURATION SUPABASE : conserve les valeurs de ton projet */
 const SUPABASE_URL = "https://jmtndvfpvsgbntouqhkp.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_wGcvqH1z0yXa7-GrSC7R2A_oHgtQxc-";
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
 let me=null, profile=null, selectedUser=null, currentConversation=null;
-
 const $=id=>document.getElementById(id);
-function toast(msg){$("toast").textContent=msg;$("toast").classList.remove("hidden");setTimeout(()=>$("toast").classList.add("hidden"),2500)}
+function toast(msg){$("toast").textContent=msg;$("toast").classList.remove("hidden");setTimeout(()=>$("toast").classList.add("hidden"),2800)}
 function closeModal(){$("modal").classList.add("hidden")}
-function modal(title,body){$("modalbox").innerHTML='<button class="close" onclick="closeModal()">×</button><h2>'+title+'</h2>'+body;$("modal").classList.remove("hidden")}
+function modal(title,body){$("modalbox").innerHTML='<button class="close" onclick="closeModal()" aria-label="Fermer">×</button><h2>'+title+'</h2>'+body;$("modal").classList.remove("hidden")}
 function initials(name){return (name||"R").trim().split(/\s+/).map(x=>x[0]).join("").slice(0,2).toUpperCase()}
-function avatarHTML(p,cls="avatar"){return p?.Avatar?'<span class="'+cls+'"><img src="'+esc(p.Avatar)+'"></span>':'<span class="'+cls+'">'+esc(initials(p?.Username||p?.Full_name))+'</span>'}
+function avatarHTML(p,cls="avatar"){return p?.Avatar?'<span class="'+cls+'"><img src="'+esc(p.Avatar)+'" alt=""></span>':'<span class="'+cls+'">'+esc(initials(p?.Username||p?.Full_name))+'</span>'}
 function esc(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
-
-async function init(){
-  const {data:{session}}=await sb.auth.getSession();
-  if(!session){showLogin();return}
-  me=session.user; await loadProfile(); await refreshAll();
-  sb.auth.onAuthStateChange((_e,s)=>{me=s?.user||null;if(!me)showLogin()});
-}
-async function loadProfile(){
-  if(!me)return;
-  let {data,error}=await sb.from("PROFILS").select("*").eq("id",me.id).maybeSingle();
-  if(error) console.error(error);
-  profile=data||{id:me.id,Username:me.email?.split("@")[0]||"Utilisateur",Full_name:""};
-  updateUserUI();
-}
-function updateUserUI(){
-  const name=profile.Username||profile.Full_name||"Mon profil";
-  $("sideName").textContent=name;
-  ["sideAvatar","composerAvatar"].forEach(id=>{
-    const el=$(id);el.innerHTML=profile.Avatar?'<img src="'+esc(profile.Avatar)+'">':esc(initials(name));
-  });
-}
-async function refreshAll(){await loadStories();await loadFeed();await loadNotificationsCount()}
+async function init(){try{const {data:{session}}=await sb.auth.getSession();if(!session){showLogin();return}me=session.user;await loadProfile();await refreshAll();sb.auth.onAuthStateChange((_e,s)=>{me=s?.user||null;if(!me)showLogin()})}catch(e){console.error(e);showLogin()}}
+async function loadProfile(){if(!me)return;let {data,error}=await sb.from("PROFILS").select("*").eq("id",me.id).maybeSingle();if(error)console.error(error);profile=data||{id:me.id,Username:me.email?.split("@")[0]||"Utilisateur",Full_name:""};updateUserUI()}
+function updateUserUI(){const name=profile.Username||profile.Full_name||"Mon profil";$("sideName").textContent=name;["sideAvatar","composerAvatar"].forEach(id=>{const el=$(id);el.innerHTML=profile.Avatar?'<img src="'+esc(profile.Avatar)+'" alt="">':esc(initials(name))})}
+async function refreshAll(){await Promise.allSettled([loadStories(),loadFeed(),loadNotificationsCount()])}
 function goHome(){location.reload()}
-function showLogin(){
-  modal("Connexion à TrueBook",`
-  <p class="small">Connecte-toi avec ton compte Supabase.</p>
-  <input id="loginEmail" class="field" type="email" placeholder="E-mail">
-  <input id="loginPass" class="field" type="password" placeholder="Mot de passe">
-  <button class="primary" onclick="login()">Se connecter</button>
-  <button class="action" onclick="signup()">Créer un compte</button>`);
-}
+function showLogin(){modal("Connexion à TrueBook",'<p class="small">Connecte-toi avec ton compte Supabase.</p><input id="loginEmail" class="field" type="email" placeholder="E-mail" autocomplete="email"><input id="loginPass" class="field" type="password" placeholder="Mot de passe" autocomplete="current-password"><button class="primary" onclick="login()">Se connecter</button> <button class="action" onclick="signup()">Créer un compte</button>')}
 async function login(){const email=$("loginEmail").value.trim(),password=$("loginPass").value;const {error}=await sb.auth.signInWithPassword({email,password});if(error)return toast(error.message);closeModal();location.reload()}
-async function signup(){const email=$("loginEmail").value.trim(),password=$("loginPass").value;if(password.length<6)return toast("Mot de passe: 6 caractères minimum");const {error}=await sb.auth.signUp({email,password});if(error)return toast(error.message);toast("Compte créé. Vérifie ton e-mail si nécessaire.")}
+async function signup(){const email=$("loginEmail").value.trim(),password=$("loginPass").value;if(!email||password.length<6)return toast("Saisis un e-mail et un mot de passe d'au moins 6 caractères.");const {error}=await sb.auth.signUp({email,password});if(error)return toast(error.message);toast("Compte créé. Vérifie ton e-mail si nécessaire.")}
 async function logout(){await sb.auth.signOut();location.reload()}
-
-function openComposer(){
- modal("Créer une publication",`
- <textarea id="postContent" class="field" rows="5" placeholder="À quoi pensez-vous ?"></textarea>
- <div class="grid2"><button class="feature" onclick="choosePhoto()">📷 Ajouter une photo</button><button class="feature" onclick="publishText()">🚀 Publier</button></div>`);
-}
-async function publishText(photo_url=null){
- const content=($("postContent")?.value||"").trim();
- if(!content&&!photo_url)return toast("Écris quelque chose ou ajoute une photo.");
- const {error}=await sb.from("PUBLICATIONS").insert({user_id:me.id,content,photo_url});
- if(error)return toast(error.message);
- closeModal();toast("Publication publiée ❤️");loadFeed();
-}
-function choosePhoto(){ $("photoInput").click() }
-async function uploadPublicationPhoto(input){
- const file=input.files?.[0];if(!file)return;
- const path=me.id+"/posts/"+Date.now()+"_"+file.name.replace(/[^a-zA-Z0-9._-]/g,"_");
- const up=await sb.storage.from("media").upload(path,file,{upsert:true});
- if(up.error)return toast(up.error.message);
- const {data}=sb.storage.from("media").getPublicUrl(path);
- if(!$("modal").classList.contains("hidden")&&$("postContent"))return publishText(data.publicUrl);
- modal("Créer une publication",`<img src="${esc(data.publicUrl)}" style="width:100%;max-height:350px;object-fit:contain;border-radius:10px"><textarea id="postContent" class="field" rows="4" placeholder="Ajoute une description..."></textarea><button class="primary" onclick="publishText('${esc(data.publicUrl)}')">🚀 Publier</button>`);
-}
-
-async function loadFeed(){
- const {data,error}=await sb.from("PUBLICATIONS").select("*,PROFILS(Username,Full_name,Avatar)").order("created_at",{ascending:false}).limit(50);
- if(error){$("feed").innerHTML='<div class="card">Impossible de charger le fil: '+esc(error.message)+'</div>';return}
- if(!data?.length){$("feed").innerHTML='<div class="card">Aucune publication pour le moment.</div>';return}
- $("feed").innerHTML=data.map(p=>postHTML(p)).join("");
- await Promise.all(data.map(async p=>{
-   const [likes,comments]=await Promise.all([
-     sb.from("LIKES").select("id",{count:"exact",head:true}).eq("publication_id",p.id),
-     sb.from("COMMENTAIRES").select("id",{count:"exact",head:true}).eq("publication_id",p.id)
-   ]);
-   const el=$("post-"+p.id);if(el){el.querySelector(".likecount").textContent=likes.count||0;el.querySelector(".commentcount").textContent=comments.count||0}
- }));
-}
-function postHTML(p){
- const name=p.PROFILS?.Full_name||p.PROFILS?.Username||"Utilisateur";
- const img=p.photo_url?`<img class="postmedia" src="${esc(p.photo_url)}">`:"";
- return `<article class="card post" id="post-${p.id}">
- <div class="posthead">${avatarHTML(p.PROFILS)}<div><b>${esc(name)}</b><div class="small">${new Date(p.created_at).toLocaleString("fr-FR")}</div></div></div>
- <div class="posttext">${esc(p.content||"")}</div>${img}
- <div class="counts"><span>👍 <span class="likecount">0</span></span><span><span class="commentcount">0</span> commentaires</span></div>
- <div class="actions">
- <button class="action" onclick="likePost('${p.id}')">👍 J'aime</button>
- <button class="action" onclick="showComments('${p.id}')">💬 Commenter</button>
- <button class="action" onclick="sharePost('${p.id}')">↗️ Partager</button>
- </div>
- <div id="comments-${p.id}"></div></article>`;
-}
-async function likePost(id){
- const {data:existing}=await sb.from("LIKES").select("id").eq("publication_id",id).eq("user_id",me.id).maybeSingle();
- if(existing) await sb.from("LIKES").delete().eq("id",existing.id);
- else {const {error}=await sb.from("LIKES").insert({publication_id:id,user_id:me.id});if(error)return toast(error.message);await notifyPostOwner(id,"a aimé votre publication.")}
- loadFeed();
-}
-async function notifyPostOwner(postId,text){
- const {data:p}=await sb.from("PUBLICATIONS").select("user_id").eq("id",postId).single();
- if(p&&p.user_id!==me.id)await sb.from("NOTIFICATIONS").insert({user_id:p.user_id,sender_id:me.id,type:"like",message:text,publication_id:postId});
-}
-async function showComments(id){
- const {data}=await sb.from("COMMENTAIRES").select("*,PROFILS(Username,Full_name,Avatar)").eq("publication_id",id).order("created_at");
- const list=(data||[]).map(c=>`<div style="display:flex;gap:8px;margin:8px 0">${avatarHTML(c.PROFILS,"avatar")}<div><b>${esc(c.PROFILS?.Full_name||c.PROFILS?.Username||"Utilisateur")}</b><div class="feature">${esc(c.content)}</div></div></div>`).join("");
- modal("Commentaires",list+`<div class="commentbox"><input id="newComment" placeholder="Écrire un commentaire..."><button class="primary" onclick="addComment('${id}')">Envoyer</button></div>`);
-}
-async function addComment(id){
- const content=$("newComment").value.trim();if(!content)return;
- const {error}=await sb.from("COMMENTAIRES").insert({publication_id:id,user_id:me.id,content});
- if(error)return toast(error.message);
- await notifyPostOwner(id,"a commenté votre publication.");showComments(id);loadFeed();
-}
-async function sharePost(id){
- const {data:p}=await sb.from("PUBLICATIONS").select("user_id,content,photo_url").eq("id",id).single();if(!p)return;
- const {error}=await sb.from("PARTAGES").insert({publication_id:id,user_id:me.id});
- if(error)return toast(error.message);
- if(navigator.share){try{await navigator.share({title:"TrueBook",text:p.content||"Publication TrueBook"})}catch(e){}}
- else await navigator.clipboard?.writeText(location.href+"#post-"+id);
- toast("Publication partagée.");
-}
-
-async function loadStories(){
- const {data}=await sb.from("STORIES").select("*,PROFILS(Username,Full_name,Avatar)").gt("expires_at",new Date().toISOString()).order("created_at",{ascending:false}).limit(20);
- const mine=`<div class="story" onclick="createStory()"><div style="font-size:45px;text-align:center;margin-top:45px">➕</div><div class="overlay">Créer une story</div></div>`;
- $("stories").innerHTML=mine+(data||[]).map(s=>`<div class="story" onclick="viewStory('${s.id}','${esc(s.media_url||"")}','${esc(s.content||"")}')">${s.media_url?`<img src="${esc(s.media_url)}">`:""}<div class="overlay">${esc(s.content||s.PROFILS?.Username||"Story")}</div></div>`).join("");
-}
-function createStory(){modal("Créer une story",`<textarea id="storyText" class="field" rows="3" placeholder="Ta story..."></textarea><input id="storyFile" class="field" type="file" accept="image/*"><button class="primary" onclick="publishStory()">Publier</button>`)}
-async function publishStory(){
- let media_url=null;const f=$("storyFile").files?.[0];
- if(f){const path=me.id+"/stories/"+Date.now()+"_"+f.name.replace(/[^a-zA-Z0-9._-]/g,"_");const up=await sb.storage.from("media").upload(path,f,{upsert:true});if(up.error)return toast(up.error.message);media_url=sb.storage.from("media").getPublicUrl(path).data.publicUrl}
- const {error}=await sb.from("STORIES").insert({user_id:me.id,content:$("storyText").value.trim(),media_url});if(error)return toast(error.message);closeModal();loadStories();toast("Story publiée")}
-function viewStory(id,url,text){modal("Story",`${url?`<img src="${esc(url)}" style="width:100%;max-height:65vh;object-fit:contain">`:""}<p>${esc(text)}</p>`)}
-async function loadNotificationsCount(){const {count}=await sb.from("NOTIFICATIONS").select("id",{count:"exact",head:true}).eq("user_id",me.id).eq("read",false);const b=$("notifBadge");if(count){b.textContent=count;b.classList.remove("hidden")}else b.classList.add("hidden")}
-async function openNotifications(){
- const {data}=await sb.from("NOTIFICATIONS").select("*,PROFILS:sender_id(Username,Full_name,Avatar)").eq("user_id",me.id).order("created_at",{ascending:false}).limit(50);
- modal("Notifications",(data||[]).map(n=>`<div class="sideitem" onclick="markNotification('${n.id}')">${avatarHTML(n.PROFILS)}<span>${esc(n.message||"Nouvelle notification")}<div class="small">${new Date(n.created_at).toLocaleString("fr-FR")}</div></span></div>`).join("")||"<p>Aucune notification.</p>");
- await sb.from("NOTIFICATIONS").update({read:true}).eq("user_id",me.id);loadNotificationsCount();
-}
+function openComposer(){modal("Créer une publication",'<textarea id="postContent" class="field" rows="5" placeholder="À quoi pensez-vous ?"></textarea><div class="grid2"><button class="feature" onclick="choosePhoto()">📷 Ajouter une photo</button><button class="primary" onclick="publishText()">🚀 Publier</button></div>')}
+async function publishText(photo_url=null){const content=($("postContent")?.value||"").trim();if(!content&&!photo_url)return toast("Écris quelque chose ou ajoute une photo.");const {error}=await sb.from("PUBLICATIONS").insert({user_id:me.id,content,photo_url});if(error)return toast(error.message);closeModal();toast("Publication publiée ❤️");loadFeed()}
+function choosePhoto(){$("photoInput").click()}
+async function uploadPublicationPhoto(input){const file=input.files?.[0];if(!file)return;if(!me)return toast("Connecte-toi d'abord.");const path=me.id+"/posts/"+Date.now()+"_"+file.name.replace(/[^a-zA-Z0-9._-]/g,"_");const up=await sb.storage.from("media").upload(path,file,{upsert:true});if(up.error)return toast(up.error.message);const {data}=sb.storage.from("media").getPublicUrl(path);if(!$("modal").classList.contains("hidden")&&$("postContent"))return publishText(data.publicUrl);modal("Créer une publication",'<img src="'+esc(data.publicUrl)+'" style="width:100%;max-height:350px;object-fit:contain;border-radius:10px" alt="Photo choisie"><textarea id="postContent" class="field" rows="4" placeholder="Ajoute une description..."></textarea><button class="primary" onclick="publishText(\''+esc(data.publicUrl)+'\')">🚀 Publier</button>');input.value=""}
+async function loadFeed(){const {data,error}=await sb.from("PUBLICATIONS").select("*,PROFILS(Username,Full_name,Avatar)").order("created_at",{ascending:false}).limit(50);if(error){$("feed").innerHTML='<div class="card">Impossible de charger le fil : '+esc(error.message)+'</div>';return}if(!data?.length){$("feed").innerHTML='<div class="card">Aucune publication pour le moment.</div>';return}$("feed").innerHTML=data.map(p=>postHTML(p)).join("");await Promise.all(data.map(async p=>{const [likes,comments]=await Promise.all([sb.from("LIKES").select("id",{count:"exact",head:true}).eq("publication_id",p.id),sb.from("COMMENTAIRES").select("id",{count:"exact",head:true}).eq("publication_id",p.id)]);const el=$("post-"+p.id);if(el){el.querySelector(".likecount").textContent=likes.count||0;el.querySelector(".commentcount").textContent=comments.count||0}}))}
+function postHTML(p){const name=p.PROFILS?.Full_name||p.PROFILS?.Username||"Utilisateur";const img=p.photo_url?'<img class="postmedia" src="'+esc(p.photo_url)+'" alt="Photo de publication">':"";return '<article class="card post" id="post-'+esc(p.id)+'"><div class="posthead">'+avatarHTML(p.PROFILS)+'<div><b>'+esc(name)+'</b><div class="small">'+new Date(p.created_at).toLocaleString("fr-FR")+'</div></div></div><div class="posttext">'+esc(p.content||"")+'</div>'+img+'<div class="counts"><span>👍 <span class="likecount">0</span></span><span><span class="commentcount">0</span> commentaires</span></div><div class="actions"><button class="action" onclick="likePost(\''+esc(p.id)+'\')">👍 J’aime</button><button class="action" onclick="showComments(\''+esc(p.id)+'\')">💬 Commenter</button><button class="action" onclick="sharePost(\''+esc(p.id)+'\')">↗️ Partager</button></div><div id="comments-'+esc(p.id)+'"></div></article>'}
+async function likePost(id){const {data:existing}=await sb.from("LIKES").select("id").eq("publication_id",id).eq("user_id",me.id).maybeSingle();if(existing)await sb.from("LIKES").delete().eq("id",existing.id);else{const {error}=await sb.from("LIKES").insert({publication_id:id,user_id:me.id});if(error)return toast(error.message);await notifyPostOwner(id,"a aimé votre publication.")}loadFeed()}
+async function notifyPostOwner(postId,text){const {data:p}=await sb.from("PUBLICATIONS").select("user_id").eq("id",postId).single();if(p&&p.user_id!==me.id)await sb.from("NOTIFICATIONS").insert({user_id:p.user_id,sender_id:me.id,type:"like",message:text,publication_id:postId})}
+async function showComments(id){const {data,error}=await sb.from("COMMENTAIRES").select("*,PROFILS(Username,Full_name,Avatar)").eq("publication_id",id).order("created_at");if(error)return toast(error.message);const list=(data||[]).map(c=>'<div style="display:flex;gap:8px;margin:8px 0">'+avatarHTML(c.PROFILS,"avatar")+'<div><b>'+esc(c.PROFILS?.Full_name||c.PROFILS?.Username||"Utilisateur")+'</b><div class="feature">'+esc(c.content)+'</div></div></div>').join("");modal("Commentaires",list+'<div class="commentbox"><input id="newComment" placeholder="Écrire un commentaire..."><button class="primary" onclick="addComment(\''+esc(id)+'\')">Envoyer</button></div>')}
+async function addComment(id){const content=$("newComment").value.trim();if(!content)return;const {error}=await sb.from("COMMENTAIRES").insert({publication_id:id,user_id:me.id,content});if(error)return toast(error.message);await notifyPostOwner(id,"a commenté votre publication.");showComments(id);loadFeed()}
+async function sharePost(id){const {data:p}=await sb.from("PUBLICATIONS").select("user_id,content,photo_url").eq("id",id).single();if(!p)return;const {error}=await sb.from("PARTAGES").insert({publication_id:id,user_id:me.id});if(error)return toast(error.message);if(navigator.share){try{await navigator.share({title:"TrueBook",text:p.content||"Publication TrueBook"})}catch(e){}}else if(navigator.clipboard)try{await navigator.clipboard.writeText(location.href+"#post-"+id)}catch(e){}toast("Publication partagée.")}
+async function loadStories(){const {data,error}=await sb.from("STORIES").select("*,PROFILS(Username,Full_name,Avatar)").gt("expires_at",new Date().toISOString()).order("created_at",{ascending:false}).limit(20);if(error){console.warn(error);$("stories").innerHTML='<div class="small">Les stories ne sont pas disponibles pour le moment.</div>';return}const mine='<div class="story" onclick="createStory()"><div style="font-size:45px;text-align:center;margin-top:45px">➕</div><div class="overlay">Créer une story</div></div>';$("stories").innerHTML=mine+(data||[]).map(s=>'<div class="story" onclick="viewStory(\''+esc(s.id)+'\',\''+esc(s.media_url||"")+'\',\''+esc(s.content||"")+'\')">'+(s.media_url?'<img src="'+esc(s.media_url)+'" alt="Story">':"")+'<div class="overlay">'+esc(s.content||s.PROFILS?.Username||"Story")+'</div></div>').join("")}
+function createStory(){modal("Créer une story",'<textarea id="storyText" class="field" rows="3" placeholder="Ta story..."></textarea><input id="storyFile" class="field" type="file" accept="image/*"><button class="primary" onclick="publishStory()">Publier</button>')}
+async function publishStory(){let media_url=null;const f=$("storyFile").files?.[0];if(f){const path=me.id+"/stories/"+Date.now()+"_"+f.name.replace(/[^a-zA-Z0-9._-]/g,"_");const up=await sb.storage.from("media").upload(path,f,{upsert:true});if(up.error)return toast(up.error.message);media_url=sb.storage.from("media").getPublicUrl(path).data.publicUrl}const {error}=await sb.from("STORIES").insert({user_id:me.id,content:$("storyText").value.trim(),media_url});if(error)return toast(error.message);closeModal();loadStories();toast("Story publiée")}
+function viewStory(id,url,text){modal("Story",(url?'<img src="'+esc(url)+'" style="width:100%;max-height:65vh;object-fit:contain" alt="Story">':"")+'<p>'+esc(text)+'</p>')}
+async function loadNotificationsCount(){const {count,error}=await sb.from("NOTIFICATIONS").select("id",{count:"exact",head:true}).eq("user_id",me.id).eq("read",false);if(error)return;const b=$("notifBadge");if(count){b.textContent=count;b.classList.remove("hidden")}else b.classList.add("hidden")}
+async function openNotifications(){const {data,error}=await sb.from("NOTIFICATIONS").select("*,PROFILS:sender_id(Username,Full_name,Avatar)").eq("user_id",me.id).order("created_at",{ascending:false}).limit(50);if(error)return toast(error.message);modal("Notifications",(data||[]).map(n=>'<div class="sideitem" onclick="markNotification(\''+esc(n.id)+'\')">'+avatarHTML(n.PROFILS)+'<span>'+esc(n.message||"Nouvelle notification")+'<div class="small">'+new Date(n.created_at).toLocaleString("fr-FR")+'</div></span></div>').join("")||"<p>Aucune notification.</p>");await sb.from("NOTIFICATIONS").update({read:true}).eq("user_id",me.id);loadNotificationsCount()}
 async function markNotification(id){await sb.from("NOTIFICATIONS").update({read:true}).eq("id",id);loadNotificationsCount()}
+async function searchUsers(q){q=(q||"").trim();if(!q)return;const safe=q.replace(/[%_,().]/g," ");const {data,error}=await sb.from("PROFILS").select("*").or('Username.ilike.%'+safe+'%,Full_name.ilike.%'+safe+'%').limit(30);if(error)return toast(error.message);modal("Résultats de recherche",(data||[]).map(u=>'<div class="sideitem" onclick="viewUser(\''+esc(u.id)+'\')">'+avatarHTML(u)+'<span><b>'+esc(u.Full_name||u.Username)+'</b><div class="small">@'+esc(u.Username||"")+'</div></span></div>').join("")||"Aucun utilisateur trouvé.")}
+async function viewUser(id){const {data:u}=await sb.from("PROFILS").select("*").eq("id",id).single();if(!u)return;selectedUser=u;modal(esc(u.Full_name||u.Username),(u.Avatar?'<img src="'+esc(u.Avatar)+'" style="width:100%;max-height:250px;object-fit:cover;border-radius:12px" alt="Photo de profil">':"")+'<h2>'+esc(u.Full_name||u.Username)+'</h2><p>@'+esc(u.Username||"")+'</p><p>'+esc(u.Bio||"")+'</p><div class="grid2"><button class="primary" onclick="openChat(\''+esc(u.id)+'\')">💬 Message</button><button class="feature" onclick="followUser(\''+esc(u.id)+'\')">👥 Suivre</button></div>')}
+async function openFriends(){modal("Amis et recherche",'<input id="friendSearch" class="field" placeholder="Rechercher un nom ou pseudo..." onkeydown="if(event.key===\'Enter\')searchUsers(this.value)"><button class="primary" onclick="searchUsers($(\\'friendSearch\\').value)">Rechercher</button><p class="small">Saisis un nom ou un pseudo puis lance la recherche.</p>')}
+async function followUser(id){if(id===me.id)return toast("C'est ton propre profil.");const {data,error}=await sb.from("ABONNEMENTS").select("id").eq("follower_id",me.id).eq("following_id",id).maybeSingle();if(error)return toast(error.message);if(data){const r=await sb.from("ABONNEMENTS").delete().eq("id",data.id);if(r.error)return toast(r.error.message);toast("Abonnement retiré")}else{const r=await sb.from("ABONNEMENTS").insert({follower_id:me.id,following_id:id});if(r.error)return toast(r.error.message);await sb.from("NOTIFICATIONS").insert({user_id:id,sender_id:me.id,type:"follow",message:"a commencé à vous suivre."});toast("Vous suivez maintenant cette personne")}}
+async function openChat(id){if(id===me.id)return toast("Tu ne peux pas t'envoyer un message à toi-même.");currentConversation=id;const {data:u}=await sb.from("PROFILS").select("*").eq("id",id).single();modal("💬 "+esc(u?.Full_name||u?.Username),'<div id="chatMessages" style="max-height:50vh;overflow:auto"></div><div class="commentbox"><input id="chatInput" placeholder="Écrire un message..." onkeydown="if(event.key===\'Enter\')sendMessage()"><button class="primary" onclick="sendMessage()">Envoyer</button></div>');await loadMessages()}
+async function openMessages(){modal("💬 Messages",'<input id="messageSearch" class="field" placeholder="Rechercher une personne..." onkeydown="if(event.key===\'Enter\')searchUsers(this.value)"><button class="primary" onclick="searchUsers($(\\'messageSearch\\').value)">Rechercher</button><p class="small">Recherche une personne puis choisis « Message » sur son profil pour démarrer une conversation.</p>')}
+async function loadMessages(){if(!currentConversation||!$("chatMessages"))return;const {data,error}=await sb.from("MESSAGES").select("*").or('and(sender_id.eq.'+me.id+',receiver_id.eq.'+currentConversation+'),and(sender_id.eq.'+currentConversation+',receiver_id.eq.'+me.id+')').order("created_at");if(error)return toast(error.message);$("chatMessages").innerHTML=(data||[]).map(m=>'<div style="text-align:'+(m.sender_id===me.id?"right":"left")+';margin:7px"><span style="display:inline-block;background:'+(m.sender_id===me.id?"#1877f2":"#e4e6e9")+';color:'+(m.sender_id===me.id?"#fff":"#111")+';padding:9px 12px;border-radius:16px">'+esc(m.content)+'</span></div>').join("");$("chatMessages").scrollTop=$("chatMessages").scrollHeight}
+async function sendMessage(){const content=$("chatInput").value.trim();if(!content)return;const {error}=await sb.from("MESSAGES").insert({sender_id:me.id,receiver_id:currentConversation,content});if(error)return toast(error.message);$("chatInput").value="";await sb.from("NOTIFICATIONS").insert({user_id:currentConversation,sender_id:me.id,type:"message",message:"vous a envoyé un message."});await loadMessages()}
+function openProfile(){const u=profile||{};modal("Mon profil",'<div class="profilecover"></div><div class="profileinfo">'+avatarHTML(u,"avatar profilebig")+'<h2>'+esc(u.Full_name||"Votre nom")+'</h2><p>@'+esc(u.Username||"")+'</p><input id="editUsername" class="field" value="'+esc(u.Username||"")+'" placeholder="Pseudo"><input id="editFull" class="field" value="'+esc(u.Full_name||"")+'" placeholder="Nom complet"><textarea id="editBio" class="field" rows="4" placeholder="Présentation">'+esc(u.Bio||"")+'</textarea><input id="avatarFile" class="field" type="file" accept="image/*"><button class="primary" onclick="saveProfile()">💾 Enregistrer</button><button class="action" onclick="logout()">🚪 Déconnexion</button></div>')}
+async function saveProfile(){let Avatar=profile.Avatar||null;const f=$("avatarFile").files?.[0];if(f){const path=me.id+"/avatars/"+Date.now()+"_"+f.name.replace(/[^a-zA-Z0-9._-]/g,"_");const up=await sb.storage.from("media").upload(path,f,{upsert:true});if(up.error)return toast(up.error.message);Avatar=sb.storage.from("media").getPublicUrl(path).data.publicUrl}const row={id:me.id,Username:$("editUsername").value.trim(),Full_name:$("editFull").value.trim(),Bio:$("editBio").value.trim(),Avatar};if(!row.Username)return toast("Le pseudo est obligatoire.");const {error}=await sb.from("PROFILS").upsert(row);if(error)return toast(error.message);profile={...profile,...row};updateUserUI();closeModal();toast("Profil enregistré")}
+function openMenu(){modal("Menu",'<div class="grid2"><button class="feature" onclick="openProfile()">👤 Mon profil</button><button class="feature" onclick="openMessages()">💬 Messages</button><button class="feature" onclick="openFriends()">👥 Ami(e)s</button><button class="feature" onclick="openNotifications()">🔔 Notifications</button><button class="feature" onclick="openDashboard()">📊 Tableau de bord</button><button class="feature" onclick="openGame()">🎮 Jeux</button><button class="feature" onclick="openTraining()">🎓 Formations en ligne</button><button class="feature" onclick="placeholder(\'Reels\')">🎬 Reels</button><button class="feature" onclick="placeholder(\'Marketplace\')">🛍️ Marketplace</button><button class="feature" onclick="placeholder(\'Groupes\')">👨‍👩‍👧 Groupes</button><button class="feature" onclick="placeholder(\'Pages\')">📄 Pages</button><button class="feature" onclick="placeholder(\'Enregistrements\')">🔖 Enregistrements</button><button class="feature" onclick="placeholder(\'Événements\')">📅 Événements</button><button class="feature" onclick="placeholder(\'Souvenirs\')">🕒 Souvenirs</button><button class="feature" onclick="openSettings()">⚙️ Paramètres</button></div>')}
+function placeholder(name){modal(name,'<p>Le module <b>'+esc(name)+'</b> n’est pas encore connecté à une table dédiée.</p><button class="primary" onclick="closeModal()">Fermer</button>')}
+async function openDashboard(){const [pub,like,msg]=await Promise.all([sb.from("PUBLICATIONS").select("id",{count:"exact",head:true}).eq("user_id",me.id),sb.from("LIKES").select("id",{count:"exact",head:true}).eq("user_id",me.id),sb.from("MESSAGES").select("id",{count:"exact",head:true}).or('sender_id.eq.'+me.id+',receiver_id.eq.'+me.id)]);modal("📊 Tableau de bord",'<div class="grid2"><div class="feature">📝 Publications<br><b>'+(pub.count||0)+'</b></div><div class="feature">👍 J’aime donnés<br><b>'+(like.count||0)+'</b></div><div class="feature">💬 Messages<br><b>'+(msg.count||0)+'</b></div><div class="feature">👤 Compte<br><b>'+esc(profile.Username||"")+'</b></div></div>')}
+function openSettings(){modal("⚙️ Paramètres",'<div class="feature">Compte connecté : '+esc(me.email||"")+'</div><button class="action" onclick="toast(\'Les paramètres de sécurité se gèrent dans Supabase Auth.\')">🔐 Sécurité</button><button class="danger" onclick="logout()">Déconnexion</button>')}
 
-async function searchUsers(q){
- q=(q||"").trim();if(!q)return;
- const {data}=await sb.from("PROFILS").select("*").or(`Username.ilike.%${q}%,Full_name.ilike.%${q}%`).limit(30);
- modal("Résultats de recherche",(data||[]).map(u=>`<div class="sideitem" onclick="viewUser('${u.id}')">${avatarHTML(u)}<span><b>${esc(u.Full_name||u.Username)}</b><div class="small">@${esc(u.Username||"")}</div></span></div>`).join("")||"Aucun utilisateur trouvé.");
-}
-async function viewUser(id){
- const {data:u}=await sb.from("PROFILS").select("*").eq("id",id).single();if(!u)return;
- selectedUser=u;
- modal(esc(u.Full_name||u.Username),`${u.Avatar?`<img src="${esc(u.Avatar)}" style="width:100%;max-height:250px;object-fit:cover;border-radius:12px">`:""}<h2>${esc(u.Full_name||u.Username)}</h2><p>@${esc(u.Username||"")}</p><p>${esc(u.Bio||"")}</p><div class="grid2"><button class="primary" onclick="openChat('${u.id}')">💬 Message</button><button class="feature" onclick="followUser('${u.id}')">👥 Suivre</button></div>`);
-}
-async function openFriends(){modal("Amis et recherche",`<input id="friendSearch" class="field" placeholder="Rechercher un nom ou pseudo..." oninput="searchUsers(this.value)"><div class="feature">Utilise la barre ci-dessus pour trouver des personnes sur TrueBook.</div>`)}
-async function followUser(id){const {data}=await sb.from("ABONNEMENTS").select("id").eq("follower_id",me.id).eq("following_id",id).maybeSingle();if(data){await sb.from("ABONNEMENTS").delete().eq("id",data.id);toast("Abonnement retiré")}else{const {error}=await sb.from("ABONNEMENTS").insert({follower_id:me.id,following_id:id});if(error)return toast(error.message);await sb.from("NOTIFICATIONS").insert({user_id:id,sender_id:me.id,type:"follow",message:"a commencé à vous suivre."});toast("Vous suivez maintenant cette personne")}}
-async function openChat(id){currentConversation=id;const {data:u}=await sb.from("PROFILS").select("*").eq("id",id).single();modal("💬 "+esc(u?.Full_name||u?.Username),`<div id="chatMessages" style="max-height:50vh;overflow:auto"></div><div class="commentbox"><input id="chatInput" placeholder="Écrire un message..." onkeydown="if(event.key==='Enter')sendMessage()"><button class="primary" onclick="sendMessage()">Envoyer</button></div>`);loadMessages()}
-async function openMessages(){modal("💬 Messages",`<input class="field" placeholder="Rechercher une personne..." oninput="searchUsers(this.value)"><div class="feature">Sélectionne une personne dans les résultats pour ouvrir une conversation.</div>`)}
-async function loadMessages(){
- if(!currentConversation)return;
- const {data}=await sb.from("MESSAGES").select("*").or(`and(sender_id.eq.${me.id},receiver_id.eq.${currentConversation}),and(sender_id.eq.${currentConversation},receiver_id.eq.${me.id})`).order("created_at");
- $("chatMessages").innerHTML=(data||[]).map(m=>`<div style="text-align:${m.sender_id===me.id?"right":"left"};margin:7px"><span style="display:inline-block;background:${m.sender_id===me.id?"#1877f2":"#e4e6e9"};color:${m.sender_id===me.id?"#fff":"#111"};padding:9px 12px;border-radius:16px">${esc(m.content)}</span></div>`).join("");
- $("chatMessages").scrollTop=$("chatMessages").scrollHeight;
-}
-async function sendMessage(){const content=$("chatInput").value.trim();if(!content)return;const {error}=await sb.from("MESSAGES").insert({sender_id:me.id,receiver_id:currentConversation,content});if(error)return toast(error.message);$("chatInput").value="";await sb.from("NOTIFICATIONS").insert({user_id:currentConversation,sender_id:me.id,type:"message",message:"vous a envoyé un message."});loadMessages()}
+/* JEUX : modes locaux utilisables immédiatement. Les parties à distance nécessitent les tables et règles Supabase dédiées. */
+const truths=["Quelle est la chose que tu n’oses jamais dire aux autres ?","Quel est ton plus grand rêve ?","Qui te connaît le mieux ?","Quelle qualité recherches-tu chez un ami ?","Quel souvenir te fait toujours sourire ?","Quelle compétence aimerais-tu apprendre ?","Quelle est ta plus grande fierté ?"];
+const actions=["Envoie un emoji à la dernière personne à qui tu as parlé.","Fais un compliment sincère à quelqu’un.","Chante 10 secondes d’une chanson.","Raconte une blague sans rire.","Dessine un animal en 30 secondes.","Dis trois choses positives sur ton partenaire.","Imite un personnage pendant 15 secondes."];
+const quizQuestions=[{q:"Quelle est la capitale de la RDC ?",o:["Matadi","Kinshasa","Goma"],a:1},{q:"Combien font 7 × 8 ?",o:["54","56","64"],a:1},{q:"Quel est le contraire de « rapide » ?",o:["Lent","Grand","Fort"],a:0},{q:"Quelle planète est appelée la planète rouge ?",o:["Vénus","Mars","Jupiter"],a:1}];
+const riddles=[{q:"Je possède des aiguilles mais je ne couds pas. Qui suis-je ?",a:"Une horloge"},{q:"Plus je sèche, plus je deviens mouillée. Qui suis-je ?",a:"Une serviette"},{q:"Qu'est-ce qui a des dents mais ne mange pas ?",a:"Un peigne"}];
+function openGame(){modal("🎮 Centre de jeux",'<p>Choisis un jeu. Action ou Vérité propose des questions au hasard ; les autres jeux sont jouables sur cet appareil.</p><div class="grid2"><button class="feature" onclick="openTruthGame()">❤️ Action ou Vérité</button><button class="feature" onclick="startQuiz()">🧠 Quiz de culture générale</button><button class="feature" onclick="startRiddle()">🤔 Devinettes</button><button class="feature" onclick="startWordGame()">🔤 Jeu de mots</button><button class="feature" onclick="startKnowGame()">💕 Qui me connaît le mieux ?</button><button class="feature" onclick="startRPS()">✊ Pierre, feuille, ciseaux</button><button class="feature" onclick="startSpeedQuiz()">⚡ Quiz de rapidité</button></div><p class="small">Les défis à distance synchronisés entre deux comptes seront activés après configuration des tables multijoueurs Supabase.</p>')}
+function openTruthGame(){modal("❤️ Action ou Vérité",'<p id="gameQuestion">Choisis Action ou Vérité.</p><div class="grid2"><button class="primary" onclick="gameQuestion(\'action\')">🎯 Action</button><button class="primary" onclick="gameQuestion(\'verite\')">❓ Vérité</button></div><button class="action" onclick="openGame()">← Tous les jeux</button>')}
+function gameQuestion(t){const arr=t==="action"?actions:truths;$("gameQuestion").textContent=arr[Math.floor(Math.random()*arr.length)]}
+function startQuiz(){quizRound(0,0)}
+function quizRound(i,score){if(i>=quizQuestions.length){modal("Résultat du quiz",'<h3>Ton score : '+score+'/'+quizQuestions.length+'</h3><button class="primary" onclick="startQuiz()">Rejouer</button><button class="action" onclick="openGame()">Autres jeux</button>');return}const q=quizQuestions[i];modal("🧠 Quiz — Question "+(i+1)+"/"+quizQuestions.length,'<p>'+q.q+'</p>'+q.o.map((v,j)=>'<button class="feature" style="display:block;width:100%;text-align:left;margin:7px 0" onclick="quizAnswer('+i+','+score+','+j+')">'+esc(v)+'</button>').join(""))}
+function quizAnswer(i,score,choice){const ok=choice===quizQuestions[i].a;modal("Réponse",'<p>'+ (ok?"✅ Bonne réponse !":"❌ Bonne réponse : "+esc(quizQuestions[i].o[quizQuestions[i].a]))+'</p><button class="primary" onclick="quizRound('+(i+1)+','+(score+(ok?1:0))+')">Continuer</button>')}
+let riddleIndex=0;
+function startRiddle(){riddleIndex=Math.floor(Math.random()*riddles.length);modal("🤔 Devinette",'<p>'+riddles[riddleIndex].q+'</p><input id="riddleAnswer" class="field" placeholder="Ta réponse"><button class="primary" onclick="checkRiddle()">Vérifier</button><button class="action" onclick="startRiddle()">Autre devinette</button>')}
+function checkRiddle(){const v=$("riddleAnswer").value.trim().toLowerCase();const answer=riddles[riddleIndex].a.toLowerCase();const ok=v===answer||((riddleIndex===0)&&v.includes("horloge"))||((riddleIndex===1)&&v.includes("serviette"))||((riddleIndex===2)&&v.includes("peigne"));modal("Résultat",'<p>'+(ok?"✅ Bravo !":"Pas tout à fait.")+' Réponse : <b>'+esc(riddles[riddleIndex].a)+'</b></p><button class="primary" onclick="startRiddle()">Continuer</button>')}
+function startWordGame(){const words=["ECOLIER","AMITIE","SOURIRE","FORMATION","ANANAS"];const word=words[Math.floor(Math.random()*words.length)];const scrambled=word.split("").sort(()=>Math.random()-.5).join(" ");modal("🔤 Jeu de mots",'<p>Remets ces lettres dans le bon ordre :</p><h2 style="letter-spacing:5px">'+scrambled+'</h2><input id="wordAnswer" class="field" placeholder="Écris le mot"><button class="primary" onclick="checkWord(\''+word+'\')">Vérifier</button>')}
+function checkWord(word){const v=$("wordAnswer").value.trim().replace(/\s/g,"").toUpperCase();modal("Résultat",'<p>'+(v===word?"✅ Bonne réponse !":"Le mot était : "+word)+'</p><button class="primary" onclick="startWordGame()">Rejouer</button>')}
+function startKnowGame(){modal("💕 Qui me connaît le mieux ?",'<p>Pose cette question à ton ami et comparez vos réponses :</p><h3>'+esc(["Quelle est ma couleur préférée ?","Quel est mon plus grand rêve ?","Quel plat est-ce que j’aime le plus ?","Qu’est-ce qui me fait rire ?","Quelle compétence voudrais-je apprendre ?"][Math.floor(Math.random()*5)])+'</h3><p>Chacun répond à son tour. Ce mode est actuellement en face à face.</p><button class="primary" onclick="startKnowGame()">Autre question</button>')}
+function startRPS(){modal("✊ Pierre, feuille, ciseaux",'<p>Choisis ton geste. Tu joues contre l’ordinateur sur cet appareil.</p><div class="grid2"><button class="feature" onclick="playRPS(\'pierre\')">✊ Pierre</button><button class="feature" onclick="playRPS(\'feuille\')">✋ Feuille</button><button class="feature" onclick="playRPS(\'ciseaux\')">✌️ Ciseaux</button></div>')}
+function playRPS(choice){const opts=["pierre","feuille","ciseaux"],cpu=opts[Math.floor(Math.random()*3)];let result=choice===cpu?"Égalité !":((choice==="pierre"&&cpu==="ciseaux")||(choice==="feuille"&&cpu==="pierre")||(choice==="ciseaux"&&cpu==="feuille"))?"Tu gagnes !":"L’ordinateur gagne.";modal("Résultat",'<h3>'+esc(result)+'</h3><p>Toi : '+choice+' — Ordinateur : '+cpu+'</p><button class="primary" onclick="startRPS()">Rejouer</button>')}
+function startSpeedQuiz(){const q=quizQuestions[Math.floor(Math.random()*quizQuestions.length)];modal("⚡ Quiz de rapidité",'<p>Réponds sans tarder !</p><h3>'+q.q+'</h3>'+q.o.map((v,j)=>'<button class="feature" style="display:block;width:100%;text-align:left;margin:6px 0" onclick="speedAnswer('+j+','+q.a+')">'+esc(v)+'</button>').join(""))}
+function speedAnswer(choice,answer){modal("Résultat",'<h3>'+(choice===answer?"⚡ Exact !":"❌ Pas cette fois.")+'</h3><button class="primary" onclick="startSpeedQuiz()">Rejouer</button>')}
 
-function openProfile(){
- const u=profile||{};
- modal("Mon profil",`<div class="profilecover"></div><div class="profileinfo">${avatarHTML(u,"avatar profilebig")}<h2>${esc(u.Full_name||"Votre nom")}</h2><p>@${esc(u.Username||"")}</p><input id="editUsername" class="field" value="${esc(u.Username||"")}" placeholder="Pseudo"><input id="editFull" class="field" value="${esc(u.Full_name||"")}" placeholder="Nom complet"><textarea id="editBio" class="field" rows="4" placeholder="Présentation">${esc(u.Bio||"")}</textarea><input id="avatarFile" class="field" type="file" accept="image/*"><button class="primary" onclick="saveProfile()">💾 Enregistrer</button><button class="action" onclick="logout()">🚪 Déconnexion</button></div>`);
-}
-async function saveProfile(){
- let Avatar=profile.Avatar||null;const f=$("avatarFile").files?.[0];
- if(f){const path=me.id+"/avatars/"+Date.now()+"_"+f.name.replace(/[^a-zA-Z0-9._-]/g,"_");const up=await sb.storage.from("media").upload(path,f,{upsert:true});if(up.error)return toast(up.error.message);Avatar=sb.storage.from("media").getPublicUrl(path).data.publicUrl}
- const row={id:me.id,Username:$("editUsername").value.trim(),Full_name:$("editFull").value.trim(),Bio:$("editBio").value.trim(),Avatar};
- const {error}=await sb.from("PROFILS").upsert(row);if(error)return toast(error.message);profile={...profile,...row};updateUserUI();closeModal();toast("Profil enregistré")}
-function openMenu(){
- modal("Menu",`<div class="grid2">
- <button class="feature" onclick="openProfile()">👤 Mon profil</button><button class="feature" onclick="openMessages()">💬 Messages</button>
- <button class="feature" onclick="openFriends()">👥 Ami(e)s</button><button class="feature" onclick="openNotifications()">🔔 Notifications</button>
- <button class="feature" onclick="openDashboard()">📊 Tableau de bord</button><button class="feature" onclick="openGame()">🎮 Jeux</button>
- <button class="feature" onclick="placeholder('Reels')">🎬 Reels</button><button class="feature" onclick="placeholder('Marketplace')">🛍️ Marketplace</button>
- <button class="feature" onclick="placeholder('Groupes')">👨‍👩‍👧 Groupes</button><button class="feature" onclick="placeholder('Pages')">📄 Pages</button>
- <button class="feature" onclick="placeholder('Enregistrements')">🔖 Enregistrements</button><button class="feature" onclick="placeholder('Événements')">📅 Événements</button>
- <button class="feature" onclick="placeholder('Souvenirs')">🕒 Souvenirs</button><button class="feature" onclick="openSettings()">⚙️ Paramètres</button>
- </div>`);
-}
-function placeholder(name){modal(name,`<p>Le module <b>${esc(name)}</b> est prêt dans l'interface. Pour le rendre totalement persistant comme les publications/messages, il faut sa table Supabase dédiée.</p><button class="primary" onclick="closeModal()">Fermer</button>`)}
-async function openDashboard(){
- const [pub,like,msg]=await Promise.all([
-  sb.from("PUBLICATIONS").select("id",{count:"exact",head:true}).eq("user_id",me.id),
-  sb.from("LIKES").select("id",{count:"exact",head:true}).eq("user_id",me.id),
-  sb.from("MESSAGES").select("id",{count:"exact",head:true}).or(`sender_id.eq.${me.id},receiver_id.eq.${me.id}`)
- ]);
- modal("📊 Tableau de bord",`<div class="grid2"><div class="feature">📝 Publications<br><b>${pub.count||0}</b></div><div class="feature">👍 J'aime donnés<br><b>${like.count||0}</b></div><div class="feature">💬 Messages<br><b>${msg.count||0}</b></div><div class="feature">👤 Compte<br><b>${esc(profile.Username||"")}</b></div></div>`)
-}
-function openSettings(){modal("⚙️ Paramètres",`<div class="feature">Compte connecté: ${esc(me.email||"")}</div><button class="action" onclick="toast('Les paramètres de sécurité se gèrent dans Supabase Auth.')">🔐 Sécurité</button><button class="danger" onclick="logout()">Déconnexion</button>`)}
-function openGame(){
- let gameRoom = null;
-let gameChannel = null;
-let gamePlayer = "";
-let gameOpponent = "";
-
-async function openGame() {
-  modal("🎮 Action ou Vérité", `
-    <h3>❤️ À toi de choisir</h3>
-    <input id="gamePlayer" class="field" placeholder="Ton nom">
-    <input id="gameRoom" class="field" placeholder="Code de la salle">
-    <button class="primary" onclick="createGameRoom()">Créer une salle</button>
-    <button class="action" onclick="joinGameRoom()">Rejoindre une salle</button>
-    <div id="gameStatus"></div>
-  `);
-}
-
-function randomRoomCode() {
-  return Math.random().toString(36).substring(2, 8).toUpperCase();
-}
-
-async function createGameRoom() {
-  const name = $("gamePlayer").value.trim();
-  if (!name) return toast("Entre ton nom.");
-
-  const code = randomRoomCode();
-
-  const { error } = await sb.from("GAME_ROOMS").insert({
-    room_code: code,
-    player1: name,
-    status: "waiting"
-  });
-
-  if (error) return toast(error.message);
-
-  gameRoom = code;
-  gamePlayer = name;
-
-  $("gameRoom").value = code;
-  $("gameStatus").innerHTML = `
-    <p>✅ Salle créée : <b>${esc(code)}</b></p>
-    <p>Envoie ce code à ton partenaire.</p>
-    <button class="primary" onclick="startGameMessages()">Ouvrir le jeu</button>
-  `;
-}
-
-async function joinGameRoom() {
-  const name = $("gamePlayer").value.trim();
-  const code = $("gameRoom").value.trim().toUpperCase();
-
-  if (!name || !code) return toast("Entre ton nom et le code.");
-
-  const { data: room, error } = await sb
-    .from("GAME_ROOMS")
-    .select("*")
-    .eq("room_code", code)
-    .maybeSingle();
-
-  if (error) return toast(error.message);
-  if (!room) return toast("Salle introuvable.");
-
-  if (room.player1 === name) {
-    return toast("Choisis un nom différent de celui du créateur.");
-  }
-
-  if (room.player2 && room.player2 !== name) {
-    return toast("Cette salle est déjà occupée.");
-  }
-
-  const { error: updateError } = await sb
-    .from("GAME_ROOMS")
-    .update({ player2: name, status: "playing" })
-    .eq("room_code", code);
-
-  if (updateError) return toast(updateError.message);
-
-  gameRoom = code;
-  gamePlayer = name;
-  gameOpponent = room.player1;
-
-  startGameMessages();
-}
-
-async function startGameMessages() {
-  if (!gameRoom) return toast("Crée ou rejoins une salle.");
-
-  const { data: room, error } = await sb
-    .from("GAME_ROOMS")
-    .select("*")
-    .eq("room_code", gameRoom)
-    .single();
-
-  if (error) return toast(error.message);
-
-  gameOpponent = room.player1 === gamePlayer
-    ? (room.player2 || "En attente du partenaire")
-    : room.player1;
-
-  modal("❤️ Action ou Vérité", `
-    <p>Salle : <b>${esc(gameRoom)}</b></p>
-    <p>Joueur : ${esc(gamePlayer)}</p>
-    <p>Partenaire : ${esc(gameOpponent)}</p>
-    <div id="gameMessages" style="height:250px;overflow:auto;border:1px solid #ddd;padding:10px;border-radius:10px"></div>
-    <button class="action" onclick="sendGameMessage('Action')">🎯 Action</button>
-    <button class="action" onclick="sendGameMessage('Vérité')">❤️ Vérité</button>
-    <input id="gameMessageInput" class="field" placeholder="Écrire un message...">
-    <button class="primary" onclick="sendGameMessage('Message')">Envoyer</button>
-  `);
-
-  await loadGameMessages();
-
-  if (gameChannel) {
-    await sb.removeChannel(gameChannel);
-  }
-
-  gameChannel = sb.channel("game-" + gameRoom)
-    .on("postgres_changes", {
-      event: "*",
-      schema: "public",
-      table: "GAME_MESSAGES",
-      filter: "room_code=eq." + gameRoom
-    }, loadGameMessages)
-    .subscribe();
-}
-
-async function loadGameMessages() {
-  if (!gameRoom) return;
-
-  const { data, error } = await sb
-    .from("GAME_MESSAGES")
-    .select("*")
-    .eq("room_code", gameRoom)
-    .order("created_at", { ascending: true });
-
-  if (error) return;
-
-  const box = $("gameMessages");
-  if (!box) return;
-
-  box.innerHTML = (data || []).map(m => `
-    <div style="margin:8px 0;padding:8px;background:#f0f2f5;border-radius:10px">
-      <b>${esc(m.player_name)}</b>
-      <span> ${esc(m.message_type)}</span>
-      <div>${esc(m.content)}</div>
-    </div>
-  `).join("");
-
-  box.scrollTop = box.scrollHeight;
-}
-
-async function sendGameMessage(type) {
-  if (!gameRoom) return toast("Aucune salle active.");
-
-  const input = $("gameMessageInput");
-  const content = input.value.trim();
-
-  if (!content && type === "Message") {
-    return toast("Écris un message.");
-  }
-
-  let message = content;
-
-  if (type === "Action" && !message) {
-    message = actions[Math.floor(Math.random() * actions.length)];
-  }
-
-  if (type === "Vérité" && !message) {
-    message = truths[Math.floor(Math.random() * truths.length)];
-  }
-
-  const { error } = await sb.from("GAME_MESSAGES").insert({
-    room_code: gameRoom,
-    player_name: gamePlayer,
-    message_type: type,
-    content: message
-  });
-
-  if (error) return toast(error.message);
-
-  if (input) input.value = "";
-  await loadGameMessages();
-}
-const truths = [
-  "Quel est ton plus grand rêve ?",
-  "Quelle est ta plus grande peur ?",
-  "As-tu déjà menti à quelqu'un que tu aimes ?",
-  "Quel est ton plus beau souvenir ?",
-  "Qu'est-ce qui te rend heureux ?",
-  "Quelle personne comptes-tu le plus dans ta vie ?",
-  "Quel est ton plus grand secret ?",
-  "Qu'aimerais-tu changer dans ta vie ?",
-  "As-tu déjà regretté une décision amoureuse ?",
-  "Qu'est-ce que tu apprécies le plus chez ton partenaire ?"
+/* FORMATIONS : leçons et quiz intégrés au fichier. Progression locale à cet appareil pour cette version. */
+const trainingCourses=[
+{id:"anglais",title:"🇬🇧 Anglais",description:"Vocabulaire, grammaire et conversation.",lessons:[
+{title:"Leçon 1 : Les salutations",content:"<h3>Les salutations en anglais</h3><p>Hello = Bonjour / salut</p><p>Good morning = Bonjour (le matin)</p><p>Good afternoon = Bonjour (l’après-midi)</p><p>Good evening = Bonsoir</p><p>Good night = Bonne nuit</p><p>How are you? = Comment vas-tu ?</p><p>I am fine, thank you. = Je vais bien, merci.</p><h3>Dialogue</h3><p>A: Hello! How are you?</p><p>B: I am fine, thank you. And you?</p><p>A: I am fine, too.</p>",question:"Que signifie « How are you? »",options:["Comment vas-tu ?","Bonne nuit","Au revoir"],answer:0},
+{title:"Leçon 2 : Les pronoms personnels",content:"<h3>Pronoms personnels sujets</h3><p>I = Je</p><p>You = Tu / vous</p><p>He = Il</p><p>She = Elle</p><p>It = Il / elle pour une chose ou un animal</p><p>We = Nous</p><p>They = Ils / elles</p><p>Exemple : We are friends. = Nous sommes amis.</p>",question:"Que signifie « We » ?",options:["Vous","Nous","Ils"],answer:1},
+{title:"Leçon 3 : Le verbe To Be",content:"<h3>To be = être</h3><p>I am = Je suis</p><p>You are = Tu es / vous êtes</p><p>He is = Il est</p><p>She is = Elle est</p><p>We are = Nous sommes</p><p>They are = Ils / elles sont</p>",question:"Complète : She ___ happy.",options:["am","are","is"],answer:2}]},
+{id:"francais",title:"🇫🇷 Français",description:"Grammaire, conjugaison et orthographe.",lessons:[
+{title:"Leçon 1 : Le nom",content:"<h3>Qu’est-ce qu’un nom ?</h3><p>Le nom désigne une personne, un animal, une chose ou une idée.</p><p>Exemples : professeur, chien, cahier, courage.</p><p>Un nom propre désigne une personne ou un lieu précis : Roslin, Kinshasa.</p>",question:"Lequel est un nom propre ?",options:["Cahier","Kinshasa","Professeur"],answer:1},
+{title:"Leçon 2 : Le verbe",content:"<h3>Le verbe</h3><p>Le verbe exprime généralement une action ou un état.</p><p>Exemples : manger, courir, dormir, être.</p><p>Dans « Paul mange une pomme », le verbe est « mange ».</p>",question:"Quel est le verbe dans « Marie chante » ?",options:["Marie","Chante","La"],answer:1}]},
+{id:"espagnol",title:"🇪🇸 Espagnol",description:"Les bases de la langue espagnole.",lessons:[
+{title:"Leçon 1 : Les salutations",content:"<h3>Expressions de base</h3><p>Hola = Bonjour / salut</p><p>Buenos días = Bonjour</p><p>Buenas tardes = Bon après-midi</p><p>Buenas noches = Bonsoir / bonne nuit</p><p>Gracias = Merci</p><p>Por favor = S’il vous plaît</p><p>¿Cómo estás? = Comment vas-tu ?</p>",question:"Que signifie « Gracias » ?",options:["Bonjour","Merci","Au revoir"],answer:1}]},
+{id:"informatique",title:"💻 Informatique",description:"Découvrir les bases de l’ordinateur.",lessons:[
+{title:"Leçon 1 : Les composants",content:"<h3>Les principaux éléments</h3><p>L’écran affiche les informations.</p><p>Le clavier permet de saisir du texte.</p><p>La souris permet de pointer et de cliquer.</p><p>L’unité centrale contient les composants principaux de nombreux ordinateurs de bureau.</p>",question:"Quel appareil permet de saisir du texte ?",options:["L’écran","Le clavier","Le haut-parleur"],answer:1}]},
+{id:"couture",title:"✂️ Coupe et couture",description:"Les outils et les bases de la couture.",lessons:[
+{title:"Leçon 1 : Les outils",content:"<h3>Les outils essentiels</h3><p>Le mètre ruban sert à prendre les mesures.</p><p>Les ciseaux servent à couper le tissu.</p><p>Les aiguilles servent à coudre.</p><p>Le fil permet d’assembler les pièces de tissu.</p><p>Manipule les aiguilles et les ciseaux avec précaution.</p>",question:"Quel outil sert à prendre les mesures ?",options:["Les ciseaux","Le mètre ruban","Le fil"],answer:1}]},
+{id:"culture",title:"📚 Culture générale",description:"Développer ses connaissances générales.",lessons:[
+{title:"Leçon 1 : Géographie",content:"<h3>Quelques repères géographiques</h3><p>La capitale de la République démocratique du Congo est Kinshasa.</p><p>L’Afrique est un continent composé de nombreux pays.</p><p>Un fleuve est un cours d’eau qui se jette dans un autre cours d’eau, un lac ou une mer.</p>",question:"Quelle est la capitale de la RDC ?",options:["Matadi","Kinshasa","Lubumbashi"],answer:1}]}
 ];
-
-const actions = [
-  "Fais un compliment sincère à ton partenaire.",
-  "Raconte une histoire drôle.",
-  "Chante une chanson pendant 20 secondes.",
-  "Dis trois qualités de ton partenaire.",
-  "Envoie un message gentil à ton partenaire.",
-  "Raconte ton meilleur souvenir.",
-  "Fais rire ton partenaire.",
-  "Décris ton partenaire en trois mots.",
-  "Exprime un souhait pour votre relation.",
-  "Dis quelque chose que tu n'as jamais osé dire."
-];</script>
+let activeCourse=null,activeLesson=null;
+function getTrainingProgress(){try{return JSON.parse(localStorage.getItem("truebook_training_progress")||"{}")}catch(e){return {}}}
+function saveTrainingProgress(courseId,lessonIndex){const progress=getTrainingProgress();if(!progress[courseId])progress[courseId]=[];if(!progress[courseId].includes(lessonIndex))progress[courseId].push(lessonIndex);try{localStorage.setItem("truebook_training_progress",JSON.stringify(progress))}catch(e){toast("Progression non enregistrée sur cet appareil.")}}
+function openTraining(){const progress=getTrainingProgress();const html=trainingCourses.map(c=>{const done=progress[c.id]||[],pct=Math.round(done.length/c.lessons.length*100);return '<div class="course-card"><h3>'+c.title+'</h3><p>'+c.description+'</p><p class="small">'+done.length+'/'+c.lessons.length+' leçon(s) terminée(s)</p><div class="course-progress"><span style="width:'+pct+'%"></span></div><button class="primary" style="margin-top:12px" onclick="openCourse(\''+c.id+'\')">📚 Accéder aux cours</button></div>'}).join("");modal("🎓 Formations en ligne",'<p>Apprends à ton rythme avec des leçons et des exercices.</p>'+html+'<p class="small">Cette version contient des leçons intégrées au fichier. La synchronisation entre appareils et l’ajout de cours par un formateur nécessitent une configuration Supabase supplémentaire.</p>')}
+function openCourse(id){activeCourse=trainingCourses.find(c=>c.id===id);if(!activeCourse)return;const progress=getTrainingProgress(),done=progress[id]||[];modal(activeCourse.title,'<p>'+activeCourse.description+'</p><h3>Programme des leçons</h3>'+activeCourse.lessons.map((l,i)=>'<button class="feature" style="display:block;width:100%;text-align:left;margin-bottom:8px" onclick="openLesson('+i+')">'+(done.includes(i)?"✅":"📖")+' '+l.title+'</button>').join("")+'<button class="action" onclick="openTraining()">← Retour aux formations</button>')}
+function openLesson(i){if(!activeCourse)return;activeLesson=i;const l=activeCourse.lessons[i];modal(l.title,'<div style="line-height:1.7">'+l.content+'</div><hr style="border:0;border-top:1px solid #ddd;margin:20px 0"><h3>🧠 Exercice de compréhension</h3><p>'+l.question+'</p>'+l.options.map((o,j)=>'<label style="display:block;padding:12px;margin:8px 0;background:#f0f2f5;border-radius:8px"><input type="radio" name="trainingAnswer" value="'+j+'"> '+o+'</label>').join("")+'<div id="trainingResult" aria-live="polite"></div><button class="primary" onclick="checkTrainingAnswer()">Vérifier ma réponse</button> <button class="action" onclick="openCourse(\''+activeCourse.id+'\')">← Retour aux leçons</button>')}
+function checkTrainingAnswer(){if(!activeCourse||activeLesson===null)return;const l=activeCourse.lessons[activeLesson],selected=document.querySelector('input[name="trainingAnswer"]:checked');if(!selected)return toast("Choisis une réponse avant de continuer.");const result=$("trainingResult");if(Number(selected.value)===l.answer){saveTrainingProgress(activeCourse.id,activeLesson);result.innerHTML='<div class="feature" style="margin:12px 0">✅ Bonne réponse ! Exercice réussi.</div><button class="primary" onclick="openCourse(\''+activeCourse.id+'\')">Continuer la formation</button>'}else{result.innerHTML='<div class="feature" style="margin:12px 0">❌ Ce n’est pas la bonne réponse. Relis la leçon et réessaie.</div>'}}
+init();
+</script>
 </body>
-  </html>
+</html>
+￼Enter
